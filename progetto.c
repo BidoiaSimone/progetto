@@ -72,7 +72,7 @@ void labyrinth_player(char **M,int *row,int *col){
     while((c != 'q')){          //muove pedina
         system("stty raw");
         c = getchar();
-        if(c == 'w' && M[g_row-1][g_col] != '#'){
+        if(c == 'w' && M[g_row-1][g_col] != '#'){           //muove pedina in su
             if(M[g_row-1][g_col] == '$')
                 points+=3;
             if(M[g_row-1][g_col] == '!')
@@ -82,7 +82,7 @@ void labyrinth_player(char **M,int *row,int *col){
             g_row--;
             points--;
         }
-        if(c == 's' && M[g_row+1][g_col] != '#'){
+        if(c == 's' && M[g_row+1][g_col] != '#'){           //uove pedina in giù
             if(M[g_row+1][g_col] == '$')
                 points+=3;
             if(M[g_row+1][g_col] == '!')
@@ -102,7 +102,7 @@ void labyrinth_player(char **M,int *row,int *col){
             g_col--;
             points--;
         }
-        if(c == 'd' && M[g_row][g_col+1] != '#'){
+        if(c == 'd' && M[g_row][g_col+1] != '#'){           //muove pedina a destra
             if(M[g_row][g_col+1] == '$')
                 points+=3;
             if(M[g_row][g_col+1] == '!')
