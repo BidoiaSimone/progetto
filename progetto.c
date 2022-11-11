@@ -93,6 +93,7 @@ void labyrinth_player(char **M,int *row,int *col){
             points--;
         }
         if(c == 'a' && M[g_row][g_col-1] != '#'){
+        if(c == 'a' && M[g_row][g_col-1] != '#'){           //muove pedina a sinistra
             if(M[g_row][g_col-1] == '$')
                 points+=3;
             if(M[g_row][g_col-1] == '!')
