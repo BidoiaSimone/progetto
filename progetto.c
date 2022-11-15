@@ -20,7 +20,7 @@ void matrix_reader(char **M,int *row,int *col){
 void labyrinth_initializer(char **M){
 
     int row = 10;
-    int col = 19;
+    int col = 19; 
 
     for(int i = 0; i < row; i++){
         for(int j = 0; j < col; j++){       //inizializza tutti gli elementi a ' ' (spazio)
@@ -144,7 +144,7 @@ void labyrinth_player(char **M, int *row, int *col){
         system("stty cooked");
         
         
-        if(c != '\n'){              //stampa labirinto aggiornato di 1 mossa
+        if(c != '\n'){              
             system("clear");
             for(int i = 0; i < *row; i++){                   //stampa matrice aggiornata di 1 mossa
                 for(int j = 0; j < *col; j++){      
