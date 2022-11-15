@@ -1,4 +1,4 @@
-
+// 891868 895662
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,18 +7,11 @@
 
 void matrix_reader(char **M,int *row,int *col){
         int i = 0;
-        int j = 0;
-        char c = '\0';
+
+
         while(i < *row){
-            c = getchar();
-            if(c != '\n'){
-                M[i][j] = c;
-                j++;
-            }
-            if(c == '\n'){
-                i++;
-                j = 0;
-            }
+            scanf("%[^\n]%*c", &M[i][0]);    
+            i++;
         }
 }
 
@@ -118,7 +111,7 @@ void labyrinth_player(char **M, int *row, int *col){
             g_row--;
             points--;
         }
-        if(c == 's' && M[g_row+1][g_col] != '#' && g_row+1 >= 0){           //uove pedina in giù
+        if(c == 's' && M[g_row+1][g_col] != '#' && g_row+1 >= 0){           //muove pedina in giù
             if(M[g_row+1][g_col] == '$')
                 points+=3;
             if(M[g_row+1][g_col] == '!')
@@ -185,7 +178,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 int main(int argc, char * argv[]){
-//891868 895662
+
 
 
     int row, col;
