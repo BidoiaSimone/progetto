@@ -6,12 +6,11 @@
 
 
 
-void matrix_reader(char **M,int *row,int *col){
+void matrix_reader(char **M, int *row, int *col){
         int i = 0;
 
-
         while(i < *row){
-            scanf("%[^\n]%*c", &M[i][0]);    
+            scanf("%[^\n]%*c", &M[i][0]);
             i++;
         }
 }
@@ -200,7 +199,7 @@ void labyrint_analysis( char **M, int *row, int *col){
         	printf("%c",'E');
         	g_col++;
 		}
-		if (g_col== *col){
+		if (g_col== *col-1){
 			printf("%c",'O');
 			g_col--;
 		}
@@ -208,30 +207,53 @@ void labyrint_analysis( char **M, int *row, int *col){
 			printf("%c",'S');
 			g_row++;
 		}
-		if(g_row== *row){
+		if(g_row== *row-1){
 			printf("%c",'N');
 			g_row--;
 		}
     }
 
-
-    if (g_col < victory_col){
-    	for(int i=0;  i < abs(g_col - victory_col); i++){
-    		printf("%c", 'E');
-		}
-	}else{
-		for(int i=0;  i < abs(g_col - victory_col); i++){
-    		printf("%c", 'O');
-	    }
-    }
-	if (g_row < victory_row){
-		for(int i=0;  i < abs(g_row - victory_row); i++){
-    		printf("%c", 'S');
+    if(victory_col == 0 || victory_col == (*col-1)){     //se '_' sta in parete verticale, fa prima direzione di altezza
+        if(g_row < victory_row){
+		    for(int i=0;  i < abs(g_row - victory_row); i++){
+    		    printf("%c", 'S');
+            }
+	    }else{
+            for(int i=0;  i < abs(g_row - victory_row); i++){
+    		    printf("%c", 'N');
+	        }
         }
-	}else{
-        for(int i=0;  i < abs(g_row - victory_row); i++){
-    		printf("%c", 'N');
-	    }
+        if(g_col < victory_col){
+    	    for(int i=0;  i < abs(g_col - victory_col); i++){
+    		    printf("%c", 'E');
+		    }
+	    }else{
+		    for(int i=0;  i < abs(g_col - victory_col); i++){
+    		    printf("%c", 'O');
+	        }
+        }
+    }
+
+
+    if(victory_row == 0 || victory_row == (*row-1)){    //se '_' sta in parete orizzontale, fa prima direzione di larghezza
+        if(g_col < victory_col){
+    	    for(int i=0;  i < abs(g_col - victory_col); i++){
+    		    printf("%c", 'E');
+		    }
+	    }else{
+		    for(int i=0;  i < abs(g_col - victory_col); i++){
+    		    printf("%c", 'O');
+	        }
+        }
+        if(g_row < victory_row){
+		    for(int i=0;  i < abs(g_row - victory_row); i++){
+    		    printf("%c", 'S');
+            }
+	    }else{
+            for(int i=0;  i < abs(g_row - victory_row); i++){
+    		    printf("%c", 'N');
+	        }
+        }
     }
     printf("%c", '\n');    
 }
@@ -280,5 +302,3 @@ int main(int argc, char * argv[]){
 	return 0;
 	
 }
-
-    
