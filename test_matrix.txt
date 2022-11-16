@@ -14,6 +14,10 @@ in alcuni punti che dovrebbero essere muri si può mettere una freccetta (↑, �
 attraverso di essa ma solo nella direzione in cui punta
 
 
+design:
+invece di '#' cercarsi dei caratteri rettangolo pieno o quadrato pieno per avere immagine più bella
+
+
 19
 10
 ###################
@@ -80,3 +84,23 @@ o   ##   #   #     #
 #  ######   !           #
 #       ##              #
 #######_#################
+
+
+
+20
+15
+####################
+o                  #
+#         ######   #
+#              #   #
+#   #        ####  #
+# ###  ####        #
+#   #     # #      #
+#   #     #   ### ##
+#   ### ###   # #  #
+#     #   #   # #  #
+###   #   ##### #  #
+# #      ##        #
+# #   ####   ###   #
+#     #        #   #
+###########_########
