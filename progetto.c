@@ -213,6 +213,80 @@ int main(int argc, char * argv[]){
         labyrinth_player(M, &row, &col);                       //modifica la matrice facendo muovere il giocatore
         return 0;
     }
+	
+	
+	
+	void labyrint_analysis( char **M, int *row, int *col){ 
+//iniziallizzo le variabili che mi serviranno per tenere tracia delle coordinate dell'inizio e della fine del labirinto
+	int g_col;
+    int g_row;
+    int victory_row;
+    int victory_col;
+    for(int i = 0; i < *row; i++){
+        for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
+            if(M[i][j] == 'o'){
+                g_col = j;
+                g_row = i;
+            }
+            if(M[i][j] == '_'){
+                victory_row = i;
+                victory_col = j;
+            }
+        }
+        if (g_col==0){
+        	printf("%c",'E');
+        	g_coll++;
+		}
+		if (g_col== *col){
+			printf("%c",'O');
+			g_coll--;
+		}
+		if (g_row==0){
+			printf("%c",'S');
+			g_row++;
+		}
+		if(g_row== *row){
+			printf("%c",'N');
+			g_row--;
+		}
+    } 
+    if (g_col < victory_col){
+    	for(int i=0;  i < abs(g_col - victory_col); i++){
+    		printf("%c", 'E');
+		}
+	}else {
+		for(int i=0;  i < abs(g_col - victory_col); i++){
+    		printf("%c", 'O');
+	}
+	if (g_row < victory_row){
+		for(int i=0;  i < abs(g_row - victory_row); i++){
+    		printf("%c", 'S');
+	}else{for(int i=0;  i < abs(g_row - victory_row); i++){
+    		printf("%c", 'N');
+	}
+    
+    
+    
+    							//identifico i 4 principali tipi di labirinto 
+/*char labyrint_type;
+	if (g_col <= victory_col  &&  g_row <= victory_row){
+		labyrint_type= 'a';
+	}
+	if(g_col > victory_col  &&  g_row > victory_row){
+		labyrint_type= 'b';
+	
+	}
+	if
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+}
     return 0;
 }
 
