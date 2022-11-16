@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 
 
@@ -177,47 +178,9 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 
-int main(int argc, char * argv[]){
-
-
-
-    int row, col;
-    scanf("%d\n%d\n", &col, &row);
-    
-    char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
-    for(int i = 0; i < col; i++){
-        M[i] = (char*)malloc(col * sizeof(char));
-    }
-
-
-    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
-
-        matrix_reader(M, &row, &col);
-
-        for(int i = 0; i < row; i++){                   //print per test, cancellabile
-                for(int j = 0; j < col; j++){      
-                        printf("%c", M[i][j]);
-                }
-                printf("\n");
-            }   
-        printf("\n");
-
-
-
-
-
-        return 0;
-    }else{
-        //labyrinth_initializer(M);
-        matrix_reader(M, &row, &col);
-        labyrinth_player(M, &row, &col);                       //modifica la matrice facendo muovere il giocatore
-        return 0;
-    }
-	
-	
-	
-	void labyrint_analysis( char **M, int *row, int *col){ 
-//iniziallizzo le variabili che mi serviranno per tenere tracia delle coordinate dell'inizio e della fine del labirinto
+void labyrint_analysis( char **M, int *row, int *col){ 
+//iniziallizzo le variabili che mi serviranno per tenere tracia delle 
+//coordinate dell'inizio e della fine del labirinto
 	int g_col;
     int g_row;
     int victory_row;
@@ -235,11 +198,11 @@ int main(int argc, char * argv[]){
         }
         if (g_col==0){
         	printf("%c",'E');
-        	g_coll++;
+        	g_col++;
 		}
 		if (g_col== *col){
 			printf("%c",'O');
-			g_coll--;
+			g_col--;
 		}
 		if (g_row==0){
 			printf("%c",'S');
@@ -249,23 +212,29 @@ int main(int argc, char * argv[]){
 			printf("%c",'N');
 			g_row--;
 		}
-    } 
+    }
+
+
     if (g_col < victory_col){
     	for(int i=0;  i < abs(g_col - victory_col); i++){
     		printf("%c", 'E');
 		}
-	}else {
+	}else{
 		for(int i=0;  i < abs(g_col - victory_col); i++){
     		printf("%c", 'O');
-	}
+	    }
+    }
 	if (g_row < victory_row){
 		for(int i=0;  i < abs(g_row - victory_row); i++){
     		printf("%c", 'S');
-	}else{for(int i=0;  i < abs(g_row - victory_row); i++){
+        }
+	}else{
+        for(int i=0;  i < abs(g_row - victory_row); i++){
     		printf("%c", 'N');
-	}
-    
-    
+	    }
+    }
+    printf("%c", '\n');    
+}
     
     							//identifico i 4 principali tipi di labirinto 
 /*char labyrint_type;
@@ -278,17 +247,38 @@ int main(int argc, char * argv[]){
 	}
 	if
 	*/
-	
-	
-	
-	
-	
-	
-	
-	
-}
-    return 0;
-}
 
+
+
+int main(int argc, char * argv[]){
+
+
+
+    int row, col;
+    scanf("%d\n%d\n", &col, &row);
+    
+    char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
+    for(int i = 0; i < col; i++){
+        M[i] = (char*)malloc(col * sizeof(char));
+    }
+
+
+    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
+
+        matrix_reader(M, &row, &col);
+        labyrint_analysis(M, &row, &col);
+
+        return 0;
+
+    }else{
+        //labyrinth_initializer(M);
+        matrix_reader(M, &row, &col);
+        labyrinth_player(M, &row, &col);                //modifica la matrice facendo muovere il giocatore
+        return 0;
+    }
+
+	return 0;
+	
+}
 
     
