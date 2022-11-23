@@ -35,7 +35,8 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
 
 
 
-void labyrinth_initializer(char **M){//inizializzava la matrice come il primo labirinto proposto dai prof, ora obsoleta          
+void labyrinth_initializer(char **M){
+//inizializzava la matrice come il primo labirinto proposto dai prof, ora obsoleta
 
     int row = 10;
     int col = 19; 
@@ -113,7 +114,8 @@ void labyrinth_player(char **M, int *row, int *col){
     while((c != 'q')){          //muove pedina
         system("stty raw");
         c = getchar();
-        if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^' || M[g_row-1][g_col] == '_') && g_row-1 >= 0){           //muove pedina in su
+        if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^' || 
+        M[g_row-1][g_col] == '_') && g_row-1 >= 0){     //fine istruzione if        muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
                 points+=3;
@@ -133,7 +135,8 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v' || M[g_row+1][g_col] == '_') && g_row+1 >= 0){//muove pedina in giù
+        if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v' ||
+        M[g_row+1][g_col] == '_') && g_row+1 >= 0){     //fine istruzione if        muove pedina in giù
             
             if(M[g_row+1][g_col] == '$')
                 points+=3;
@@ -153,7 +156,8 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<' || M[g_row][g_col-1] == '_') && g_col-1 >= 0){           //muove pedina a sinistra
+        if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<' || 
+        M[g_row][g_col-1] == '_') && g_col-1 >= 0){     //fine istruzione if           muove pedina a sinistra
             
             if(M[g_row][g_col-1] == '$')
                 points+=3;
@@ -173,7 +177,8 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>' || M[g_row][g_col+1] == '_') && g_col+1 >= 0){           //muove pedina a destra
+        if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>' || 
+        M[g_row][g_col+1] == '_') && g_col+1 >= 0){      //fine istruzione if         muove pedina a destra
             
             if(M[g_row][g_col+1] == '$')
                 points+=3;
@@ -368,7 +373,6 @@ int main(int argc, char * argv[]){
 	return 0;
 	
 }
-
 
 
 /* ho implementato le one-way-door che volevo, purtroppo il char è troppo piccolo per rappresentare
