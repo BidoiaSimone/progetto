@@ -310,14 +310,14 @@ int main(int argc, char * argv[]){
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
-        matrix_reader(M, &row, &col);
-        labyrint_analysis(M, &row, &col);
+        matrix_reader(M, &row, &col);                   //legge un labirinto da input terminale
+        labyrint_analysis(M, &row, &col);               //analizza il labirinto dicendo una soluzione (no pareti)
 
         return 0;
 
     }else{
-        //labyrinth_initializer(M);
-        matrix_reader(M, &row, &col);
+        //labyrinth_initializer(M); inizializzava la matrice come il primo labirinto proposto dai prof, ora obsoleta
+        matrix_reader(M, &row, &col);                   //legge un labirinto da input terminale
         labyrinth_player(M, &row, &col);                //modifica la matrice facendo muovere il giocatore
         return 0;
     }
