@@ -103,6 +103,7 @@ void labyrinth_player(char **M, int *row, int *col){
         system("stty raw");
         c = getchar();
         if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^') && g_row-1 >= 0){           //muove pedina in su
+            
             if(M[g_row-1][g_col] == '$')
                 points+=3;
             if(M[g_row-1][g_col] == '!')
@@ -120,7 +121,9 @@ void labyrinth_player(char **M, int *row, int *col){
             g_row--;
             points--;
         }
+
         if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v') && g_row+1 >= 0){//muove pedina in giù
+            
             if(M[g_row+1][g_col] == '$')
                 points+=3;
             if(M[g_row+1][g_col] == '!')
@@ -138,7 +141,9 @@ void labyrinth_player(char **M, int *row, int *col){
             g_row++;
             points--;
         }
+
         if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<') && g_col-1 >= 0){           //muove pedina a sinistra
+            
             if(M[g_row][g_col-1] == '$')
                 points+=3;
             if(M[g_row][g_col-1] == '!')
@@ -150,15 +155,15 @@ void labyrinth_player(char **M, int *row, int *col){
                 M[g_row][g_col] = '<';
             }
 
-
-
             M[g_row][g_col-1] = 'o';
             if(M[g_row][g_col] != '<')
             M[g_row][g_col] = ' ';
             g_col--;
             points--;
         }
+
         if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>') && g_col+1 >= 0){           //muove pedina a destra
+            
             if(M[g_row][g_col+1] == '$')
                 points+=3;
             if(M[g_row][g_col+1] == '!')
