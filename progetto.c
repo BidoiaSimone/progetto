@@ -21,11 +21,18 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
     for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
         for(int j = 0; j < *col; j++){      
             if(M[i][j] == 'o'){
-                printf("\033[0;31m");
+                printf("\033[0;36m");
                 printf("%c", M[i][j]);
                 printf("\033[0m");
             }else{
-                printf("%c", M[i][j]);
+                if(M[i][j] == '^' || M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v'){
+                    printf("\033[0;35m");
+                    printf("%c", M[i][j]);
+                    printf("\033[0m");   
+                }else{
+                    printf("%c", M[i][j]);
+                }
+                
             }
         }
             printf("\n");
@@ -150,25 +157,24 @@ void labyrinth_player(char **M, int *row, int *col){
             if(M[g_row+1][g_col] == '!')
                 points /= 2;
 
-            if(M[g_row+1][g_col] == 'v'){           //implementato le one-way-door
-                g_row++;
-                M[g_row-1][g_col] = ' ';
+            if(M[g_row+1][g_col] == 'v'){
+                M[g_row][g_col] = ' ';
+                while(M[g_row+1][g_col] == 'v'){
+                    g_row++;
+                }
+                
                 M[g_row][g_col] = 'v';
+                M[g_row+1][g_col] = 'o';
+                g_row++;
+
+            }else{
+                if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == ' '){//fine if
+                    M[g_row+1][g_col] = 'o';
+                    M[g_row][g_col] = ' ';
+                    g_row++;
+                    points--;
+                }
             }
-
-            if(M[g_row+1][g_col] == '^')
-                g_row--;
-            if(M[g_row+1][g_col] == '<')
-                g_row--;
-            if(M[g_row+1][g_col] == '>')
-                g_row--;
-
-            
-            M[g_row+1][g_col] = 'o';
-            if(M[g_row][g_col] != 'v')
-            M[g_row][g_col] = ' ';
-            g_row++;
-            points--;
         }
 
         if(c == 'a' && M[g_row][g_col-1] != '#' && g_col-1 >= 0){//fine istruzione if muove pedina a sinistra
@@ -179,23 +185,23 @@ void labyrinth_player(char **M, int *row, int *col){
                 points /= 2;
 
             if(M[g_row][g_col-1] == '<'){
-                g_col--;
-                M[g_row][g_col+1] = ' ';
+                M[g_row][g_col] = ' ';
+                while(M[g_row][g_col-1] == '<'){
+                    g_col--;
+                }
+                
                 M[g_row][g_col] = '<';
+                M[g_row][g_col-1] = 'o';
+                g_col--;
+
+            }else{
+                if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == ' '){//fine if
+                    M[g_row][g_col-1] = 'o';
+                    M[g_row][g_col] = ' ';
+                    g_col--;
+                    points--;
+                }
             }
-
-            if(M[g_row][g_col-1] == 'v')
-                g_col++;
-            if(M[g_row][g_col-1] == '>')
-                g_col++;
-            if(M[g_row][g_col-1] == '^')
-                g_col++;
-
-            M[g_row][g_col-1] = 'o';
-            if(M[g_row][g_col] != '<')
-            M[g_row][g_col] = ' ';
-            g_col--;
-            points--;
         }
 
         if(c == 'd' && M[g_row][g_col+1] != '#' && g_col+1 >= 0){//fine istruzione if muove pedina a destra
@@ -206,23 +212,23 @@ void labyrinth_player(char **M, int *row, int *col){
                 points /= 2;
 
             if(M[g_row][g_col+1] == '>'){
-                g_col++;
-                M[g_row][g_col-1] = ' ';
+                M[g_row][g_col] = ' ';
+                while(M[g_row][g_col+1] == '>'){
+                    g_col++;
+                }
+                
                 M[g_row][g_col] = '>';
-            }
-            
-            if(M[g_row][g_col+1] == '<')
-                g_col--;
-            if(M[g_row][g_col+1] == '^')
-                g_col--;
-            if(M[g_row][g_col+1] == 'v')
-                g_col--;
+                M[g_row][g_col+1] = 'o';
+                g_col++;
 
-            M[g_row][g_col+1] = 'o';
-            if(M[g_row][g_col] != '>')
-            M[g_row][g_col] = ' ';
-            g_col++;
-            points--;
+            }else{
+                if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == ' '){//fine if
+                    M[g_row][g_col+1] = 'o';
+                    M[g_row][g_col] = ' ';
+                    g_col++;
+                    points--;
+                }
+            }
         }
         system("stty cooked");
         
@@ -408,7 +414,8 @@ v, ^, <, >.
 */
 
 
-/*if(M[g_row-1][g_col] == '^'){
+/*
+if(M[g_row-1][g_col] == '^'){
                 M[g_row][g_col] = ' ';
                 while(M[g_row-1][g_col] == '^'){
                     g_row--;
@@ -427,4 +434,3 @@ v, ^, <, >.
                 }
             }
             */
-           
