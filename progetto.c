@@ -17,6 +17,7 @@ void matrix_reader(char **M, int *row, int *col){       //legge una matrice da s
 }
 
 
+
 void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
     for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
         for(int j = 0; j < *col; j++){      
@@ -32,7 +33,6 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
                 }else{
                     printf("%c", M[i][j]);
                 }
-                
             }
         }
             printf("\n");
@@ -140,7 +140,8 @@ void labyrinth_player(char **M, int *row, int *col){
                 g_row--;
 
             }else{
-                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == ' '){//fine if
+                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || 
+                M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_'){//fine if
                     M[g_row-1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row--;
@@ -168,7 +169,8 @@ void labyrinth_player(char **M, int *row, int *col){
                 g_row++;
 
             }else{
-                if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == ' '){//fine if
+                if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
+                M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_'){//fine if
                     M[g_row+1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row++;
@@ -195,7 +197,8 @@ void labyrinth_player(char **M, int *row, int *col){
                 g_col--;
 
             }else{
-                if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == ' '){//fine if
+                if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || 
+                M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_'){//fine if
                     M[g_row][g_col-1] = 'o';
                     M[g_row][g_col] = ' ';
                     g_col--;
@@ -222,7 +225,8 @@ void labyrinth_player(char **M, int *row, int *col){
                 g_col++;
 
             }else{
-                if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == ' '){//fine if
+                if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || 
+                M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_'){//fine if
                     M[g_row][g_col+1] = 'o';
                     M[g_row][g_col] = ' ';
                     g_col++;
