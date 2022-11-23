@@ -1,4 +1,5 @@
 // 891868 895662
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -269,6 +270,28 @@ void labyrint_analysis( char **M, int *row, int *col){
 	}
 	if
 	*/
+
+/* mi dipiace per te ma ho paura che i tipi di labirinto se vogliamo farli randomici saranno 16
+        arrivo:     giocatore:
+        su          su
+        su          giu
+        su          sx
+        su          dx
+
+        giu         su
+        giu         giu
+        giu         sx
+        giu         dx
+
+        sx          su
+        sx          giu
+        sx          sx
+        sx          dx
+
+        dx          su
+        dx          giu
+        dx          sx
+        dx          dx   */
 
 
 
