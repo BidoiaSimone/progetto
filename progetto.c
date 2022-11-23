@@ -114,8 +114,8 @@ void labyrinth_player(char **M, int *row, int *col){
     while((c != 'q')){          //muove pedina
         system("stty raw");
         c = getchar();
-        if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^' || 
-        M[g_row-1][g_col] == '_') && g_row-1 >= 0){     //fine istruzione if        muove pedina in su
+        int cnt = 0;
+        if(c == 'w' && M[g_row-1][g_col] != '#' && g_row-1 >= 0){//fine istruzione if muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
                 points+=3;
@@ -123,20 +123,27 @@ void labyrinth_player(char **M, int *row, int *col){
                 points /= 2;
 
             if(M[g_row-1][g_col] == '^'){
-                g_row--;
-                M[g_row+1][g_col] = ' ';
+                M[g_row][g_col] = ' ';
+                while(M[g_row-1][g_col] == '^'){
+                    g_row--;
+                }
+                
                 M[g_row][g_col] = '^';
-            }
+                M[g_row-1][g_col] = 'o';
+                g_row--;
 
-            M[g_row-1][g_col] = 'o';
-            if(M[g_row][g_col] != '^')
-            M[g_row][g_col] = ' ';
-            g_row--;
-            points--;
+            }else{
+                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == ' '){//fine if
+                    M[g_row-1][g_col] = 'o';
+                    M[g_row][g_col] = ' ';
+                    g_row--;
+                    points--;
+                }
+            }
+            
         }
 
-        if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v' ||
-        M[g_row+1][g_col] == '_') && g_row+1 >= 0){     //fine istruzione if        muove pedina in giù
+        if(c == 's' && M[g_row+1][g_col] != '#' && g_row+1 >= 0){//fine istruzione if muove pedina in giù
             
             if(M[g_row+1][g_col] == '$')
                 points+=3;
@@ -149,6 +156,14 @@ void labyrinth_player(char **M, int *row, int *col){
                 M[g_row][g_col] = 'v';
             }
 
+            if(M[g_row+1][g_col] == '^')
+                g_row--;
+            if(M[g_row+1][g_col] == '<')
+                g_row--;
+            if(M[g_row+1][g_col] == '>')
+                g_row--;
+
+            
             M[g_row+1][g_col] = 'o';
             if(M[g_row][g_col] != 'v')
             M[g_row][g_col] = ' ';
@@ -156,8 +171,7 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<' || 
-        M[g_row][g_col-1] == '_') && g_col-1 >= 0){     //fine istruzione if           muove pedina a sinistra
+        if(c == 'a' && M[g_row][g_col-1] != '#' && g_col-1 >= 0){//fine istruzione if muove pedina a sinistra
             
             if(M[g_row][g_col-1] == '$')
                 points+=3;
@@ -170,6 +184,13 @@ void labyrinth_player(char **M, int *row, int *col){
                 M[g_row][g_col] = '<';
             }
 
+            if(M[g_row][g_col-1] == 'v')
+                g_col++;
+            if(M[g_row][g_col-1] == '>')
+                g_col++;
+            if(M[g_row][g_col-1] == '^')
+                g_col++;
+
             M[g_row][g_col-1] = 'o';
             if(M[g_row][g_col] != '<')
             M[g_row][g_col] = ' ';
@@ -177,8 +198,7 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>' || 
-        M[g_row][g_col+1] == '_') && g_col+1 >= 0){      //fine istruzione if         muove pedina a destra
+        if(c == 'd' && M[g_row][g_col+1] != '#' && g_col+1 >= 0){//fine istruzione if muove pedina a destra
             
             if(M[g_row][g_col+1] == '$')
                 points+=3;
@@ -190,6 +210,13 @@ void labyrinth_player(char **M, int *row, int *col){
                 M[g_row][g_col-1] = ' ';
                 M[g_row][g_col] = '>';
             }
+            
+            if(M[g_row][g_col+1] == '<')
+                g_col--;
+            if(M[g_row][g_col+1] == '^')
+                g_col--;
+            if(M[g_row][g_col+1] == 'v')
+                g_col--;
 
             M[g_row][g_col+1] = 'o';
             if(M[g_row][g_col] != '>')
@@ -379,3 +406,25 @@ int main(int argc, char * argv[]){
 le freccette ↑, ←, →, ↓, o usiamo una var più grande (int stampato come %c) oppure  per ora ho usato
 v, ^, <, >.
 */
+
+
+/*if(M[g_row-1][g_col] == '^'){
+                M[g_row][g_col] = ' ';
+                while(M[g_row-1][g_col] == '^'){
+                    g_row--;
+                }
+                
+                M[g_row][g_col] = '^';
+                M[g_row-1][g_col] = 'o';
+                g_row--;
+
+            }else{
+                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == ' '){//fine if
+                    M[g_row-1][g_col] = 'o';
+                    M[g_row][g_col] = ' ';
+                    g_row--;
+                    points--;
+                }
+            }
+            */
+           
