@@ -108,9 +108,14 @@ void labyrinth_player(char **M, int *row, int *col){
             if(M[g_row-1][g_col] == '!')
                 points /= 2;
 
-            
-            
+            if(M[g_row-1][g_col] == '^'){
+                g_row--;
+                M[g_row+1][g_col] = ' ';
+                M[g_row][g_col] = '^';
+            }
+
             M[g_row-1][g_col] = 'o';
+            if(M[g_row][g_col] != '^')
             M[g_row][g_col] = ' ';
             g_row--;
             points--;
@@ -138,7 +143,17 @@ void labyrinth_player(char **M, int *row, int *col){
                 points+=3;
             if(M[g_row][g_col-1] == '!')
                 points /= 2;
+
+            if(M[g_row][g_col-1] == '<'){
+                g_col--;
+                M[g_row][g_col+1] = ' ';
+                M[g_row][g_col] = '<';
+            }
+
+
+
             M[g_row][g_col-1] = 'o';
+            if(M[g_row][g_col] != '<')
             M[g_row][g_col] = ' ';
             g_col--;
             points--;
@@ -148,7 +163,15 @@ void labyrinth_player(char **M, int *row, int *col){
                 points+=3;
             if(M[g_row][g_col+1] == '!')
                 points /= 2;
+
+            if(M[g_row][g_col+1] == '>'){
+                g_col++;
+                M[g_row][g_col-1] = ' ';
+                M[g_row][g_col] = '>';
+            }
+
             M[g_row][g_col+1] = 'o';
+            if(M[g_row][g_col] != '>')
             M[g_row][g_col] = ' ';
             g_col++;
             points--;
@@ -336,3 +359,10 @@ int main(int argc, char * argv[]){
 	return 0;
 	
 }
+
+
+
+/* ho implementato le one-way-door che volevo, purtroppo il char è troppo piccolo per rappresentare
+le freccette ↑, ←, →, ↓, o usiamo una var più grande (int stampato come %c) oppure  per ora ho usato
+v, ^, <, >.
+*/
