@@ -17,6 +17,23 @@ void matrix_reader(char **M, int *row, int *col){       //legge una matrice da s
 }
 
 
+void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
+    for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
+        for(int j = 0; j < *col; j++){      
+            if(M[i][j] == 'o'){
+                printf("\033[0;31m");
+                printf("%c", M[i][j]);
+                printf("\033[0m");
+            }else{
+                printf("%c", M[i][j]);
+            }
+        }
+            printf("\n");
+    }   
+        printf("\n");
+}
+
+
 
 void labyrinth_initializer(char **M){//inizializzava la matrice come il primo labirinto proposto dai prof, ora obsoleta          
 
@@ -89,20 +106,14 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
     system("clear");
-    for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
-        for(int j = 0; j < *col; j++){      
-            printf("%c", M[i][j]);
-        }
-            printf("\n");
-    }   
-        printf("\n");
+    matrix_printer(M, row, col);
     
 
 
     while((c != 'q')){          //muove pedina
         system("stty raw");
         c = getchar();
-        if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^') && g_row-1 >= 0){           //muove pedina in su
+        if(c == 'w' && (M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '^' || M[g_row-1][g_col] == '_') && g_row-1 >= 0){           //muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
                 points+=3;
@@ -122,7 +133,7 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v') && g_row+1 >= 0){//muove pedina in giù
+        if(c == 's' && (M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == 'v' || M[g_row+1][g_col] == '_') && g_row+1 >= 0){//muove pedina in giù
             
             if(M[g_row+1][g_col] == '$')
                 points+=3;
@@ -142,7 +153,7 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<') && g_col-1 >= 0){           //muove pedina a sinistra
+        if(c == 'a' && (M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '<' || M[g_row][g_col-1] == '_') && g_col-1 >= 0){           //muove pedina a sinistra
             
             if(M[g_row][g_col-1] == '$')
                 points+=3;
@@ -162,7 +173,7 @@ void labyrinth_player(char **M, int *row, int *col){
             points--;
         }
 
-        if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>') && g_col+1 >= 0){           //muove pedina a destra
+        if(c == 'd' && (M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '>' || M[g_row][g_col+1] == '_') && g_col+1 >= 0){           //muove pedina a destra
             
             if(M[g_row][g_col+1] == '$')
                 points+=3;
@@ -186,14 +197,9 @@ void labyrinth_player(char **M, int *row, int *col){
         
         if(c != '\n'){              
             system("clear");
-            for(int i = 0; i < *row; i++){                   //stampa matrice aggiornata di 1 mossa
-                for(int j = 0; j < *col; j++){      
-                        printf("%c", M[i][j]);
-                }
-                printf("\n");
-            }   
-        printf("\n");
-        }
+            matrix_printer(M, row, col);
+
+
             if(points < 0)
                 points = 0;
 
@@ -213,11 +219,11 @@ void labyrinth_player(char **M, int *row, int *col){
         }
     }
   
+    }
 }
 
 
-
-void labyrint_analysis( char **M, int *row, int *col){ 
+void labyrint_analysis( char **M, int *row, int *col){  //usata per risolvere labirinti consegna 18/11/22
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
@@ -336,8 +342,6 @@ void labyrint_analysis( char **M, int *row, int *col){
 
 int main(int argc, char * argv[]){
 
-
-
     int row, col;
     scanf("%d\n%d\n", &col, &row);
     
@@ -349,15 +353,15 @@ int main(int argc, char * argv[]){
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
-        matrix_reader(M, &row, &col);                   //legge un labirinto da input terminale
-        labyrint_analysis(M, &row, &col);               //analizza il labirinto dicendo una soluzione (no pareti)
+        matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
+        labyrint_analysis(M, &row, &col);             //analizza il labirinto dicendo una soluzione (no pareti)
 
         return 0;
 
     }else{
         //labyrinth_initializer(M); inizializzava la matrice come il primo labirinto proposto dai prof, ora obsoleta
-        matrix_reader(M, &row, &col);                   //legge un labirinto da input terminale
-        labyrinth_player(M, &row, &col);                //modifica la matrice facendo muovere il giocatore
+        matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
+        labyrinth_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
 

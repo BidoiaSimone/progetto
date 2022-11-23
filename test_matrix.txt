@@ -3,7 +3,7 @@ labirinti di prova per fare velocemente copia-incolla <3
 
 
 idee di implementazione:
-teletrasporto:
+warp: (@,@),(*,*)
 due caratteri uguali dentro ad un labirinto, se vai sopra uno, 
 ti teletrasporta sul carattere uguale dall'altra parte (e viceversa), 
 diventa difficile da implementare volendo fare più di un teletrasporto con labirinti non prefissati
