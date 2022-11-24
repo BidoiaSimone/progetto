@@ -129,7 +129,7 @@ void labyrinth_player(char **M, int *row, int *col){
             if(M[g_row-1][g_col] == '!')
                 points /= 2;
 
-            if(M[g_row-1][g_col] == '^'){ //portale in alto
+            if(M[g_row-1][g_col] == '^'){
                 M[g_row][g_col] = ' ';
                 while(M[g_row-1][g_col] == '^'){
                     g_row--;
@@ -145,60 +145,6 @@ void labyrinth_player(char **M, int *row, int *col){
                     M[g_row-1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row--;
-                    points--;
-                }
-            }
-			if(M[g_row+1][g_col] == 'v'){ //portle in basso
-                M[g_row][g_col] = ' ';
-                while(M[g_row+1][g_col] == 'v'){
-                    g_row++;
-                }
-                
-                M[g_row][g_col] = 'v';
-                M[g_row+1][g_col] = 'o';
-                g_row++;
-
-            }else{
-                if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == ' '){//fine if
-                    M[g_row+1][g_col] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_row++;
-                    points--;
-                }
-            }
-			if(M[g_row][g_col-1] == '<'){ //portale verso sinistra
-                M[g_row][g_col] = ' ';
-                while(M[g_row][g_col-1] == '<'){
-                    g_col--;
-                }
-                
-                M[g_row][g_col] = '<';
-                M[g_row][g_col-1] = 'o';
-                g_col--;
-
-            }else{
-                if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == ' '){//fine if
-                    M[g_row][g_col-1] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_col--;
-                    points--;
-                }
-            }
-			if(M[g_row][g_col+1] == '>'){ //portale verso destra
-                M[g_row][g_col] = ' ';
-                while(M[g_row][g_col+1] == '>'){
-                    g_col++;
-                }
-                
-                M[g_row][g_col] = '>';
-                M[g_row][g_col+1] = 'o';
-                g_col++;
-
-            }else{
-                if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == ' '){//fine if
-                    M[g_row][g_col+1] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_col++;
                     points--;
                 }
             }
@@ -492,4 +438,3 @@ if(M[g_row-1][g_col] == '^'){
                 }
             }
             */
-			
