@@ -22,14 +22,14 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
     for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
         for(int j = 0; j < *col; j++){      
             if(M[i][j] == 'o'){
-                printf("\033[0;36m");
+               // printf("\033[0;36m");
                 printf("%c", M[i][j]);
-                printf("\033[0m");
+               // printf("\033[0m");
             }else{
                 if(M[i][j] == '^' || M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v'){
-                    printf("\033[0;35m");
+                   // printf("\033[0;35m");
                     printf("%c", M[i][j]);
-                    printf("\033[0m");   
+                   // printf("\033[0m");   
                 }else{
                     printf("%c", M[i][j]);
                 }
