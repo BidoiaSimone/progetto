@@ -113,13 +113,13 @@ void labyrinth_player(char **M, int *row, int *col){
     }
 
 
-    system("clear");
+
     matrix_printer(M, row, col);
     
 
 
     while((c != 'q')){          //muove pedina
-        system("stty raw");
+
         c = getchar();
         int cnt = 0;
         if(c == 'w' && M[g_row-1][g_col] != '#' && g_row-1 >= 0){//fine istruzione if muove pedina in su
@@ -235,11 +235,11 @@ void labyrinth_player(char **M, int *row, int *col){
                 }
             }
         }
-        system("stty cooked");
+
         
         
         if(c != '\n'){              
-            system("clear");
+
             matrix_printer(M, row, col);
 
 
