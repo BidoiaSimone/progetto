@@ -266,13 +266,18 @@ void labyrinth_player(char **M, int *row, int *col){
 }
 
 
-void labyrint_analysis( char **M, int *row, int *col){  //usata per risolvere labirinti consegna 18/11/22
+void labyrint_analysis( char **M, int *row, int *col){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
     int g_row;
+	int x=0; // variabile che revirà per selezionare il case dello switch;
     int victory_row;
     int victory_col;
+	bool up_move=true;
+	bool down_move=true;
+	bool right_move=true;
+	bool left_move=true;
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -284,67 +289,121 @@ void labyrint_analysis( char **M, int *row, int *col){  //usata per risolvere la
                 victory_col = j;
             }
         }
-        if (g_col==0){
-        	printf("%c",'E');
-        	g_col++;
-		}
+	}
+    if (g_col==0){   // uscita del giocatore dal bordo
+        printf("%c",'E');
+        M[g_row][g_col+1] = 'o';
+		M[g_row][g_col] = ' ';
+		labyrint_analysis( M, &row, &col);
+	}else{
 		if (g_col== *col-1){
 			printf("%c",'O');
-			g_col--;
+			M[g_row][g_col-1] = 'o';
+			M[g_row][g_col] = ' ';
+			labyrint_analysis(M, &row, &col);
+		}else{
+			if (g_row==0){
+				printf("%c",'S');
+				M[g_row+1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				labyrint_analysis( M, &row, &col);
+			}else{
+				if(g_row== *row-1){
+				printf("%c",'N');
+					M[g_row-1][g_col] = 'o';
+					M[g_row][g_col] = ' ';
+					labyrint_analysis( M, &row, &col);
+				}
+			}
 		}
-		if (g_row==0){
-			printf("%c",'S');
-			g_row++;
+	}
+		
+	if( M[g_row][g_col+1] == '$'){ //controllo se nelle courdinate col+-1 e row+-1 c'è '$'
+		printf("%c", 'E');
+		M[g_row][g_col+1]  'o';
+		M[g_row][g_col] = ' ';
+		labyrint_analysis(M, &row, &col);
+	} else{
+		if(M[g_row][g_col-1] == '$'){
+			printf("%c", 'O');
+			M[g_row][g_col-1] = 'o';
+			M[g_row][g_col] = ' ';
+			labyrint_analysis(M, &row, &col);
+		} else{
+			if(M[g_row+1][g_col] == '$'){
+				printf("%c", 'S');
+				M[g_row+1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				labyrint_analysis(M, &row, &col);
+			}else{
+				if(M[g_row-1][g_col] == '$'){
+					printf("%c", 'N');
+					M[g_row-1][g_col] = 'o';
+					M[g_row][g_col] = ' ';
+					labyrint_analysis(M, &row, &col);
+				}
+			}
 		}
-		if(g_row== *row-1){
-			printf("%c",'N');
-			g_row--;
+	}
+		
+	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+		if(g_row < victory_row){
+			if(M[g_row+1][g_col] != ('#' || '!')){ 	//caso 1: g_row è minore di victpry_row
+				x=1;
+				down_move=true;
+			}else{
+				x=1;
+				down_move==false;
+			}
 		}
-    }
-
-    if(victory_col == 0 || victory_col == (*col-1)){     //se '_' sta in parete verticale, fa prima direzione di altezza
-        if(g_row < victory_row){
-		    for(int i=0;  i < abs(g_row - victory_row); i++){
-    		    printf("%c", 'S');
-            }
-	    }else{
-            for(int i=0;  i < abs(g_row - victory_row); i++){
-    		    printf("%c", 'N');
-	        }
-        }
-        if(g_col < victory_col){
-    	    for(int i=0;  i < abs(g_col - victory_col); i++){
-    		    printf("%c", 'E');
-		    }
-	    }else{
-		    for(int i=0;  i < abs(g_col - victory_col); i++){
-    		    printf("%c", 'O');
-	        }
-        }
-    }
-
-
-    if(victory_row == 0 || victory_row == (*row-1)){    //se '_' sta in parete orizzontale, fa prima direzione di larghezza
-        if(g_col < victory_col){
-    	    for(int i=0;  i < abs(g_col - victory_col); i++){
-    		    printf("%c", 'E');
-		    }
-	    }else{
-		    for(int i=0;  i < abs(g_col - victory_col); i++){
-    		    printf("%c", 'O');
-	        }
-        }
-        if(g_row < victory_row){
-		    for(int i=0;  i < abs(g_row - victory_row); i++){
-    		    printf("%c", 'S');
-            }
-	    }else{
-            for(int i=0;  i < abs(g_row - victory_row); i++){
-    		    printf("%c", 'N');
-	        }
-        }
-    }
-    printf("%c", '\n');    
+		if ((g_row > victory_row){
+			if (M[g_row-1][g_col] != ('#' || '!')){		// caso 2: g_row è maggiore di victory_row
+				x=2;
+				up_move=true;
+			}else{
+				x=2:
+				up_move=false;
+			}
+		}
+		if ((g_row == victory_row && g_col < victory_col){
+			if (M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3: g_row è uguale a victory_row quindi aumento la colonna
+				x=3;
+				right_move=true;
+			}else{
+				x=3;
+				right_move=false;
+			}
+		}
+		if(g_row == victory_row && g_col > victory_col)
+			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4: g_row è uguale a victory_row quindi diminuisco la colonna
+				x=4;
+				left_move=true;
+			}else{
+				x=4;
+				left_move=false;
+			}
+	}esle{ 
+		if((g_col < victory_col){
+			if(M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3:
+				x=3;
+				right_move=true;
+			}else{
+				x=3;
+				right_move=false;
+			}
+		}
+		if((g_col > victory_col){
+			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4
+				x=4;
+				left_move=true;
+			}else{
+				x=4;
+				left_move=false;
+			}
+		}
+	}
+	
+	
 }
     
     							//identifico i 4 principali tipi di labirinto 
