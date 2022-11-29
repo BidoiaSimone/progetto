@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdbool.h>
 
 
 
@@ -271,7 +272,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
     int g_row;
-	int x=0; // variabile che revirà per selezionare il case dello switch;
+	int x=0; // variabile che servirà per selezionare il case dello switch;
     int victory_row;
     int victory_col;
 	bool up_move=true;
@@ -294,79 +295,87 @@ void labyrint_analysis( char **M, int *row, int *col){
         printf("%c",'E');
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
-		labyrint_analysis( M, &row, &col);
+        g_col++;
+		labyrint_analysis(M, row, col);
 	}else{
 		if (g_col== *col-1){
 			printf("%c",'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
-			labyrint_analysis(M, &row, &col);
+            g_col--;
+			labyrint_analysis(M, row, col);
 		}else{
 			if (g_row==0){
 				printf("%c",'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
-				labyrint_analysis( M, &row, &col);
+                g_row++;
+				labyrint_analysis( M, row, col);
 			}else{
 				if(g_row== *row-1){
 				printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					labyrint_analysis( M, &row, &col);
+                    g_row--;
+					labyrint_analysis( M, row, col);
 				}
 			}
 		}
 	}
 		
-	if( M[g_row][g_col+1] == '$'){ //controllo se nelle courdinate col+-1 e row+-1 c'è '$'
+	if( M[g_row][g_col+1] == '$'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '$'
 		printf("%c", 'E');
-		M[g_row][g_col+1]  'o';
+		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
-		labyrint_analysis(M, &row, &col);
+        g_col++;
+		labyrint_analysis(M, row, col);
 	} else{
 		if(M[g_row][g_col-1] == '$'){
 			printf("%c", 'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
-			labyrint_analysis(M, &row, &col);
+            g_col--;
+			labyrint_analysis(M, row, col);
 		} else{
 			if(M[g_row+1][g_col] == '$'){
 				printf("%c", 'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
-				labyrint_analysis(M, &row, &col);
+                g_row++;
+				labyrint_analysis(M, row, col);
 			}else{
 				if(M[g_row-1][g_col] == '$'){
 					printf("%c", 'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					labyrint_analysis(M, &row, &col);
+                    g_row--;
+					labyrint_analysis(M, row, col);
 				}
 			}
 		}
 	}
 		
-	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+	if ( abs(g_row - victory_row) >= abs(g_col - victory_col)){// associazione del valore di x per lo switch
 		if(g_row < victory_row){
-			if(M[g_row+1][g_col] != ('#' || '!')){ 	//caso 1: g_row è minore di victpry_row
+			if(M[g_row+1][g_col] != '#' || M[g_row+1][g_col] != '!'){ 	//caso 1: g_row è minore di victory_row
 				x=1;
 				down_move=true;
 			}else{
 				x=1;
-				down_move==false;
+				down_move=false;
 			}
 		}
-		if ((g_row > victory_row){
-			if (M[g_row-1][g_col] != ('#' || '!')){		// caso 2: g_row è maggiore di victory_row
+		if(g_row > victory_row){
+			if (M[g_row-1][g_col] != '#' || M[g_row-1][g_col] != '!'){		// caso 2: g_row è maggiore di victory_row
 				x=2;
 				up_move=true;
 			}else{
-				x=2:
+				x=2;
 				up_move=false;
 			}
 		}
-		if ((g_row == victory_row && g_col < victory_col){
-			if (M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3: g_row è uguale a victory_row quindi aumento la colonna
+		if(g_row == victory_row && g_col < victory_col){
+			if (M[g_row][g_col+1] != '#' || M[g_row][g_col+1] != '!'){ 	//caso 3: g_row è uguale a victory_row quindi aumento la colonna
 				x=3;
 				right_move=true;
 			}else{
@@ -374,17 +383,18 @@ void labyrint_analysis( char **M, int *row, int *col){
 				right_move=false;
 			}
 		}
-		if(g_row == victory_row && g_col > victory_col)
-			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4: g_row è uguale a victory_row quindi diminuisco la colonna
+		if(g_row == victory_row && g_col > victory_col){
+			if(M[g_row][g_col-1] != '#' || M[g_row][g_col-1] != '!'){ 	//caso 4: g_row è uguale a victory_row quindi diminuisco la colonna
 				x=4;
 				left_move=true;
 			}else{
 				x=4;
 				left_move=false;
 			}
-	}esle{ 
-		if((g_col < victory_col){
-			if(M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3:
+        }
+	}else{ 
+		if(g_col < victory_col){
+			if(M[g_row][g_col-1] != '#' || M[g_row][g_col-1] != '!'){ 	//caso 3:
 				x=3;
 				right_move=true;
 			}else{
@@ -392,8 +402,8 @@ void labyrint_analysis( char **M, int *row, int *col){
 				right_move=false;
 			}
 		}
-		if((g_col > victory_col){
-			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4
+		if(g_col > victory_col){
+			if(M[g_row][g_col-1] != '#' || M[g_row][g_col-1] != '!'){ 	//caso 4
 				x=4;
 				left_move=true;
 			}else{
@@ -403,7 +413,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
 	}
 	
-	
+
 }
     
     							//identifico i 4 principali tipi di labirinto 
@@ -472,10 +482,7 @@ int main(int argc, char * argv[]){
 }
 
 
-/* ho implementato le one-way-door che volevo, purtroppo il char è troppo piccolo per rappresentare
-le freccette ↑, ←, →, ↓, o usiamo una var più grande (int stampato come %c) oppure  per ora ho usato
-v, ^, <, >.
-*/
+
 
 
 /*
