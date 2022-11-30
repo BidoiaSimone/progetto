@@ -514,24 +514,4 @@ v, ^, <, >.
 */
 
 
-/*
-if(M[g_row-1][g_col] == '^'){
-                M[g_row][g_col] = ' ';
-                while(M[g_row-1][g_col] == '^'){
-                    g_row--;
-                }
-                
-                M[g_row][g_col] = '^';
-                M[g_row-1][g_col] = 'o';
-                g_row--;
-
-            }else{
-                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == ' '){//fine if
-                    M[g_row-1][g_col] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_row--;
-                    points--;
-                }
-            }
-            */
 
