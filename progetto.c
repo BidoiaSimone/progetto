@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdbool.h>
 
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
@@ -15,6 +16,9 @@ void matrix_reader(char **M, int *row, int *col){       //legge una matrice da s
             scanf("%[^\n]%*c", &M[i][0]);
             i++;
         }
+
+
+
 }
 
 
@@ -324,56 +328,66 @@ void labyrint_analysis( char **M, int *row, int *col){
         printf("%c",'E');
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
+        g_col++;
 		labyrint_analysis( M, &row, &col);
 	}else{
 		if (g_col== *col-1){
 			printf("%c",'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
+            g_col--;
 			labyrint_analysis(M, &row, &col);
 		}else{
 			if (g_row==0){
 				printf("%c",'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
+                g_row++;
 				labyrint_analysis( M, &row, &col);
 			}else{
 				if(g_row== *row-1){
 					printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
+                    g_row--;
 					labyrint_analysis( M, &row, &col);
 				}
 			}
 		}
+        
 	}
 		
-	if( M[g_row][g_col+1] == '$'){ //controllo se nelle courdinate col+-1 e row+-1 c'è '$'
+	if( M[g_row][g_col+1] == '$'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '$'
 		printf("%c", 'E');
-		M[g_row][g_col+1]  'o';
+		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
+        g_col++;
 		labyrint_analysis(M, &row, &col);
 	} else{
 		if(M[g_row][g_col-1] == '$'){
 			printf("%c", 'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
+            g_col--;
 			labyrint_analysis(M, &row, &col);
 		} else{
 			if(M[g_row+1][g_col] == '$'){
 				printf("%c", 'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
+                g_row++;
 				labyrint_analysis(M, &row, &col);
 			}else{
 				if(M[g_row-1][g_col] == '$'){
 					printf("%c", 'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
+                    g_row--;
 					labyrint_analysis(M, &row, &col);
 				}
 			}
 		}
+        
 	}
 	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
 		if (M[g_row][g_col+1] == '#'){
@@ -413,23 +427,21 @@ void labyrint_analysis( char **M, int *row, int *col){
 		
 	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
 		if(g_row < victory_row){
-			x=1
-			}
+			x=1;
 		}
-		if ((g_row > victory_row){
-			x=2
-			}
+		if(g_row > victory_row){
+			x=2;
 		}
-		if ((g_row == victory_row && g_col < victory_col){
-			x=3
+		if(g_row == victory_row && g_col < victory_col){
+			x=3;
 		}
 		if(g_row == victory_row && g_col > victory_col)
-			x=4
-	}esle{ 
+			x=4;
+	}else{ 
 		if(g_col < victory_col){
-			x=3
+			x=3;
 		}
-		if((g_col > victory_col){
+		if(g_col > victory_col){
 			x=4;
 		}
 	}
@@ -443,28 +455,48 @@ void labyrint_analysis( char **M, int *row, int *col){
 		orizzontal_global=0; //movimento preferito a sx
 	*/
 	switch (x) { //casi labirinto
-		case  1: switch (right_move){
+		case  1: switch(right_move){//---------------------non è down_move?---------------------------
 					case true: printf("%s", "S");
-								labyrint_analysis(M, &row, &col);
+							   labyrint_analysis(M, &row, &col);
 					
-					case false: if (orizzontal_global== 1){
+					case false: if (orizzontal_global==1){
 									x=3;
 								}else{
 									x=4;
 								}
-								/*reinserire tutto lo switch */;
+								/*reinserire tutto lo switch */
 				}
-		case 2: switch(up_move) {
+		case 2: switch(up_move){
 					case true: 	printf("%s","N");
 								labyrint_analysis(M, &row, &col);
-				}	case false:	if (orizzontal_global==1){
-									X=3;
+					case false:	if(orizzontal_global==1){
+									x=3;
 								}else{
 									x=4;
-								}
-									
-								/*reinserire tutto lo switch*/;
-		case 3: switch
+								}    
+                                /*reinserire tutto lo switch*/
+                }					
+								
+		case 3: switch(right_move){
+                    case true:  printf("%s", "E");
+                                labyrint_analysis(M, &row, &col);
+                    case false: if(/*booooooooh*/){
+                                    x=boh;
+                                }else{
+                                    x=bho;
+                                }
+                                /*reiserire tutto lo switch*/
+                }
+        case 4: switch(left_move){
+                    case true:  printf("%s", "O");
+                                labyrint_analysis(M, &row, &col);
+                    case false: if(/*???????????*/){
+                                    x=buh;         
+                                }else{
+                                    x=bah;
+                                }
+                                /*reinserire tutto lo switch*/
+                }
 		
 		
 		
@@ -507,11 +539,6 @@ int main(int argc, char * argv[]){
 	
 }
 
-
-/* ho implementato le one-way-door che volevo, purtroppo il char è troppo piccolo per rappresentare
-le freccette ↑, ←, →, ↓, o usiamo una var più grande (int stampato come %c) oppure  per ora ho usato
-v, ^, <, >.
-*/
 
 
 
