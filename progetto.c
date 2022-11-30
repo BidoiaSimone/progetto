@@ -326,7 +326,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 			}
         }
 	}
-    
+   
 	
     if (g_col==0){   // uscita del giocatore dal bordo
         printf("%c",'E');
@@ -447,7 +447,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
         
 	}
-	// se la pedina finisce in un anglo cecocambia direzione preferita	
+	// se la pedina finisce in un anglo ceco cambia direzione preferita	
 	if (orizzontal_global == 1 && vertical_global == 1  && right_move==false && down_move==false){
 		orizzontal_global = 0;
 	}
@@ -462,7 +462,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
 	}
 		
-	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+	if ( abs(g_row - victory_row) > abs(g_col - victory_col)){		// associazione del valore di x per lo switch
 		if(g_row < victory_row){
 			x=1;
 		}
@@ -495,7 +495,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 
 	switch (x) { //casi labirinto
         case  0: return;
-        
+
 		case  1: switch(down_move){
 					case true: 	printf("%c", 'S');
 								if(M[g_row+1][g_col] == '#'){
