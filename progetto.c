@@ -5,7 +5,8 @@
 #include <string.h>
 #include <math.h>
 
-
+int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
+int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
@@ -265,7 +266,35 @@ void labyrinth_player(char **M, int *row, int *col){
     }
 }
 
-
+void labyrint_global_direction(char **M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
+	int g_col;
+    int g_row;
+	int victory_row;
+    int victory_col;
+	 for(int i = 0; i < *row; i++){
+        for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
+            if(M[i][j] == 'o'){
+                g_col = j;
+                g_row = i;
+            }
+            if(M[i][j] == '_'){
+                victory_row = i;
+                victory_col = j;
+            }
+        }
+	}
+	if(g_row <= victory_row){
+		vertical_global=1; // down movimento preferito
+	}else{
+		vertical_global=0; // up movimento preferito
+	}
+	if(g_col <= victory_col){
+		orizzontal_global=1; // movimento preferito a dx
+	}else{
+		orizzontal_global=0; //movimento preferito a sx
+	}
+	
+}
 void labyrint_analysis( char **M, int *row, int *col){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
@@ -274,10 +303,10 @@ void labyrint_analysis( char **M, int *row, int *col){
 	int x=0; // variabile che revirà per selezionare il case dello switch;
     int victory_row;
     int victory_col;
-	bool up_move=true;
-	bool down_move=true;
-	bool right_move=true;
-	bool left_move=true;
+	bool up_move;
+	bool down_move;
+	bool right_move;
+	bool left_move;
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -290,6 +319,7 @@ void labyrint_analysis( char **M, int *row, int *col){
             }
         }
 	}
+	
     if (g_col==0){   // uscita del giocatore dal bordo
         printf("%c",'E');
         M[g_row][g_col+1] = 'o';
@@ -309,7 +339,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 				labyrint_analysis( M, &row, &col);
 			}else{
 				if(g_row== *row-1){
-				printf("%c",'N');
+					printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis( M, &row, &col);
@@ -345,100 +375,106 @@ void labyrint_analysis( char **M, int *row, int *col){
 			}
 		}
 	}
+	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
+		if (M[g_row][g_col+1] == '#'){
+			right_move = false;
+		}else{
+			right_move=true;
+		}
+		if (M[g_row][g_col-1] == '#'){
+			left_move = false;
+		}else{
+			left_move=true;
+		}
+		if (M[g_row+1][g_col] == '#'){
+			down_move = false;
+		}else{
+			down_move = true;
+		}
+		if (M[g_row-1][g_col] == '#'){
+			up_move = false;
+		}else{
+			up_move = true;
+		}
+		
+	if (orizzontal_global == 1 && vertical_global == 1  && right_move==false && down_move==false){
+		orizzontal_global = 0;
+	}
+	else{if (orizzontal_global == 1 && vertical_global == 0  && right_move == false  &&  up_move == false){
+			orizzontal_global = 0;
+		}else{ if (orizzontal_global == 0  &&  vertical_global == 1){
+					orizzontal_global = 1;
+				}else{ if (orizzontal_global == 0 && vertical_global == 0){
+						orizzontal_global = 1;
+					}
+				}
+		}
+	}
 		
 	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
 		if(g_row < victory_row){
-			if(M[g_row+1][g_col] != ('#' || '!')){ 	//caso 1: g_row è minore di victpry_row
-				x=1;
-				down_move=true;
-			}else{
-				x=1;
-				down_move==false;
+			x=1
 			}
 		}
 		if ((g_row > victory_row){
-			if (M[g_row-1][g_col] != ('#' || '!')){		// caso 2: g_row è maggiore di victory_row
-				x=2;
-				up_move=true;
-			}else{
-				x=2:
-				up_move=false;
+			x=2
 			}
 		}
 		if ((g_row == victory_row && g_col < victory_col){
-			if (M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3: g_row è uguale a victory_row quindi aumento la colonna
-				x=3;
-				right_move=true;
-			}else{
-				x=3;
-				right_move=false;
-			}
+			x=3
 		}
 		if(g_row == victory_row && g_col > victory_col)
-			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4: g_row è uguale a victory_row quindi diminuisco la colonna
-				x=4;
-				left_move=true;
-			}else{
-				x=4;
-				left_move=false;
-			}
+			x=4
 	}esle{ 
-		if((g_col < victory_col){
-			if(M[g_row][g_col+1] != ('#' || '!')){ 	//caso 3:
-				x=3;
-				right_move=true;
-			}else{
-				x=3;
-				right_move=false;
-			}
+		if(g_col < victory_col){
+			x=3
 		}
 		if((g_col > victory_col){
-			if(M[g_row][g_col-1] != ('#' || '!')){ 	//caso 4
-				x=4;
-				left_move=true;
-			}else{
-				x=4;
-				left_move=false;
-			}
+			x=4;
 		}
+	}
+	 /*
+		vertical_global=1; // down movimento preferito
+	
+		vertical_global=0; // up movimento preferito
+	
+		orizzontal_global=1; // movimento preferito a dx
+	
+		orizzontal_global=0; //movimento preferito a sx
+	*/
+	switch (x) { //casi labirinto
+		case  1: switch (right_move){
+					case true: printf("%s", "S");
+								labyrint_analysis(M, &row, &col);
+					
+					case false: if (orizzontal_global== 1){
+									x=3;
+								}else{
+									x=4;
+								}
+								/*reinserire tutto lo switch */;
+				}
+		case 2: switch(up_move) {
+					case true: 	printf("%s","N");
+								labyrint_analysis(M, &row, &col);
+				}	case false:	if (orizzontal_global==1){
+									X=3;
+								}else{
+									x=4;
+								}
+									
+								/*reinserire tutto lo switch*/;
+		case 3: switch
+		
+		
+		
+		
+		
 	}
 	
 	
 }
     
-    							//identifico i 4 principali tipi di labirinto 
-/*char labyrint_type;
-	if (g_col <= victory_col  &&  g_row <= victory_row){
-		labyrint_type= 'a';
-	}
-	if(g_col > victory_col  &&  g_row > victory_row){
-		labyrint_type= 'b';
-	
-	}
-	if
-	*/
-
-/* mi dipiace per te ma ho paura che i tipi di labirinto se vogliamo farli randomici saranno 16
-        arrivo:     giocatore:
-        su          su
-        su          giu
-        su          sx
-        su          dx
-
-        giu         su
-        giu         giu
-        giu         sx
-        giu         dx
-
-        sx          su
-        sx          giu
-        sx          sx
-        sx          dx
-
-        dx          su
-        dx          giu
-        dx          sx
-        dx          dx   */
 
 
 
