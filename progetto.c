@@ -331,7 +331,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 				x=1;
 				break;
 			}else {
-				x=0
+				x=0;
 			}
         }
 	}
@@ -456,7 +456,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
-					X = 0;
+					x = 0;
 				}
 			}
 		}
@@ -661,7 +661,3 @@ int main(int argc, char * argv[]){
 	return 0;
 	
 }
-
-
-
-
