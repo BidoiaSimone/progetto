@@ -322,10 +322,11 @@ void labyrint_analysis( char **M, int *row, int *col){
                 victory_row = i;
                 victory_col = j;
             }else{ 
-			return;	// se non trova l'arrivo vuol dire che è già arrivato e finisce le iterazioni
+			    x=0;	// se non trova l'arrivo vuol dire che è già arrivato e finisce le iterazioni
 			}
         }
 	}
+    
 	
     if (g_col==0){   // uscita del giocatore dal bordo
         printf("%c",'E');
@@ -490,7 +491,11 @@ void labyrint_analysis( char **M, int *row, int *col){
 	
 		orizzontal_global=0; //movimento preferito a sx
 	*/
+    
+
 	switch (x) { //casi labirinto
+        case  0: return;
+        
 		case  1: switch(down_move){
 					case true: 	printf("%c", 'S');
 								if(M[g_row+1][g_col] == '#'){
@@ -515,7 +520,10 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-									}
+
+                                            
+								}
+                                
 					}
 		case 2: switch(up_move){
 					case true: 	printf("%c", 'N');
@@ -540,6 +548,8 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+
+                                            
 									}					
 					}	
 		case 3: switch(right_move){
@@ -556,6 +566,7 @@ void labyrint_analysis( char **M, int *row, int *col){
                                 }else{
                                     x=2;
                                 }
+                    
                                 switch (x) { 
 											case  1: 	printf("%c", 'S');
 														M[g_row+1][g_col] = 'o';
@@ -566,6 +577,8 @@ void labyrint_analysis( char **M, int *row, int *col){
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													labyrint_analysis(M, row, col);
+                                            
+                                            
 								}
 				}
         case 4: switch(left_move){
@@ -581,7 +594,10 @@ void labyrint_analysis( char **M, int *row, int *col){
                                 }else{
                                     x=2;
                                 }
-                                switch (x) { 
+                                
+                                switch (x) {
+
+
 											case  1:	printf("%c", 'S');
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
@@ -591,8 +607,11 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+
+                                            
 								}
 					}
+        
 	
 	
     }
