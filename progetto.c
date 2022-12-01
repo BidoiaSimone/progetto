@@ -542,7 +542,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		if(finish_check == 0){
 			return;
 		}
-		x = 0;
+		
 	}else{
 		if(M[g_row][g_col-1] == '_'){
 			printf("%c", 'O');
@@ -561,7 +561,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 			if(finish_check == 0){
 				return;
 			}
-			x = 0;
+			
 		} else{
 			if(M[g_row+1][g_col] == '_'){
 				printf("%c", 'S');
@@ -580,7 +580,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 				if(finish_check == 0){
 					return;
 				}
-				x = 0;
+				
 			}else{
 				if(M[g_row-1][g_col] == '_'){
 					printf("%c", 'N');
@@ -599,7 +599,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 					if(finish_check == 0){
 						return;
 					}
-					x = 0;
+					
 				}
 			}
 		}
