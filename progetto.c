@@ -327,41 +327,83 @@ void labyrint_analysis( char **M, int *row, int *col){
            
             if(M[i][j] == '_'){
                 victory_row = i;
-                victory_col = j;
-				x=1;
+                victory_col = j;			/* inserire questo check dopo ogni chiamata di analysis */
+				
 				break;
 			}else {
-				x=0;
+				return;
 			}
         }
 	}
-    if (x == 0){
-		return;
-	}
+    
 	
     if (g_col==0){   // uscita del giocatore dal bordo
         printf("%c",'E');
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis( M, row, col);
+		for(int i = 0; i < *row; i++){
+        	for(int j = 0; j < *col; j++){
+            	if(M[i][j] == '_'){
+                	victory_row = i;
+                	victory_col = j;
+					break;
+				}else {
+					return;
+				}
+        	}
+		}
 	}else{
 		if (g_col== *col-1){
 			printf("%c",'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
+			for(int i = 0; i < *row; i++){
+        		for(int j = 0; j < *col; j++){
+            		if(M[i][j] == '_'){
+                		victory_row = i;
+                		victory_col = j;
+						break;
+					}else {
+						return;
+					}
+        		}
+			}
 		}else{
 			if (g_row==0){
 				printf("%c",'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis( M, row, col);
+				for(int i = 0; i < *row; i++){
+        			for(int j = 0; j < *col; j++){
+            			if(M[i][j] == '_'){
+                			victory_row = i;
+                			victory_col = j;
+							break;
+						}else {
+							return;
+						}
+        			}
+				}
 			}else{
 				if(g_row== *row-1){
 					printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis( M, row, col);
+					for(int i = 0; i < *row; i++){
+        				for(int j = 0; j < *col; j++){
+            				if(M[i][j] == '_'){
+                				victory_row = i;
+                				victory_col = j;
+								break;
+							}else {
+								return;
+							}
+        				}
+					}
 				}
 			}
 		}
@@ -376,6 +418,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis(M, row, col);
+		for(int i = 0; i < *row; i++){
+        	for(int j = 0; j < *col; j++){
+            	if(M[i][j] == '_'){
+        			victory_row = i;
+        			victory_col = j;
+					break;
+				}else {
+					return;
+				}
+  			}
+		}
 	}else{
 		if(M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == 'T'){
 			if (M[g_row][g_col+1] == 'T'){
@@ -385,6 +438,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
+			for(int i = 0; i < *row; i++){
+        		for(int j = 0; j < *col; j++){
+            		if(M[i][j] == '_'){
+        				victory_row = i;
+        				victory_col = j;
+						break;
+					}else {
+						return;
+					}
+  				}
+			}
 		} else{
 			if(M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == 'T'){
 				if (M[g_row][g_col+1] == 'T'){
@@ -394,6 +458,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis(M, row, col);
+				for(int i = 0; i < *row; i++){
+        			for(int j = 0; j < *col; j++){
+            			if(M[i][j] == '_'){
+        					victory_row = i;
+        					victory_col = j;
+							break;
+						}else {
+							return;
+						}
+  					}
+				}
 			}else{
 				if(M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == 'T'){
 					if (M[g_row][g_col+1] == 'T'){
@@ -403,6 +478,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
+					for(int i = 0; i < *row; i++){
+        				for(int j = 0; j < *col; j++){
+            				if(M[i][j] == '_'){
+        						victory_row = i;
+        						victory_col = j;
+								break;
+							}else {
+								return;
+							}
+  						}
+					}
 				}
 			}
 		}
@@ -435,6 +521,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis(M, row, col);
+		for(int i = 0; i < *row; i++){
+        	for(int j = 0; j < *col; j++){
+            	if(M[i][j] == '_'){
+        			victory_row = i;
+        			victory_col = j;
+					break;
+				}else {
+					return;
+				}
+  			}
+		}
 		x = 0;
 	} else{
 		if(M[g_row][g_col-1] == '_'){
@@ -442,6 +539,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
+			for(int i = 0; i < *row; i++){
+        		for(int j = 0; j < *col; j++){
+            		if(M[i][j] == '_'){
+        				victory_row = i;
+        				victory_col = j;
+						break;
+					}else {
+						return;
+					}
+  				}
+			}
 			x = 0;
 		} else{
 			if(M[g_row+1][g_col] == '_'){
@@ -449,6 +557,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis(M, row, col);
+				for(int i = 0; i < *row; i++){
+        			for(int j = 0; j < *col; j++){
+            			if(M[i][j] == '_'){
+        					victory_row = i;
+        					victory_col = j;
+							break;
+						}else {
+							return;
+						}
+  					}
+				}
 				x = 0;
 			}else{
 				if(M[g_row-1][g_col] == '_'){
@@ -456,6 +575,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
+					for(int i = 0; i < *row; i++){
+        				for(int j = 0; j < *col; j++){
+            				if(M[i][j] == '_'){
+        						victory_row = i;
+        						victory_col = j;
+								break;
+							}else {
+								return;
+							}
+  						}
+					}
 					x = 0;
 				}
 			}
@@ -518,6 +648,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 								M[g_row+1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
+								for(int i = 0; i < *row; i++){
+        							for(int j = 0; j < *col; j++){
+            							if(M[i][j] == '_'){
+        									victory_row = i;
+        									victory_col = j;
+											break;
+										}else {
+											return;
+										}
+  									}
+								}
 					
 					case false: if (orizzontal_global == 1){
 									x=3;
@@ -529,11 +670,33 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 						
 											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 
                                             
 								}
@@ -547,6 +710,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 								M[g_row-1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
+								for(int i = 0; i < *row; i++){
+        							for(int j = 0; j < *col; j++){
+            							if(M[i][j] == '_'){
+        									victory_row = i;
+        									victory_col = j;
+											break;
+										}else {
+											return;
+										}
+  									}
+								}
 					case false:	if(orizzontal_global == 1){
 									x=3;
 								}else{
@@ -557,11 +731,33 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 						
 											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 
                                             
 									}					
@@ -574,6 +770,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 								M[g_row][g_col+1] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
+								for(int i = 0; i < *row; i++){
+        							for(int j = 0; j < *col; j++){
+            							if(M[i][j] == '_'){
+        									victory_row = i;
+        									victory_col = j;
+											break;
+										}else {
+											return;
+										}
+  									}
+								}
 						
                     case false: if(vertical_global == 1){
                                     x=1;
@@ -586,11 +793,33 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 							
 											case 2:	printf("%c", 'N');
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													labyrint_analysis(M, row, col);
+													for(int i = 0; i < *row; i++){
+        												for(int j = 0; j < *col; j++){
+            												if(M[i][j] == '_'){
+        														victory_row = i;
+        														victory_col = j;
+																break;
+															}else {
+																return;
+															}
+  														}
+													}
                                             
                                             
 								}
@@ -603,6 +832,17 @@ void labyrint_analysis( char **M, int *row, int *col){
 								M[g_row][g_col-1] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
+								for(int i = 0; i < *row; i++){
+        							for(int j = 0; j < *col; j++){
+            							if(M[i][j] == '_'){
+        									victory_row = i;
+        									victory_col = j;
+											break;
+										}else {
+											return;
+										}
+  									}
+								}
                     case false: if(vertical_global == 1){
                                     x=1;         
                                 }else{
@@ -616,11 +856,33 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 							
 											case 2:		printf("%c", 'N');
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
+														for(int i = 0; i < *row; i++){
+        													for(int j = 0; j < *col; j++){
+            													if(M[i][j] == '_'){
+        															victory_row = i;
+        															victory_col = j;
+																	break;
+																}else {
+																	return;
+																}
+  															}
+														}
 
                                             
 								}
