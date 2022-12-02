@@ -427,25 +427,29 @@ void labyrint_analysis( char **M, int *row, int *col){
         
 	}
 	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
-		if (M[g_row][g_col+1] == '#'  &&  counter_trivella==0){
-			right_move = 0;
-		}else{
+		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  > 0){
 			right_move = 1;
+			counter_trivella--;
+		}else{
+			right_move = 0;
 		}
 		if (M[g_row][g_col-1] == '#'  &&  counter_trivella==0){
-			left_move = 0;
-		}else{
 			left_move = 1;
+			counter_trivella--;
+		}else{
+			left_move = 0;
 		}
 		if (M[g_row+1][g_col] == '#'  &&  counter_trivella==0){
-			down_move = 0;
-		}else{
 			down_move = 1;
+			counter_trivella--;
+		}else{
+			down_move = 0;
 		}
 		if (M[g_row-1][g_col] == '#'  &&  counter_trivella==0){
-			up_move = 0;
-		}else{
 			up_move = 1;
+			counter_trivella--;
+		}else{
+			up_move = 0;
 		}
 		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
@@ -535,7 +539,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		case  1: switch(down_move){
 					case 1: 	printf("%c\n", 'S');
 								if(M[g_row+1][g_col] == '#'){
-									counter_trivella--;
+									;
 								}
 								M[g_row+1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
@@ -567,7 +571,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		case 2: switch(up_move){
 					case 1: 	printf("%c\n", 'N');
 								if(M[g_row-1][g_col] == '#'){
-									counter_trivella--;
+									;
 								}
 								M[g_row-1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
@@ -600,7 +604,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		case 3: switch(right_move){
                     case 1: 	printf("%c\n", 'E');
 								if(M[g_row][g_col+1] == '#'){
-									counter_trivella--;
+									;
 								}
 								M[g_row][g_col+1] = 'o';
 								M[g_row][g_col] = ' ';
@@ -634,7 +638,7 @@ void labyrint_analysis( char **M, int *row, int *col){
         case 4: switch(left_move){
                     case 1:  	printf("%c\n", 'O');
 								if(M[g_row][g_col-1] == '#'){
-									counter_trivella--;
+									;
 								}
 								M[g_row][g_col-1] = 'o';
 								M[g_row][g_col] = ' ';
