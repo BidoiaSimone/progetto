@@ -8,7 +8,7 @@
 
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
-
+int counter_trivella = 0;
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
 
@@ -307,7 +307,6 @@ void labyrint_analysis( char **M, int *row, int *col){
 	int x=0; // variabile che revirà per selezionare il case dello switch;
 	int finish_check = 0;		//inserito perchè altrimenti il ciclo di controllo del '_', 
 								//se non c'era l'arrivo nella prima cella, faceva return
-	int counter_trivella=0;
     int victory_row;
     int victory_col;
 	int up_move;
