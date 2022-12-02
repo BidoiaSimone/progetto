@@ -310,10 +310,10 @@ void labyrint_analysis( char **M, int *row, int *col){
 	int counter_trivella=0;
     int victory_row;
     int victory_col;
-	bool up_move;
-	bool down_move;
-	bool right_move;
-	bool left_move;
+	int up_move;
+	int down_move;
+	int right_move;
+	int left_move;
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -346,84 +346,28 @@ void labyrint_analysis( char **M, int *row, int *col){
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis( M, row, col);
-		for(int i = 0; i < *row; i++){
-			for(int j = 0; j < *col && finish_check == 0; j++){
-			if(M[i][j] == '_'){          
-                victory_row = i;
-                victory_col = j;		
-				finish_check = 1;
-				break;
-			}else{
-				finish_check = 0;
-			}
-        }
-	}
-		if(finish_check == 0){
-			return;
-		}
+		return;
 	}else{
 		if (g_col== *col-1){
 			printf("%c",'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
-			for(int i = 0; i < *row; i++){
-				for(int j = 0; j < *col && finish_check == 0; j++){          
-					if(M[i][j] == '_'){
-						victory_row = i;
-						victory_col = j;			
-						finish_check = 1;
-						break;
-					}else{
-						finish_check = 0;
-					}
-				}
-			}
-			if(finish_check == 0){
-				return;
-			}
+			return;
 		}else{
 			if (g_row==0){
 				printf("%c",'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis( M, row, col);
-				for(int i = 0; i < *row; i++){
-					for(int j = 0; j < *col && finish_check == 0; j++){          
-						if(M[i][j] == '_'){
-							victory_row = i;
-							victory_col = j;			
-							finish_check = 1;
-							break;
-						}else{
-							finish_check = 0;
-						}
-					}
-				}
-				if(finish_check == 0){
-					return;
-				}
+				return;
 			}else{
 				if(g_row== *row-1){
 					printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis( M, row, col);
-					for(int i = 0; i < *row; i++){
-						for(int j = 0; j < *col && finish_check == 0; j++){          
-							if(M[i][j] == '_'){
-								victory_row = i;
-								victory_col = j;			
-								finish_check = 1;
-								break;
-							}else{
-								finish_check = 0;
-							}
-						}
-					}
-					if(finish_check == 0){
-						return;
-					}
+					return;
 				}
 			}
 		}
@@ -438,21 +382,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis(M, row, col);
-		for(int i = 0; i < *row; i++){
-        	for(int j = 0; j < *col && finish_check == 0; j++){          
-            	if(M[i][j] == '_'){
-                	victory_row = i;
-                	victory_col = j;			
-					finish_check = 1;
-					break;
-				}else{
-					finish_check = 0;
-				}
-    		}
-		}
-		if(finish_check == 0){
-			return;
-		}
+		return;
 	}else{
 		if(M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == 'T'){
 			if (M[g_row][g_col+1] == 'T'){
@@ -462,21 +392,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
-			for(int i = 0; i < *row; i++){
-        		for(int j = 0; j < *col && finish_check == 0; j++){          
-            		if(M[i][j] == '_'){
-                		victory_row = i;
-                		victory_col = j;			
-						finish_check = 1;
-						break;
-					}else{
-						finish_check = 0;
-					}
-    			}
-			}
-			if(finish_check == 0){
-				return;
-			}
+			return;
 		} else{
 			if(M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == 'T'){
 				if (M[g_row][g_col+1] == 'T'){
@@ -486,21 +402,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis(M, row, col);
-				for(int i = 0; i < *row; i++){
-        			for(int j = 0; j < *col && finish_check == 0; j++){          
-            			if(M[i][j] == '_'){
-                			victory_row = i;
-                			victory_col = j;			
-							finish_check = 1;
-							break;
-						}else{
-							finish_check = 0;
-						}
-    				}
-				}
-				if(finish_check == 0){
-					return;
-				}
+				return;
 			}else{
 				if(M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == 'T'){
 					if (M[g_row][g_col+1] == 'T'){
@@ -510,21 +412,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
-					for(int i = 0; i < *row; i++){
-        				for(int j = 0; j < *col && finish_check == 0; j++){          
-            				if(M[i][j] == '_'){
-                				victory_row = i;
-                				victory_col = j;			
-								finish_check = 1;
-								break;
-							}else{
-								finish_check = 0;
-							}
-    					}
-					}
-					if(finish_check == 0){
-						return;
-					}
+					return;
 				}
 			}
 		}
@@ -532,24 +420,24 @@ void labyrint_analysis( char **M, int *row, int *col){
 	}
 	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
 		if (M[g_row][g_col+1] == '#'  &&  counter_trivella==0){
-			right_move = false;
+			right_move = 0;
 		}else{
-			right_move=true;
+			right_move=1;
 		}
 		if (M[g_row][g_col-1] == '#'  &&  counter_trivella==0){
-			left_move = false;
+			left_move = 0;
 		}else{
-			left_move=true;
+			left_move=1;
 		}
 		if (M[g_row+1][g_col] == '#'  &&  counter_trivella==0){
-			down_move = false;
+			down_move = 0;
 		}else{
-			down_move = true;
+			down_move = 1;
 		}
 		if (M[g_row-1][g_col] == '#'  &&  counter_trivella==0){
-			up_move = false;
+			up_move = 0;
 		}else{
-			up_move = true;
+			up_move = 1;
 		}
 		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
@@ -557,98 +445,38 @@ void labyrint_analysis( char **M, int *row, int *col){
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		labyrint_analysis(M, row, col);
-		for(int i = 0; i < *row; i++){
-			for(int j = 0; j < *col && finish_check == 0; j++){          
-				if(M[i][j] == '_'){
-					victory_row = i;
-					victory_col = j;			
-					finish_check = 1;
-					break;
-				}else{
-					finish_check = 0;
-				}
-			}
-		}
-		if(finish_check == 0){
-			return;
-		}
-		
+		return;
 	}else{
 		if(M[g_row][g_col-1] == '_'){
 			printf("%c", 'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			labyrint_analysis(M, row, col);
-			for(int i = 0; i < *row; i++){
-				for(int j = 0; j < *col && finish_check == 0; j++){          
-					if(M[i][j] == '_'){
-						victory_row = i;
-						victory_col = j;			
-						finish_check = 1;
-						break;
-					}else{
-						finish_check = 0;
-					}
-				}
-			}
-			if(finish_check == 0){
-				return;
-			}
-			
+			return;
 		} else{
 			if(M[g_row+1][g_col] == '_'){
 				printf("%c", 'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis(M, row, col);
-				for(int i = 0; i < *row; i++){
-					for(int j = 0; j < *col && finish_check == 0; j++){          
-						if(M[i][j] == '_'){
-							victory_row = i;
-							victory_col = j;			
-							finish_check = 1;
-							break;
-						}else{
-							finish_check = 0;
-						}
-					}
-				}
-				if(finish_check == 0){
-					return;
-				}
-				
+				return;
 			}else{
 				if(M[g_row-1][g_col] == '_'){
 					printf("%c", 'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
-					for(int i = 0; i < *row; i++){
-						for(int j = 0; j < *col && finish_check == 0; j++){          
-							if(M[i][j] == '_'){
-								victory_row = i;
-								victory_col = j;			
-								finish_check = 1;
-								break;
-							}else{
-								finish_check = 0;
-							}
-						}
-					}
-					if(finish_check == 0){
-						return;
-					}
-					
+					return;
 				}
 			}
 		}
         
 	}
 	// se la pedina finisce in un anglo cecocambia direzione preferita	
-	if (orizzontal_global == 1 && vertical_global == 1  && right_move==false && down_move==false){
+	if (orizzontal_global == 1 && vertical_global == 1  && right_move==0 && down_move==0){
 		orizzontal_global = 0;
 	}
-	else{if (orizzontal_global == 1 && vertical_global == 0  && right_move == false  &&  up_move == false){//bisogna completare le istruzioni
+	else{if (orizzontal_global == 1 && vertical_global == 0  && right_move == 0  &&  up_move == 0){//bisogna completare le istruzioni
 			orizzontal_global = 0;
 		}else{ if (orizzontal_global == 0  &&  vertical_global == 1){ //bisogna completare le istruzioni
 					orizzontal_global = 1;
@@ -693,30 +521,15 @@ void labyrint_analysis( char **M, int *row, int *col){
 	switch (x) { //casi labirinto
         
 		case  1: switch(down_move){
-					case true: 	printf("%c", 'S');
+					case 1: 	printf("%c", 'S');
 								if(M[g_row+1][g_col] == '#'){
 									counter_trivella--;
 								}
 								M[g_row+1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
-								for(int i = 0; i < *row; i++){
-									for(int j = 0; j < *col && finish_check == 0; j++){          
-										if(M[i][j] == '_'){
-											victory_row = i;
-											victory_col = j;			
-											finish_check = 1;
-											break;
-										}else{
-											finish_check = 0;
-										}
-									}
-								}
-								if(finish_check == 0){
-									return;
-								}
-					
-					case false: if (orizzontal_global == 1){
+								return;
+					case 0: 	if (orizzontal_global == 1){
 									x=3;
 								}else{
 									x=4;
@@ -726,71 +539,26 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
-								
-						
+														return;
+
 											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
-
-                                            
+														return;                                            
 								}
 		}                        
 					
 		case 2: switch(up_move){
-					case true: 	printf("%c", 'N');
+					case 1: 	printf("%c", 'N');
 								if(M[g_row-1][g_col] == '#'){
 									counter_trivella--;
 								}
 								M[g_row-1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
-								for(int i = 0; i < *row; i++){
-									for(int j = 0; j < *col && finish_check == 0; j++){          
-										if(M[i][j] == '_'){
-											victory_row = i;
-											victory_col = j;			
-											finish_check = 1;
-											break;
-										}else{
-											finish_check = 0;
-										}
-									}
-								}
-								if(finish_check == 0){
-									return;
-								}
-					case false:	if(orizzontal_global == 1){
+								return;
+					case 0:		if(orizzontal_global == 1){
 									x=3;
 								}else{
 									x=4;
@@ -800,70 +568,28 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
+														return;
 						
 											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
+														return;
 
                                             
 									}					
 					}	
 		case 3: switch(right_move){
-                    case true: 	printf("%c", 'E');
+                    case 1: 	printf("%c", 'E');
 								if(M[g_row][g_col+1] == '#'){
 									counter_trivella--;
 								}
 								M[g_row][g_col+1] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
-								for(int i = 0; i < *row; i++){
-									for(int j = 0; j < *col && finish_check == 0; j++){          
-										if(M[i][j] == '_'){
-											victory_row = i;
-											victory_col = j;			
-											finish_check = 1;
-											break;
-										}else{
-											finish_check = 0;
-										}
-									}
-								}
-								if(finish_check == 0){
-									return;
-								}
+								return;
 						
-                    case false: if(vertical_global == 1){
+                    case 0: 	if(vertical_global == 1){
                                     x=1;
                                 }else{
                                     x=2;
@@ -874,69 +600,27 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
+														return;
 							
 											case 2:	printf("%c", 'N');
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													labyrint_analysis(M, row, col);
-													for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-													if(finish_check == 0){
-														return;
-													}
-                                            
+													return;
                                             
 								}
 				}
         case 4: switch(left_move){
-                    case true:  printf("%c", 'O');
+                    case 1:  	printf("%c", 'O');
 								if(M[g_row][g_col-1] == '#'){
 									counter_trivella--;
 								}
 								M[g_row][g_col-1] = 'o';
 								M[g_row][g_col] = ' ';
 								labyrint_analysis(M, row, col);
-								for(int i = 0; i < *row; i++){
-									for(int j = 0; j < *col && finish_check == 0; j++){          
-										if(M[i][j] == '_'){
-											victory_row = i;
-											victory_col = j;			
-											finish_check = 1;
-											break;
-										}else{
-											finish_check = 0;
-										}
-									}
-								}
-								if(finish_check == 0){
-									return;
-								}
-                    case false: if(vertical_global == 1){
+								return;
+								
+                    case 0: if(vertical_global == 1){
                                     x=1;         
                                 }else{
                                     x=2;
@@ -949,41 +633,15 @@ void labyrint_analysis( char **M, int *row, int *col){
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}
+														return;
+														
 							
 											case 2:		printf("%c", 'N');
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														labyrint_analysis(M, row, col);
-														for(int i = 0; i < *row; i++){
-															for(int j = 0; j < *col && finish_check == 0; j++){          
-																if(M[i][j] == '_'){
-																	victory_row = i;
-																	victory_col = j;			
-																	finish_check = 1;
-																	break;
-																}else{
-																	finish_check = 0;
-																}
-															}
-														}
-														if(finish_check == 0){
-															return;
-														}                       
+														return;
+														                       
 								}
 					}
     }
