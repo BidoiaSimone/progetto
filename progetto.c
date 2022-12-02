@@ -429,25 +429,21 @@ void labyrint_analysis( char **M, int *row, int *col){
 	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
 		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  > 0){
 			right_move = 1;
-			counter_trivella--;
 		}else{
 			right_move = 0;
 		}
 		if (M[g_row][g_col-1] == '#'  &&  counter_trivella > 0){
 			left_move = 1;
-			counter_trivella--;
 		}else{
 			left_move = 0;
 		}
 		if (M[g_row+1][g_col] == '#'  &&  counter_trivella > 0){
 			down_move = 1;
-			counter_trivella--;
 		}else{
 			down_move = 0;
 		}
 		if (M[g_row-1][g_col] == '#'  &&  counter_trivella > 0){
 			up_move = 1;
-			counter_trivella--;
 		}else{
 			up_move = 0;
 		}
