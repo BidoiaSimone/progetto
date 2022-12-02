@@ -426,25 +426,25 @@ void labyrint_analysis( char **M, int *row, int *col){
         
 	}
 	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
-		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  > 0){
-			right_move = 1;
-		}else{
+		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  == 0){
 			right_move = 0;
-		}
-		if (M[g_row][g_col-1] == '#'  &&  counter_trivella > 0){
-			left_move = 1;
 		}else{
+			right_move = 1;
+		}
+		if (M[g_row][g_col-1] == '#'  &&  counter_trivella == 0){
 			left_move = 0;
-		}
-		if (M[g_row+1][g_col] == '#'  &&  counter_trivella > 0){
-			down_move = 1;
 		}else{
+			left_move = 1;
+		}
+		if (M[g_row+1][g_col] == '#'  &&  counter_trivella == 0){
 			down_move = 0;
-		}
-		if (M[g_row-1][g_col] == '#'  &&  counter_trivella > 0){
-			up_move = 1;
 		}else{
+			down_move = 1;
+		}
+		if (M[g_row-1][g_col] == '#'  &&  counter_trivella == 0){
 			up_move = 0;
+		}else{
+			up_move = 1;
 		}
 		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
@@ -575,9 +575,9 @@ void labyrint_analysis( char **M, int *row, int *col){
 								matrix_printer(M, row, col);
 								labyrint_analysis(M, row, col);
 								return;
-					case 0:		if(orizzontal_global == 1){
+					case 0:		if(orizzontal_global == 1 && right_move == 1){
 									x=3;
-								}else{
+								}else{ 
 									x=4;
 								}    
                                 switch (x) {
@@ -609,7 +609,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 								labyrint_analysis(M, row, col);
 								return;
 						
-                    case 0: 	if(vertical_global == 1){
+                    case 0: 	if(vertical_global == 1 ){
                                     x=1;
                                 }else{
                                     x=2;
@@ -687,9 +687,10 @@ int main(int argc, char * argv[]){
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
-        matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
+        matrix_reader(M, &row, &col);  
+		labyrint_global_direction(char **M, int *row,int *col);
         labyrint_analysis(M, &row, &col);             //IA
-
+			
         return 0;
 
     }else{
