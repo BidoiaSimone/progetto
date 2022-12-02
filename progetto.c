@@ -487,13 +487,15 @@ void labyrint_analysis( char **M, int *row, int *col){
 	// se la pedina finisce in un anglo cecocambia direzione preferita	
 	if (orizzontal_global == 1 && vertical_global == 1  && right_move==0 && down_move==0){
 		orizzontal_global = 0;
-	}
-	else{if (orizzontal_global == 1 && vertical_global == 0  && right_move == 0  &&  up_move == 0){//bisogna completare le istruzioni
-			orizzontal_global = 0;
-		}else{ if (orizzontal_global == 0  &&  vertical_global == 1){ //bisogna completare le istruzioni
-					orizzontal_global = 1;
-				}else{ if (orizzontal_global == 0 && vertical_global == 0){//bisogna completare le istruzioni
+	}else{	
+			if (orizzontal_global == 1 && vertical_global == 0  && right_move == 0  &&  up_move == 0){
+					orizzontal_global = 0;
+		}else{ 
+				if (orizzontal_global == 0  &&  vertical_global == 1  && left_move = 0 && down_move == 0){ 
 						orizzontal_global = 1;
+				}else{ 
+						if (orizzontal_global == 0 && vertical_global == 0 && left_move == 0 && up_move == 0){
+								orizzontal_global = 1;
 					}
 				}
 		}
