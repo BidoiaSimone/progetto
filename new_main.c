@@ -7,7 +7,7 @@ così non faccio confusione con le challenge se riusciamo a consegnarle*/
 #include <unistd.h>
 #include <time.h>
 #define MS                  1227.133
-#define SPEED               30
+#define SPEED               10
 
 void delay_milliseconds(int milliseconds);
 void delay_seconds(int seconds);
@@ -40,7 +40,7 @@ void delay_seconds(int seconds){
 }
 
 void eraser_ds(){
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         for(int j = 0; j < i; j++){
            printf("\b"); 
         }
@@ -50,16 +50,16 @@ void eraser_ds(){
         }
         fflush(stdout);
     }
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         printf("\b");
     }
 }
 
 void eraser_sd(){
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         printf("\b"); 
     }
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         printf(" ");
         delay_milliseconds(5);
         fflush(stdout);
@@ -72,12 +72,12 @@ void eraser_sd(){
 
 int main(int argc, char * argv[]){
 
-    char test[]="vaffanculoo, ....... dov'è la festaaa? ........ vecchio sei swa-";
+    char test[]="faccio quello che voglio vaffanbrodo non sbattermi la macchina";
 
     
 
 
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         delay_milliseconds(SPEED);
         printf("%c", test[i]);
         fflush(stdout);
@@ -86,12 +86,12 @@ int main(int argc, char * argv[]){
 
     eraser_ds();
 
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < 62; i++){
         delay_milliseconds(SPEED);
         printf("%c", test[i]);
         fflush(stdout);
     }
-    eraser_ds();
+    eraser_sd();
 
 
     printf("\n");

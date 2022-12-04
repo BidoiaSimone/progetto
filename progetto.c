@@ -1,7 +1,7 @@
 // 891868 895662
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
@@ -27,7 +27,7 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
     for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
         for(int j = 0; j < *col; j++){      
             if(M[i][j] == 'o'){
-               // printf("\033[0;36m");
+               // printf("\033[0;36m");				//colori così funzionano solo in Unix
                 printf("%c", M[i][j]);
                // printf("\033[0m");
             }else{
@@ -103,7 +103,9 @@ void labyrinth_player(char **M, int *row, int *col){
     int g_row;
     int victory_row;
     int victory_col;
-    int points = 112;
+    int points = 6500;
+	int trapano = 0;
+
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -127,146 +129,231 @@ void labyrinth_player(char **M, int *row, int *col){
 
         c = getchar();
         int cnt = 0;
-        if(c == 'w' && M[g_row-1][g_col] != '#' && g_row-1 >= 0){//fine istruzione if muove pedina in su
+        if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
                 points+=3;
             if(M[g_row-1][g_col] == '!')
                 points /= 2;
+			if(M[g_row-1][g_col] == 'T')
+				trapano += 3;
 
             if(M[g_row-1][g_col] == '^'){ //portale in alto
                 M[g_row][g_col] = ' ';
                 while(M[g_row-1][g_col] == '^'){
                     g_row--;
                 }
+
+				if(M[g_row-1][g_col] == '$')
+					points+=3;
+				if(M[g_row-1][g_col] == '!')
+					points /= 2;
+				if(M[g_row-1][g_col] == 'T')
+					trapano += 3;
                 
                 M[g_row][g_col] = '^';
                 M[g_row-1][g_col] = 'o';
                 g_row--;
 
             }else{
-                if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || 
-                M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_'){//fine if
-                    M[g_row-1][g_col] = 'o';
+
+				if(M[g_row-1][g_col] == '#' && g_row-1 > 0 && trapano >= 1){ //trapano
+					M[g_row-1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row--;
                     points--;
+					trapano--;
+
+				}else{
+						//spazio o punti
+					if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || 
+                		M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T'){
+
+                    	M[g_row-1][g_col] = 'o';
+                    	M[g_row][g_col] = ' ';
+                    	g_row--;
+                    	points--;
                 }
-            }
-		
-            
+
+				}
+            } 
         }
 
-        if(c == 's' && M[g_row+1][g_col] != '#' && g_row+1 >= 0){//fine istruzione if muove pedina in giù
+        if(c == 's' && g_row+1 >= 0){//muove pedina in giù
             
             if(M[g_row+1][g_col] == '$')
                 points+=3;
             if(M[g_row+1][g_col] == '!')
                 points /= 2;
+			if(M[g_row+1][g_col] == 'T')
+				trapano += 3;
 
             if(M[g_row+1][g_col] == 'v'){ //portale in basso
+
                 M[g_row][g_col] = ' ';
                 while(M[g_row+1][g_col] == 'v'){
                     g_row++;
                 }
+				if(M[g_row+1][g_col] == '$')
+                	points+=3;
+            	if(M[g_row+1][g_col] == '!')
+                	points /= 2;
+				if(M[g_row+1][g_col] == 'T')
+					trapano += 3;
                 
                 M[g_row][g_col] = 'v';
                 M[g_row+1][g_col] = 'o';
                 g_row++;
 
             }else{
-                if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
-                M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_'){//fine if
-                    M[g_row+1][g_col] = 'o';
+
+				if(M[g_row+1][g_col] == '#' && g_row+1 > 0 && trapano >= 1){ //trapano
+					M[g_row+1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row++;
                     points--;
-                }
+					trapano--;
+				
+				}else{
+							//spazio o punti
+					if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
+                		M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T'){		//fine if
+
+                    	M[g_row+1][g_col] = 'o';
+                    	M[g_row][g_col] = ' ';
+                    	g_row++;
+                    	points--;
+                	}
+				}
             }
         }
 
-        if(c == 'a' && M[g_row][g_col-1] != '#' && g_col-1 >= 0){//fine istruzione if muove pedina a sinistra
+        if(c == 'a' && g_col-1 >= 0){//muove pedina a sinistra
             
             if(M[g_row][g_col-1] == '$')
                 points+=3;
             if(M[g_row][g_col-1] == '!')
                 points /= 2;
+			if(M[g_row][g_col-1] == 'T')
+				trapano += 3;
 
             if(M[g_row][g_col-1] == '<'){ 		//portale verso sinistra
+
                 M[g_row][g_col] = ' ';
                 while(M[g_row][g_col-1] == '<'){
                     g_col--;
                 }
+				if(M[g_row][g_col-1] == '$')
+                	points+=3;
+            	if(M[g_row][g_col-1] == '!')
+                	points /= 2;
+				if(M[g_row][g_col-1] == 'T')
+					trapano += 3;
                 
                 M[g_row][g_col] = '<';
                 M[g_row][g_col-1] = 'o';
                 g_col--;
 
             }else{
-                if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || 
-                M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_'){//fine if
-                    M[g_row][g_col-1] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_col--;
-                    points--;
-                }
+
+				if(M[g_row][g_col-1] == '#' && g_col-1 >= 0 && trapano >= 1){ //trapano
+
+						M[g_row][g_col-1] = 'o';
+						M[g_row][g_col] = ' ';
+						g_col--;
+						points--;
+						trapano--;
+
+				}else{
+								//spazio o punti
+					if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || 
+						M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T'){		//fine if
+
+						M[g_row][g_col-1] = 'o';
+						M[g_row][g_col] = ' ';
+						g_col--;
+						points--;
+					}
+
+				}
+
+                
             }
         }
 
-        if(c == 'd' && M[g_row][g_col+1] != '#' && g_col+1 >= 0){//fine istruzione if muove pedina a destra
+        if(c == 'd' && g_col+1 >= 0){//muove pedina a destra
             
             if(M[g_row][g_col+1] == '$')
                 points+=3;
             if(M[g_row][g_col+1] == '!')
                 points /= 2;
+			if(M[g_row][g_col+1] == 'T')
+				trapano += 3;
 
             if(M[g_row][g_col+1] == '>'){		//portale verso destra
+
                 M[g_row][g_col] = ' ';
                 while(M[g_row][g_col+1] == '>'){
                     g_col++;
                 }
+				if(M[g_row][g_col+1] == '$')
+					points+=3;
+				if(M[g_row][g_col+1] == '!')
+					points /= 2;
+				if(M[g_row][g_col+1] == 'T')
+					trapano += 3;
                 
                 M[g_row][g_col] = '>';
                 M[g_row][g_col+1] = 'o';
                 g_col++;
 
             }else{
-                if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || 
-                M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_'){//fine if
-                    M[g_row][g_col+1] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_col++;
-                    points--;
-                }
+
+				if(M[g_row][g_col+1] == '#' && g_col+1 > 0 && trapano >= 1){ //trapano
+
+						M[g_row][g_col+1] = 'o';
+						M[g_row][g_col] = ' ';
+						g_col++;
+						points--;
+						trapano--;
+
+				}else{
+									//spazio o punti
+					if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || 
+						M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T'){		//fine if
+
+						M[g_row][g_col+1] = 'o';
+						M[g_row][g_col] = ' ';
+						g_col++;
+						points--;
+					}
+
+				}
+				
             }
         }
 
         
-        
         if(c != '\n'){              
-
+			for(int i = 0; i < 30; i++){
+				printf("\n");
+			}
             matrix_printer(M, row, col);
 
-
             if(points < 0)
-                points = 0;
+            	points = 0;
 
+        	printf("Score: %d\n", points);
 
-            if(points > 100)
-                printf("Score: 100\n");
-            else
-                printf("Score: %d\n", points);
+        	if(points < 0)
+           		points = 0;
 
-        
-        if(points < 0)
-           points = 0;
-        if(M[victory_row][victory_col] == 'o'){
-            printf("Vittoria!!!\n");
+        	if(M[victory_row][victory_col] == 'o'){
+            	printf("Vittoria!!!\n");
             
             break;
-        }
-    }
-  
+        	}
+    	}	
     }
 }
 
@@ -341,34 +428,30 @@ void labyrint_analysis( char **M, int *row, int *col){
     
 	
     if (g_col==0){   // uscita del giocatore dal bordo
-        printf("%c\n",'E');
+        printf("%c",'E');
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
-		matrix_printer(M, row, col);
 		labyrint_analysis( M, row, col);
 		return;
 	}else{
 		if (g_col== *col-1){
-			printf("%c\n",'O');
+			printf("%c",'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
-			matrix_printer(M, row, col);
 			labyrint_analysis(M, row, col);
 			return;
 		}else{
 			if (g_row==0){
-				printf("%c\n",'S');
+				printf("%c",'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
-				matrix_printer(M, row, col);
 				labyrint_analysis( M, row, col);
 				return;
 			}else{
 				if(g_row== *row-1){
-					printf("%c\n",'N');
+					printf("%c",'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					matrix_printer(M, row, col);
 					labyrint_analysis( M, row, col);
 					return;
 				}
@@ -381,10 +464,9 @@ void labyrint_analysis( char **M, int *row, int *col){
 		if (M[g_row][g_col+1] == 'T'){
 			counter_trivella = counter_trivella + 3;
 		}
-		printf("%c\n", 'E');
+		printf("%c", 'E');
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
-		matrix_printer(M, row, col);
 		labyrint_analysis(M, row, col);
 		return;
 	}else{
@@ -392,10 +474,9 @@ void labyrint_analysis( char **M, int *row, int *col){
 			if (M[g_row][g_col+1] == 'T'){
 				counter_trivella = counter_trivella + 3;
 			}
-			printf("%c\n", 'O');
+			printf("%c", 'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
-			matrix_printer(M, row, col);
 			labyrint_analysis(M, row, col);
 			return;
 		} else{
@@ -403,10 +484,9 @@ void labyrint_analysis( char **M, int *row, int *col){
 				if (M[g_row][g_col+1] == 'T'){
 					counter_trivella = counter_trivella + 3;
 				}
-				printf("%c\n", 'S');
+				printf("%c", 'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
-				matrix_printer(M, row, col);
 				labyrint_analysis(M, row, col);
 				return;
 			}else{
@@ -414,10 +494,9 @@ void labyrint_analysis( char **M, int *row, int *col){
 					if (M[g_row][g_col+1] == 'T'){
 						counter_trivella = counter_trivella + 3;
 					}
-					printf("%c\n", 'N');
+					printf("%c", 'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					matrix_printer(M, row, col);
 					labyrint_analysis(M, row, col);
 					return;
 				}
@@ -448,34 +527,30 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
 		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
-		printf("%c\n", 'E');
+		printf("%c", 'E');
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
-		matrix_printer(M, row, col);
 		labyrint_analysis(M, row, col);
 		return;
 	}else{
 		if(M[g_row][g_col-1] == '_'){
-			printf("%c\n", 'O');
+			printf("%c", 'O');
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
-			matrix_printer(M, row, col);
 			labyrint_analysis(M, row, col);
 			return;
 		} else{
 			if(M[g_row+1][g_col] == '_'){
-				printf("%c\n", 'S');
+				printf("%c", 'S');
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
-				matrix_printer(M, row, col);
 				labyrint_analysis(M, row, col);
 				return;
 			}else{
 				if(M[g_row-1][g_col] == '_'){
-					printf("%c\n", 'N');
+					printf("%c", 'N');
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					matrix_printer(M, row, col);
 					labyrint_analysis(M, row, col);
 					return;
 				}
@@ -534,13 +609,12 @@ void labyrint_analysis( char **M, int *row, int *col){
 	switch (x) { //casi labirinto
         
 		case  1: switch(down_move){
-					case 1: 	printf("%c\n", 'S');
+					case 1: 	printf("%c", 'S');
 								if(M[g_row+1][g_col] == '#'){
 									counter_trivella--;
 								}
 								M[g_row+1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
-								matrix_printer(M, row, col);
 								labyrint_analysis(M, row, col);
 								return;
 					case 0: 	if (orizzontal_global == 1){
@@ -549,30 +623,27 @@ void labyrint_analysis( char **M, int *row, int *col){
 									x=4;
 								}
 								switch (x){
-											case 3: 	printf("%c\n", 'E');
+											case 3: 	printf("%c", 'E');
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 
-											case 4:	 	printf("%c\n", 'O');
+											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;                                            
 								}
 		}                        
 					
 		case 2: switch(up_move){
-					case 1: 	printf("%c\n", 'N');
+					case 1: 	printf("%c", 'N');
 								if(M[g_row-1][g_col] == '#'){
 									counter_trivella--;
 								}
 								M[g_row-1][g_col] = 'o';
 								M[g_row][g_col] = ' ';
-								matrix_printer(M, row, col);
 								labyrint_analysis(M, row, col);
 								return;
 					case 0:		if(orizzontal_global == 1 && right_move == 1){
@@ -581,17 +652,15 @@ void labyrint_analysis( char **M, int *row, int *col){
 									x=4;
 								}    
                                 switch (x) {
-											case 3: 	printf("%c\n", 'E');
+											case 3: 	printf("%c", 'E');
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 						
-											case 4:	 	printf("%c\n", 'O');
+											case 4:	 	printf("%c", 'O');
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 
@@ -599,13 +668,12 @@ void labyrint_analysis( char **M, int *row, int *col){
 									}					
 					}	
 		case 3: switch(right_move){
-                    case 1: 	printf("%c\n", 'E');
+                    case 1: 	printf("%c", 'E');
 								if(M[g_row][g_col+1] == '#'){
 									counter_trivella--;
 								}
 								M[g_row][g_col+1] = 'o';
 								M[g_row][g_col] = ' ';
-								matrix_printer(M, row, col);
 								labyrint_analysis(M, row, col);
 								return;
 						
@@ -616,30 +684,27 @@ void labyrint_analysis( char **M, int *row, int *col){
                                 }
                     
                                 switch (x) { 
-											case  1: 	printf("%c\n", 'S');
+											case  1: 	printf("%c", 'S');
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 							
-											case 2:	printf("%c\n", 'N');
+											case 2:	printf("%c", 'N');
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
-													matrix_printer(M, row, col);
 													labyrint_analysis(M, row, col);
 													return;
                                             
 								}
 				}
         case 4: switch(left_move){
-                    case 1:  	printf("%c\n", 'O');
+                    case 1:  	printf("%c", 'O');
 								if(M[g_row][g_col-1] == '#'){
 									counter_trivella--;
 								}
 								M[g_row][g_col-1] = 'o';
 								M[g_row][g_col] = ' ';
-								matrix_printer(M, row, col);
 								labyrint_analysis(M, row, col);
 								return;
 								
@@ -652,18 +717,16 @@ void labyrint_analysis( char **M, int *row, int *col){
                                 switch (x) {
 
 
-											case  1:	printf("%c\n", 'S');
+											case  1:	printf("%c", 'S');
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 														
 							
-											case 2:		printf("%c\n", 'N');
+											case 2:		printf("%c", 'N');
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col);
 														labyrint_analysis(M, row, col);
 														return;
 														                       
@@ -688,7 +751,7 @@ int main(int argc, char * argv[]){
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
         matrix_reader(M, &row, &col);  
-		labyrint_global_direction(char **M, int *row,int *col);
+		labyrint_global_direction(M, &row, &col);
         labyrint_analysis(M, &row, &col);             //IA
 			
         return 0;
