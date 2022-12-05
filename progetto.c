@@ -7,10 +7,49 @@
 #include <stdbool.h>
 
 #ifdef __WIN32	
-		char* test = "Wow, yu are using Windows";
+		char* test = "Wow, you are using Windows";
+		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
+			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
+				for(int j = 0; j < *col; j++){      
+					if(M[i][j] == '#'){
+						printf("█");
+					}else{
+						printf("%c", M[i][j]);	
+				}
+					printf("\n");
+			}   
+				printf("\n");
+		}
+
 #endif
+
 #ifdef __APPLE__
-		char* test = "Wow, you are using MacOS";
+
+		void matrix_printer(char **M, int *row, int *col){
+			for(int i = 0; i < *row; i++){                   
+				for(int j = 0; j < *col; j++){      
+					if(M[i][j] == '#'){
+						printf("█");
+					}else{
+						if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+							printf("\033[0;36m");
+						if(M[i][j] == '$')
+							printf("\033[0;33m");
+						if(M[i][j] == '!')
+							printf("\033[0;31m");
+						if(M[i][j] == 'T')
+							printf("\033[0;35m");
+						if(M[i][j] == 'o')
+							printf("\033[0;32m");
+
+						printf("%c", M[i][j]);
+						printf("\033[0m");
+					}
+				}
+					printf("\n");
+			}   
+				printf("\n");
+		}
 #endif
 
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
@@ -29,35 +68,6 @@ void matrix_reader(char **M, int *row, int *col){       //legge una matrice da s
 
 
 }
-
-
-
-void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
-    for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
-        for(int j = 0; j < *col; j++){      
-            if(M[i][j] == '#'){
-				printf("█");
-        	}else{
-				if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-					printf("\033[0;36m");
-				if(M[i][j] == '$')
-					printf("\033[0;33m");
-				if(M[i][j] == '!')
-					printf("\033[0;31m");
-				if(M[i][j] == 'T')
-					printf("\033[0;35m");
-				if(M[i][j] == 'o')
-					printf("\033[0;32m");
-
-				printf("%c", M[i][j]);
-				printf("\033[0m");
-			}
-    	}
-            printf("\n");
-	}   
-        printf("\n");
-}
-
 
 
 void labyrinth_initializer(char **M){
@@ -811,13 +821,7 @@ int main(int argc, char * argv[]){
 	int row = 0;
 	int col = 0;
 
-
-	for(int i = 0; i < strlen(test); i++){
-		printf("%c", test[i]);
-	}
-	printf("\n");
-
-    scanf("%d\n%d\n", &col, &row);
+	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
     for(int i = 0; i < col; i++){
