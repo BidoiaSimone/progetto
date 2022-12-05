@@ -762,7 +762,7 @@ int main(int argc, char * argv[]){
         labyrinth_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
-
+	free(M);
 	return 0;
 	
 }
