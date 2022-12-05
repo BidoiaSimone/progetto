@@ -6,6 +6,14 @@
 #include <math.h>
 #include <stdbool.h>
 
+
+#ifdef __APPLE__
+
+#define RED "\033[0;33m"		//fare per tutti i colori <3
+
+
+#endif
+
 #ifdef __WIN32	
 		char* test = "Wow, you are using Windows";
 		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
@@ -32,9 +40,9 @@
 						printf("█");
 					}else{
 						if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-							printf("\033[0;36m");
+							printf("\033[0;34m");
 						if(M[i][j] == '$')
-							printf("\033[0;33m");
+							printf(RED);
 						if(M[i][j] == '!')
 							printf("\033[0;31m");
 						if(M[i][j] == 'T')
@@ -149,7 +157,11 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
     while((c != 'q')){          //muove pedina
+
+		#ifdef __APPLE__
 		system("stty raw");
+		#endif
+
         c = getchar();
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
@@ -411,8 +423,11 @@ void labyrinth_player(char **M, int *row, int *col){
 				
             }
         }
-
+		#ifdef __APPLE__
         system("stty cooked");
+		system("clear");
+		#endif
+
         if(c != '\n'){              
 			for(int i = 0; i < 30; i++){
 				printf("\n");
