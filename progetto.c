@@ -36,7 +36,12 @@ void matrix_printer(char **M, int *row, int *col){      //implementare bella sta
                     printf("%c", M[i][j]);
                    // printf("\033[0m");   
                 }else{
-                    printf("%c", M[i][j]);
+					if(M[i][j] == '#'){
+						printf("█");
+					}else{
+						printf("%c", M[i][j]);
+					}
+                    
                 }
             }
         }
@@ -207,7 +212,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row+1][g_col] == '#' && g_row+1 > 0 && trapano >= 1){ //trapano
+				if(M[g_row+1][g_col] == '#' && g_row+1 < *row-1 && trapano >= 1){ //trapano
 					M[g_row+1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row++;
@@ -256,7 +261,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row][g_col-1] == '#' && g_col-1 >= 0 && trapano >= 1){ //trapano
+				if(M[g_row][g_col-1] == '#' && g_col-1 > 0 && trapano >= 1){ //trapano
 
 						M[g_row][g_col-1] = 'o';
 						M[g_row][g_col] = ' ';
@@ -309,7 +314,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row][g_col+1] == '#' && g_col+1 > 0 && trapano >= 1){ //trapano
+				if(M[g_row][g_col+1] == '#' && g_col+1 < *col-1 && trapano >= 1){ //trapano
 
 						M[g_row][g_col+1] = 'o';
 						M[g_row][g_col] = ' ';
