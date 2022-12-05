@@ -6,9 +6,18 @@
 #include <math.h>
 #include <stdbool.h>
 
+#ifdef __WIN32	
+		char* test = "Wow, yu are using Windows";
+#endif
+#ifdef __APPLE__
+		char* test = "Wow, you are using MacOS";
+#endif
+
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
 int counter_trivella = 0;
+
+
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
 
@@ -26,27 +35,26 @@ void matrix_reader(char **M, int *row, int *col){       //legge una matrice da s
 void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
     for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
         for(int j = 0; j < *col; j++){      
-            if(M[i][j] == 'o'){
-               // printf("\033[0;36m");				//colori così funzionano solo in Unix
-                printf("%c", M[i][j]);
-               // printf("\033[0m");
-            }else{
-                if(M[i][j] == '^' || M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v'){
-                   // printf("\033[0;35m");
-                    printf("%c", M[i][j]);
-                   // printf("\033[0m");   
-                }else{
-					if(M[i][j] == '#'){
-						printf("█");
-					}else{
-						printf("%c", M[i][j]);
-					}
-                    
-                }
-            }
-        }
+            if(M[i][j] == '#'){
+				printf("█");
+        	}else{
+				if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+					printf("\033[0;36m");
+				if(M[i][j] == '$')
+					printf("\033[0;33m");
+				if(M[i][j] == '!')
+					printf("\033[0;31m");
+				if(M[i][j] == 'T')
+					printf("\033[0;35m");
+				if(M[i][j] == 'o')
+					printf("\033[0;32m");
+
+				printf("%c", M[i][j]);
+				printf("\033[0m");
+			}
+    	}
             printf("\n");
-    }   
+	}   
         printf("\n");
 }
 
@@ -110,7 +118,7 @@ void labyrinth_player(char **M, int *row, int *col){
     int victory_col;
     int points = 6500;
 	int trapano = 0;
-
+	int cnt;
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -131,9 +139,8 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
     while((c != 'q')){          //muove pedina
-
+		system("stty raw");
         c = getchar();
-        int cnt = 0;
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
@@ -143,22 +150,36 @@ void labyrinth_player(char **M, int *row, int *col){
 			if(M[g_row-1][g_col] == 'T')
 				trapano += 3;
 
-            if(M[g_row-1][g_col] == '^'){ //portale in alto
-                M[g_row][g_col] = ' ';
-                while(M[g_row-1][g_col] == '^'){
-                    g_row--;
+            if(M[g_row-1][g_col] == '^'){		//portale verso giù multiplo
+				cnt = g_row;
+                while(M[cnt-1][g_col] == '^'){
+                    cnt--;
                 }
 
+				if(M[cnt-1][g_col] != '#' || (M[cnt-1][g_col] == '#' && trapano > 0)){
+
+					if(M[cnt-1][g_col] == '#')
+						trapano--;
+					if(M[cnt-1][g_col] == '$')
+						points+=3;
+					if(M[cnt-1][g_col] == '!')
+						points /= 2;
+					if(M[cnt-1][g_col] == 'T')
+						trapano += 3;
+
+					M[g_row][g_col] = ' ';
+					g_row = cnt;
+					M[g_row-1][g_col] = 'o';
+					g_row--;
+				}
+
+
 				if(M[g_row-1][g_col] == '$')
-					points+=3;
+					points += 3;
 				if(M[g_row-1][g_col] == '!')
 					points /= 2;
 				if(M[g_row-1][g_col] == 'T')
 					trapano += 3;
-                
-                M[g_row][g_col] = '^';
-                M[g_row-1][g_col] = 'o';
-                g_row--;
 
             }else{
 
@@ -193,26 +214,40 @@ void labyrinth_player(char **M, int *row, int *col){
 			if(M[g_row+1][g_col] == 'T')
 				trapano += 3;
 
-            if(M[g_row+1][g_col] == 'v'){ //portale in basso
-
-                M[g_row][g_col] = ' ';
-                while(M[g_row+1][g_col] == 'v'){
-                    g_row++;
+            if(M[g_row+1][g_col] == 'v'){		//portale verso giù multiplo
+				cnt = g_row;
+                while(M[cnt+1][g_col] == 'v'){
+                    cnt++;
                 }
+
+				if(M[cnt+1][g_col] != '#' || (M[cnt+1][g_col] == '#' && trapano > 0)){
+
+					if(M[cnt+1][g_col] == '#')
+						trapano--;
+					if(M[cnt+1][g_col] == '$')
+						points+=3;
+					if(M[cnt+1][g_col] == '!')
+						points /= 2;
+					if(M[cnt+1][g_col] == 'T')
+						trapano += 3;
+
+					M[g_row][g_col] = ' ';
+					g_row = cnt;
+					M[g_row+1][g_col] = 'o';
+					g_row++;
+				}
+
+
 				if(M[g_row+1][g_col] == '$')
-                	points+=3;
-            	if(M[g_row+1][g_col] == '!')
-                	points /= 2;
+					points += 3;
+				if(M[g_row+1][g_col] == '!')
+					points /= 2;
 				if(M[g_row+1][g_col] == 'T')
 					trapano += 3;
-                
-                M[g_row][g_col] = 'v';
-                M[g_row+1][g_col] = 'o';
-                g_row++;
 
             }else{
 
-				if(M[g_row+1][g_col] == '#' && g_row+1 < *row-1 && trapano >= 1){ //trapano
+				if(M[g_row+1][g_col] == '#' && g_row+1 < *row-1 && trapano > 0){ //trapano
 					M[g_row+1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row++;
@@ -242,22 +277,36 @@ void labyrinth_player(char **M, int *row, int *col){
 			if(M[g_row][g_col-1] == 'T')
 				trapano += 3;
 
-            if(M[g_row][g_col-1] == '<'){ 		//portale verso sinistra
-
-                M[g_row][g_col] = ' ';
-                while(M[g_row][g_col-1] == '<'){
-                    g_col--;
+            if(M[g_row][g_col-1] == '<'){		//portale verso sinistra multiplo
+				cnt = g_col;
+                while(M[g_row][cnt-1] == '<'){
+                    cnt--;
                 }
+
+				if(M[g_row][cnt-1] != '#' || (M[g_row][cnt-1] == '#' && trapano > 0)){
+
+					if(M[g_row][cnt-1] == '#')
+						trapano--;
+					if(M[g_row][cnt-1] == '$')
+						points+=3;
+					if(M[g_row][cnt-1] == '!')
+						points /= 2;
+					if(M[g_row][cnt-1] == 'T')
+						trapano += 3;
+
+					M[g_row][g_col] = ' ';
+					g_col = cnt;
+					M[g_row][g_col-1] = 'o';
+					g_col--;
+				}
+
+
 				if(M[g_row][g_col-1] == '$')
-                	points+=3;
-            	if(M[g_row][g_col-1] == '!')
-                	points /= 2;
+					points += 3;
+				if(M[g_row][g_col-1] == '!')
+					points /= 2;
 				if(M[g_row][g_col-1] == 'T')
 					trapano += 3;
-                
-                M[g_row][g_col] = '<';
-                M[g_row][g_col-1] = 'o';
-                g_col--;
 
             }else{
 
@@ -295,26 +344,41 @@ void labyrinth_player(char **M, int *row, int *col){
 			if(M[g_row][g_col+1] == 'T')
 				trapano += 3;
 
-            if(M[g_row][g_col+1] == '>'){		//portale verso destra
-
-                M[g_row][g_col] = ' ';
-                while(M[g_row][g_col+1] == '>'){
-                    g_col++;
+            if(M[g_row][g_col+1] == '>'){		//portale verso destra multiplo
+				cnt = g_col;
+                while(M[g_row][cnt+1] == '>'){
+                    cnt++;
                 }
+
+				if(M[g_row][cnt+1] != '#' || (M[g_row][cnt+1] == '#' && trapano > 0)){
+
+					if(M[g_row][cnt+1] == '#')
+						trapano--;
+					if(M[g_row][cnt+1] == '$')
+						points+=3;
+					if(M[g_row][cnt+1] == '!')
+						points /= 2;
+					if(M[g_row][cnt+1] == 'T')
+						trapano += 3;
+
+					M[g_row][g_col] = ' ';
+					g_col = cnt;
+					M[g_row][g_col+1] = 'o';
+					g_col++;
+				}
+
+
 				if(M[g_row][g_col+1] == '$')
-					points+=3;
+					points += 3;
 				if(M[g_row][g_col+1] == '!')
 					points /= 2;
 				if(M[g_row][g_col+1] == 'T')
 					trapano += 3;
+	
                 
-                M[g_row][g_col] = '>';
-                M[g_row][g_col+1] = 'o';
-                g_col++;
-
             }else{
 
-				if(M[g_row][g_col+1] == '#' && g_col+1 < *col-1 && trapano >= 1){ //trapano
+				if(M[g_row][g_col+1] == '#' && g_col+1 < *col-1 && trapano > 0){ //trapano
 
 						M[g_row][g_col+1] = 'o';
 						M[g_row][g_col] = ' ';
@@ -338,7 +402,7 @@ void labyrinth_player(char **M, int *row, int *col){
             }
         }
 
-        
+        system("stty cooked");
         if(c != '\n'){              
 			for(int i = 0; i < 30; i++){
 				printf("\n");
@@ -744,7 +808,15 @@ void labyrint_analysis( char **M, int *row, int *col){
 
 int main(int argc, char * argv[]){
 
-    int row, col;
+	int row = 0;
+	int col = 0;
+
+
+	for(int i = 0; i < strlen(test); i++){
+		printf("%c", test[i]);
+	}
+	printf("\n");
+
     scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
