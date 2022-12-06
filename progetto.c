@@ -26,7 +26,7 @@
 
 		char test[27] = "Wow, you are using Windows";
 		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
-		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //funziona di merda per il merda di refresh rate del cmd
 			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
 				for(int j = 0; j < *col; j++){      
 						printf("%c", M[i][j]);	
