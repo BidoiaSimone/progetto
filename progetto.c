@@ -9,8 +9,15 @@
 
 #ifdef __APPLE__
 
-#define RED "\033[0;31m"		//fare per tutti i colori <3
-
+#define DEFAULT 	"\033[0m"
+#define BLACK		"\033[0;30m"
+#define RED 		"\033[0;31m"		
+#define GREEN		"\033[0;32m"
+#define YELLOW		"\033[0;33m"
+#define BLUE		"\033[0;34m"
+#define PURPLE		"\033[0;35m"
+#define CYAN		"\033[0;36m"
+#define WHITE		"\033[0;37m"
 
 #endif
 
@@ -39,19 +46,23 @@
 					if(M[i][j] == '#'){
 						printf("█");
 					}else{
-						if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-							printf("\033[0;35m");
-						if(M[i][j] == '$')
-							printf("\033[0;33m");
-						if(M[i][j] == '!')
-							printf(RED);
-						if(M[i][j] == 'T')
-							printf("\033[0;36m");
-						if(M[i][j] == 'o')
-							printf("\033[0;34m");
+						if(M[i][j] == 'o'){
+							printf(GREEN);
+							printf("◉");
+							printf(DEFAULT);
+						}else{
+							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+								printf(PURPLE);
+							if(M[i][j] == '$')
+								printf(YELLOW);
+							if(M[i][j] == '!')
+								printf(RED);
+							if(M[i][j] == 'T')
+								printf(CYAN);
 
-						printf("%c", M[i][j]);
-						printf("\033[0m");
+							printf("%c", M[i][j]);
+							printf(DEFAULT);
+						}
 					}
 				}
 					printf("\n");
