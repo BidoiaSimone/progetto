@@ -26,9 +26,6 @@
 		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
 			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
 				for(int j = 0; j < *col; j++){      
-					if(M[i][j] == '#'){
-						printf("█");
-					}else{
 						printf("%c", M[i][j]);	
 				}
 					printf("\n");
@@ -78,14 +75,10 @@ int counter_trivella = 0;
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
-
         while(i < *row){
             scanf("%[^\n]%*c", &M[i][0]);
             i++;
         }
-
-
-
 }
 
 
@@ -467,17 +460,17 @@ void labyrint_global_direction(char **M, int *row,int *col) { // serve per inizi
     int g_row;
 	int victory_row;
     int victory_col;
-	 for(int i = 0; i < *row; i++){
-        for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
-            if(M[i][j] == 'o'){
-                g_col = j;
-                g_row = i;
-            }
-            if(M[i][j] == '_'){
-                victory_row = i;
-                victory_col = j;
-            }
-        }
+	for(int i = 0; i < *row; i++){
+		for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
+			if(M[i][j] == 'o'){
+				g_col = j;
+				g_row = i;
+			}
+			if(M[i][j] == '_'){
+				victory_row = i;
+				victory_col = j;
+			}
+		}
 	}
 	if(g_row <= victory_row){
 		vertical_global=1; // down movimento preferito
