@@ -9,7 +9,7 @@
 
 #ifdef __APPLE__
 
-#define RED "\033[0;33m"		//fare per tutti i colori <3
+#define RED "\033[0;31m"		//fare per tutti i colori <3
 
 
 #endif
@@ -40,15 +40,15 @@
 						printf("█");
 					}else{
 						if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-							printf("\033[0;34m");
-						if(M[i][j] == '$')
-							printf(RED);
-						if(M[i][j] == '!')
-							printf("\033[0;31m");
-						if(M[i][j] == 'T')
 							printf("\033[0;35m");
+						if(M[i][j] == '$')
+							printf("\033[0;33m");
+						if(M[i][j] == '!')
+							printf(RED);
+						if(M[i][j] == 'T')
+							printf("\033[0;36m");
 						if(M[i][j] == 'o')
-							printf("\033[0;32m");
+							printf("\033[0;34m");
 
 						printf("%c", M[i][j]);
 						printf("\033[0m");
