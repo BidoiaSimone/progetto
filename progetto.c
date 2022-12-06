@@ -21,9 +21,12 @@
 
 #endif
 
+
 #ifdef __WIN32	
-		char* test = "Wow, you are using Windows";
+
+		char test[27] = "Wow, you are using Windows";
 		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
 				for(int j = 0; j < *col; j++){      
 						printf("%c", M[i][j]);	
@@ -32,7 +35,7 @@
 			}   
 				printf("\n");
 		}
-
+		
 #endif
 
 #ifdef __APPLE__
@@ -839,7 +842,7 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-
+	printf("%s", test);
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
