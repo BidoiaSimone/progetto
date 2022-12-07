@@ -842,7 +842,7 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-	printf("%s", test);
+	
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
