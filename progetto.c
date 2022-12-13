@@ -47,7 +47,7 @@
 						printf("█");
 					}else{
 						if(M[i][j] == 'o'){
-							printf(GREEN);
+							printf(BLUE);
 							printf("◉");
 							printf(DEFAULT);
 						}else{
