@@ -43,14 +43,14 @@ void l_print(list_t * l){
         printf("%d ", l->data);
         l = l->next;
     }
-    printf(" }\n");
+    printf("}\n");
 }
 
 void l_free(list_t *l){
     while(l!=NULL){
         list_t * succ = l->next;
         free(l);
-        l = l->next;
+        l = succ;
     }
 }
 

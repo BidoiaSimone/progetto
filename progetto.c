@@ -146,7 +146,7 @@ void labyrinth_player(char **M, int *row, int *col){
     int g_row;
     int victory_row;
     int victory_col;
-    int points = 6500;
+    int points = 1000;
 	int trapano = 0;
 	int cnt;
     for(int i = 0; i < *row; i++){
@@ -178,7 +178,7 @@ void labyrinth_player(char **M, int *row, int *col){
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
             if(M[g_row-1][g_col] == '$')
-                points+=3;
+                points+=10;
             if(M[g_row-1][g_col] == '!')
                 points /= 2;
 			if(M[g_row-1][g_col] == 'T')
@@ -195,7 +195,7 @@ void labyrinth_player(char **M, int *row, int *col){
 					if(M[cnt-1][g_col] == '#')
 						trapano--;
 					if(M[cnt-1][g_col] == '$')
-						points+=3;
+						points+=10;
 					if(M[cnt-1][g_col] == '!')
 						points /= 2;
 					if(M[cnt-1][g_col] == 'T')
@@ -209,7 +209,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 				if(M[g_row-1][g_col] == '$')
-					points += 3;
+					points += 10;
 				if(M[g_row-1][g_col] == '!')
 					points /= 2;
 				if(M[g_row-1][g_col] == 'T')
@@ -217,7 +217,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row-1][g_col] == '#' && g_row-1 > 0 && trapano >= 1){ //trapano
+				if(M[g_row-1][g_col] == '#' && trapano >= 1){ //trapano
 					M[g_row-1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row--;
@@ -242,7 +242,7 @@ void labyrinth_player(char **M, int *row, int *col){
         if(c == 's' && g_row+1 >= 0){//muove pedina in giù
             
             if(M[g_row+1][g_col] == '$')
-                points+=3;
+                points+=10;
             if(M[g_row+1][g_col] == '!')
                 points /= 2;
 			if(M[g_row+1][g_col] == 'T')
@@ -259,7 +259,7 @@ void labyrinth_player(char **M, int *row, int *col){
 					if(M[cnt+1][g_col] == '#')
 						trapano--;
 					if(M[cnt+1][g_col] == '$')
-						points+=3;
+						points+=10;
 					if(M[cnt+1][g_col] == '!')
 						points /= 2;
 					if(M[cnt+1][g_col] == 'T')
@@ -273,7 +273,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 				if(M[g_row+1][g_col] == '$')
-					points += 3;
+					points += 10;
 				if(M[g_row+1][g_col] == '!')
 					points /= 2;
 				if(M[g_row+1][g_col] == 'T')
@@ -281,7 +281,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row+1][g_col] == '#' && g_row+1 < *row-1 && trapano > 0){ //trapano
+				if(M[g_row+1][g_col] == '#' && trapano > 0){ //trapano
 					M[g_row+1][g_col] = 'o';
                     M[g_row][g_col] = ' ';
                     g_row++;
@@ -305,7 +305,7 @@ void labyrinth_player(char **M, int *row, int *col){
         if(c == 'a' && g_col-1 >= 0){//muove pedina a sinistra
             
             if(M[g_row][g_col-1] == '$')
-                points+=3;
+                points+=10;
             if(M[g_row][g_col-1] == '!')
                 points /= 2;
 			if(M[g_row][g_col-1] == 'T')
@@ -322,7 +322,7 @@ void labyrinth_player(char **M, int *row, int *col){
 					if(M[g_row][cnt-1] == '#')
 						trapano--;
 					if(M[g_row][cnt-1] == '$')
-						points+=3;
+						points+=10;
 					if(M[g_row][cnt-1] == '!')
 						points /= 2;
 					if(M[g_row][cnt-1] == 'T')
@@ -336,7 +336,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 				if(M[g_row][g_col-1] == '$')
-					points += 3;
+					points += 10;
 				if(M[g_row][g_col-1] == '!')
 					points /= 2;
 				if(M[g_row][g_col-1] == 'T')
@@ -344,7 +344,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
             }else{
 
-				if(M[g_row][g_col-1] == '#' && g_col-1 > 0 && trapano >= 1){ //trapano
+				if(M[g_row][g_col-1] == '#' && trapano >= 1){ //trapano
 
 						M[g_row][g_col-1] = 'o';
 						M[g_row][g_col] = ' ';
@@ -372,7 +372,7 @@ void labyrinth_player(char **M, int *row, int *col){
         if(c == 'd' && g_col+1 >= 0){//muove pedina a destra
             
             if(M[g_row][g_col+1] == '$')
-                points+=3;
+                points+=10;
             if(M[g_row][g_col+1] == '!')
                 points /= 2;
 			if(M[g_row][g_col+1] == 'T')
@@ -389,7 +389,7 @@ void labyrinth_player(char **M, int *row, int *col){
 					if(M[g_row][cnt+1] == '#')
 						trapano--;
 					if(M[g_row][cnt+1] == '$')
-						points+=3;
+						points+=10;
 					if(M[g_row][cnt+1] == '!')
 						points /= 2;
 					if(M[g_row][cnt+1] == 'T')
@@ -403,7 +403,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 				if(M[g_row][g_col+1] == '$')
-					points += 3;
+					points += 10;
 				if(M[g_row][g_col+1] == '!')
 					points /= 2;
 				if(M[g_row][g_col+1] == 'T')
@@ -412,7 +412,7 @@ void labyrinth_player(char **M, int *row, int *col){
                 
             }else{
 
-				if(M[g_row][g_col+1] == '#' && g_col+1 < *col-1 && trapano > 0){ //trapano
+				if(M[g_row][g_col+1] == '#' && trapano > 0){ //trapano
 
 						M[g_row][g_col+1] = 'o';
 						M[g_row][g_col] = ' ';
