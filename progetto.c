@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include "lists.h"
 
 
 #ifdef __APPLE__
@@ -70,6 +71,10 @@
 				printf("\n");
 		}
 #endif
+
+
+
+
 
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
