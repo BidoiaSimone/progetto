@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include "lists.h"
+#include "vectors.h"
 
 
 #ifdef __APPLE__
@@ -138,7 +139,16 @@ void labyrinth_initializer(char **M){
 
 }
 
+void new_matrix_player(char **M, int *row, int *col){
+	char c = '\0';
+	int p_row;
+	int p_col;
+	int win_row;
+	int win_col;
+	int points = 1000;
+	int trapano = 0;
 
+}
 
 void labyrinth_player(char **M, int *row, int *col){
     char c = '\0';
@@ -180,8 +190,12 @@ void labyrinth_player(char **M, int *row, int *col){
         c = getchar();
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
-            if(M[g_row-1][g_col] == '$')
-                points+=10;
+            if(M[g_row-1][g_col] == '$'){
+				points+=10;
+				l_append(&tail, g_row, g_col);
+				M[g_row][g_col] = '@';
+			}
+                
             if(M[g_row-1][g_col] == '!')
                 points /= 2;
 			if(M[g_row-1][g_col] == 'T')
@@ -197,8 +211,12 @@ void labyrinth_player(char **M, int *row, int *col){
 
 					if(M[cnt-1][g_col] == '#')
 						trapano--;
-					if(M[cnt-1][g_col] == '$')
+					if(M[cnt-1][g_col] == '$'){
 						points+=10;
+						l_append(&tail, g_row, g_col);
+						M[g_row][g_col] = '@';
+					}
+						
 					if(M[cnt-1][g_col] == '!')
 						points /= 2;
 					if(M[cnt-1][g_col] == 'T')
@@ -210,14 +228,17 @@ void labyrinth_player(char **M, int *row, int *col){
 					g_row--;
 				}
 
-
-				if(M[g_row-1][g_col] == '$')
+				if(M[g_row-1][g_col] == '$'){
 					points += 10;
+					l_append(&tail, g_row, g_col);
+					M[g_row][g_col] = '@';
+				}
+					
 				if(M[g_row-1][g_col] == '!')
 					points /= 2;
 				if(M[g_row-1][g_col] == 'T')
 					trapano += 3;
-
+			
             }else{
 
 				if(M[g_row-1][g_col] == '#' && trapano >= 1){ //trapano
@@ -229,23 +250,35 @@ void labyrinth_player(char **M, int *row, int *col){
 
 				}else{
 						//spazio o punti
-					if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || 
+					if(M[g_row][g_col] == '@'){
+						M[g_row-1][g_col] = 'o';
+                    	M[g_row][g_col] = '@';
+                    	g_row--;
+                    	points--;
+
+					}else{
+						if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' ||  
                 		M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T'){
 
                     	M[g_row-1][g_col] = 'o';
                     	M[g_row][g_col] = ' ';
                     	g_row--;
                     	points--;
-                }
-
+						
+                		}	
+					}
 				}
             } 
         }
 
         if(c == 's' && g_row+1 >= 0){//muove pedina in giù
             
-            if(M[g_row+1][g_col] == '$')
-                points+=10;
+            if(M[g_row+1][g_col] == '$'){
+				points+=10;
+				l_append(&tail, g_row, g_col);
+				M[g_row][g_col] = '@';
+			}
+                
             if(M[g_row+1][g_col] == '!')
                 points /= 2;
 			if(M[g_row+1][g_col] == 'T')
@@ -261,8 +294,12 @@ void labyrinth_player(char **M, int *row, int *col){
 
 					if(M[cnt+1][g_col] == '#')
 						trapano--;
-					if(M[cnt+1][g_col] == '$')
+					if(M[cnt+1][g_col] == '$'){
 						points+=10;
+						l_append(&tail, g_row, g_col);
+						M[g_row][g_col] = '@';
+					}
+						
 					if(M[cnt+1][g_col] == '!')
 						points /= 2;
 					if(M[cnt+1][g_col] == 'T')
@@ -275,8 +312,11 @@ void labyrinth_player(char **M, int *row, int *col){
 				}
 
 
-				if(M[g_row+1][g_col] == '$')
-					points += 10;
+				if(M[g_row+1][g_col] == '$'){
+					points+=10;
+					l_append(&tail, g_row, g_col);
+					M[g_row][g_col] = '@';
+				}
 				if(M[g_row+1][g_col] == '!')
 					points /= 2;
 				if(M[g_row+1][g_col] == 'T')
@@ -293,14 +333,22 @@ void labyrinth_player(char **M, int *row, int *col){
 				
 				}else{
 							//spazio o punti
-					if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
+					if(M[g_row+1][g_col] == '@'){
+						M[g_row+1][g_col] = 'o';
+                    	M[g_row][g_col] = '@';
+                    	g_row++;
+                    	points--;
+					}else{
+						if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
                 		M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T'){		//fine if
 
                     	M[g_row+1][g_col] = 'o';
                     	M[g_row][g_col] = ' ';
                     	g_row++;
                     	points--;
-                	}
+                		}
+					}
+					
 				}
             }
         }
@@ -851,19 +899,7 @@ int main(int argc, char * argv[]){
 	int row = 0;
 	int col = 0;
 
-	list_t *l = l_create(0, 0);
-	for(int i = 0; i < 10; i++){
-		l_append(&l, i, pow(2,i));
-	}
-	l_print(l);
-	printf("\n");
-	for(int i = 10; i < 20; i++){
-		l_append(&l, i, pow(2,i));
-	}
-	l_print(l);
-	printf("\n");
-	return 0;
-	
+
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
