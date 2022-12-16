@@ -149,6 +149,9 @@ void labyrinth_player(char **M, int *row, int *col){
     int points = 1000;
 	int trapano = 0;
 	int cnt;
+	
+
+
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -161,7 +164,7 @@ void labyrinth_player(char **M, int *row, int *col){
             }
         }
     }
-
+	list_t *tail = l_create(g_row, g_col);
 
 
     matrix_printer(M, row, col);
@@ -847,6 +850,19 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
+
+	list_t *l = l_create(0, 0);
+	for(int i = 0; i < 10; i++){
+		l_append(&l, i, pow(2,i));
+	}
+	l_print(l);
+	printf("\n");
+	for(int i = 10; i < 20; i++){
+		l_append(&l, i, pow(2,i));
+	}
+	l_print(l);
+	printf("\n");
+	return 0;
 	
 	scanf("%d\n%d\n", &col, &row);
     
