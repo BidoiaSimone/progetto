@@ -5,7 +5,6 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
-#include "lists.h"
 #include "vectors.h"
 
 
@@ -243,7 +242,7 @@ void matrix_player(char **M, int *row, int *col){
 				//spazio o punti
 			
 				if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == '.' ||
-				M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T'){
+				M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T' || M[g_row-1][g_col] == '^'){
 
 					if(M[g_row-1][g_col] == '.'){
 						for(int i = 0; i < tail->size; i++){
@@ -308,7 +307,7 @@ void matrix_player(char **M, int *row, int *col){
 				//spazio o punti
 			
 				if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == '.' ||
-				M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T'){
+				M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T' || M[g_row+1][g_col] == 'v'){
 
 					if(M[g_row+1][g_col] == '.'){
 						for(int i = 0; i < tail->size; i++){
@@ -370,7 +369,7 @@ void matrix_player(char **M, int *row, int *col){
 				//spazio o punti
 			
 				if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == '.' ||
-				M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T'){
+				M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T' || M[g_row][g_col-1] == '<'){
 
 					if(M[g_row][g_col-1] == '.'){
 						for(int i = 0; i < tail->size; i++){
@@ -434,7 +433,7 @@ void matrix_player(char **M, int *row, int *col){
 				//spazio o punti
 			
 				if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == '.' ||
-				M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T'){
+				M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T' || M[g_row][g_col+1] == '>'){
 
 					if(M[g_row][g_col+1] == '.'){
 						for(int i = 0; i < tail->size; i++){
@@ -470,7 +469,8 @@ void matrix_player(char **M, int *row, int *col){
 			
 
 
-        	printf("Score: %d\n", points);
+        	printf("%-10s%lu\n","Score: ", points+tail->size);
+			printf("%-10s%d\n", "T: ", trapano);
 
 
         	if(M[victory_row][victory_col] == 'o'){
