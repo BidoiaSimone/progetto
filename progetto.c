@@ -166,7 +166,7 @@ void matrix_player(char **M, int *row, int *col){
     int victory_row;
     int victory_col;
     int points = 1000;
-	int trapano = 0;
+	int trapano = 1000;
 	vector_t *tail = v_create();
 	
 
@@ -442,6 +442,7 @@ void matrix_player(char **M, int *row, int *col){
 
         	if(M[victory_row][victory_col] == 'o'){
             	printf("Vittoria!!!\n");
+				free(tail);
 				break;
             
         	}
@@ -834,7 +835,6 @@ int main(int argc, char * argv[]){
 	int row = 0;
 	int col = 0;
 
-
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
@@ -854,6 +854,9 @@ int main(int argc, char * argv[]){
     }else{
 
         matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
+		#ifdef __APPLE__
+			system("clear");
+		#endif
         matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
