@@ -139,7 +139,7 @@ void labyrinth_initializer(char **M){
 
 }
 
-void new_matrix_player(char **M, int *row, int *col){
+/*void new_matrix_player(char **M, int *row, int *col){
 	char c = '\0';
 	int p_row;
 	int p_col;
@@ -149,7 +149,7 @@ void new_matrix_player(char **M, int *row, int *col){
 	int trapano = 0;
 
 }
-
+*/
 void labyrinth_player(char **M, int *row, int *col){
     char c = '\0';
     int g_col;
