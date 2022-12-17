@@ -236,11 +236,18 @@ void matrix_player(char **M, int *row, int *col){
 			}else{
 				//spazio o punti
 			
-				if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' ||  
+				if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == '.' ||
 				M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T'){
 
+					if(M[g_row-1][g_col] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]+1][tail->col[i]] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
+					
 					if(tail->size >= 0){
 						for(int i = tail->size-1; i > 0; i--){
 							tail->row[i] = tail->row[i-1];
@@ -294,9 +301,15 @@ void matrix_player(char **M, int *row, int *col){
 			}else{
 				//spazio o punti
 			
-				if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' ||  
+				if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == '.' ||
 				M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T'){
 
+					if(M[g_row+1][g_col] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]-1][tail->col[i]] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					if(tail->size >= 0){
@@ -350,8 +363,15 @@ void matrix_player(char **M, int *row, int *col){
 			}else{
 				//spazio o punti
 			
-				if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' ||  
+				if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == '.' ||
 				M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T'){
+
+					if(M[g_row][g_col-1] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]][tail->col[i]+1] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
 
 					M[g_row][g_col-1] = 'o';
 					M[g_row][g_col] = ' ';
@@ -407,8 +427,15 @@ void matrix_player(char **M, int *row, int *col){
 			}else{
 				//spazio o punti
 			
-				if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' ||  
+				if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == '.' ||
 				M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T'){
+
+					if(M[g_row][g_col+1] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]][tail->col[i]-1] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
 
 					M[g_row][g_col+1] = 'o';
 					M[g_row][g_col] = ' ';

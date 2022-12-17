@@ -112,7 +112,7 @@ void v_pop_elem(vector_t *v, size_t index){             //rimuove l'elemento in 
 
 
 void v_cut(vector_t *v, size_t index){                  //rimuove tutti gli elementi da index in poi
-    if(index >= v->size){
+    if(index > v->size){
         printf("Error: index out of vector bounds");
         exit(EXIT_FAILURE);
     }
