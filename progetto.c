@@ -166,7 +166,7 @@ void matrix_player(char **M, int *row, int *col){
     int victory_row;
     int victory_col;
     int points = 1000;
-	int trapano = 1000;
+	int trapano = 0;
 	vector_t *tail = v_create();
 	
 
