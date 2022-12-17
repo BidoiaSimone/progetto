@@ -67,21 +67,27 @@
 						printf("█");
 					}else{
 						if(M[i][j] == 'o'){
-							printf(BLUE);
+							printf(RED);
 							printf("◉");
 							printf(DEFAULT);
 						}else{
-							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-								printf(PURPLE);
-							if(M[i][j] == '$')
-								printf(YELLOW);
-							if(M[i][j] == '!')
+							if(M[i][j] == '.'){
 								printf(RED);
-							if(M[i][j] == 'T')
-								printf(CYAN);
+								printf("•");
+								printf(DEFAULT);
+							}else{
+								if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+									printf(PURPLE);
+								if(M[i][j] == '$')
+									printf(YELLOW);
+								if(M[i][j] == '!')
+									printf(RED);
+								if(M[i][j] == 'T')
+									printf(CYAN);
 
-							printf("%c", M[i][j]);
-							printf(DEFAULT);
+								printf("%c", M[i][j]);
+								printf(DEFAULT);
+							}
 						}
 					}
 				}
