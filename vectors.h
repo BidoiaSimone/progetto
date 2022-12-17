@@ -35,6 +35,28 @@ void v_push_back(struct vector * v, int x, int y){      //aggiungi valori row e 
 }
 
 
+void v_push_front(struct vector * v, int x, int y){      //aggiungi valori alla testa del vettore
+    if(v->size == 0){
+        v->row = (int *)malloc(1*sizeof(int));
+        v->col = (int *)malloc(1*sizeof(int));
+        v->row[0] = x;
+        v->col[0] = y;
+        v->size++;
+    }else{
+        v->row = realloc(v->row, (v->size+1)*sizeof(int));
+        v->col = realloc(v->col, (v->size+1)*sizeof(int));
+        for(int i = v->size-1; i > 0; i--){
+            v->row[i] = v->row[i-1];
+            v->col[i] = v->col[i-1];
+        }
+        v->row[0] = x;
+        v->col[0] = y;
+        v->size++;
+    }
+
+}
+
+
 
 
 
@@ -47,6 +69,11 @@ void v_free(struct vector *v){                          //libera la memoria allo
 }
 
 
+void v_pop_back(vector_t *v){
+    v->size--;
+    v->row = realloc(v->row, (v->size)*sizeof(int));
+    v->col = realloc(v->col, (v->size)*sizeof(int));
+}
 
 
 
