@@ -67,12 +67,12 @@
 						printf("█");
 					}else{
 						if(M[i][j] == 'o'){
-							printf(RED);
+							printf(BLUE);
 							printf("◉");
 							printf(DEFAULT);
 						}else{
 							if(M[i][j] == '.'){
-								printf(RED);
+								printf(BLUE);
 								printf("•");
 								printf(DEFAULT);
 							}else{
