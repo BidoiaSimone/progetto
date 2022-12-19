@@ -871,7 +871,7 @@ int main(int argc, char * argv[]){
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
-    for(int i = 0; i < col; i++){
+    for(int i = 0; i < row; i++){
         M[i] = (char*)malloc(col * sizeof(char));
     }
 
