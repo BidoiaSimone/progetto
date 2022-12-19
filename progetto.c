@@ -83,7 +83,7 @@
 									printf(RED);
 								if(M[i][j] == 'T')
 									printf(CYAN);
-
+								
 								printf("%c", M[i][j]);
 								printf(DEFAULT);
 							}
@@ -269,7 +269,7 @@ void matrix_player(char **M, int *row, int *col){
 		}
 	
 
-        if(c == 's' && g_row+1 <= *row){//muove pedina in giù
+        if(c == 's' && g_row+1 < *row){//muove pedina in giù
             
             if(M[g_row+1][g_col] == '$'){
 				points+=10;
@@ -396,7 +396,7 @@ void matrix_player(char **M, int *row, int *col){
 			}
 		}
 
-        if(c == 'd' && g_col+1 <= *col){//muove pedina a sinistra
+        if(c == 'd' && g_col+1 < *col){//muove pedina a sinistra
             
             if(M[g_row][g_col+1] == '$'){
 				points+=10;
@@ -867,18 +867,20 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-
+	vector_t *test = v_create();
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
     for(int i = 0; i < row; i++){
         M[i] = (char*)malloc(col * sizeof(char));
     }
+	
+	matrix_reader(M, &row, &col);
 
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
-        matrix_reader(M, &row, &col);  
+          
 		labyrint_global_direction(M, &row, &col);
         labyrint_analysis(M, &row, &col);             //IA
 			
@@ -886,7 +888,7 @@ int main(int argc, char * argv[]){
 
     }else{
 
-        matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
+                         //legge un labirinto da input terminale
 		#ifdef __APPLE__
 			system("clear");
 		#endif
