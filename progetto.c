@@ -867,8 +867,9 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-	vector_t *test = v_create();
 	scanf("%d\n%d\n", &col, &row);
+
+
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
     for(int i = 0; i < row; i++){
@@ -899,3 +900,9 @@ int main(int argc, char * argv[]){
 	return 0;
 	
 }
+
+
+
+/* funzione pattern che legge string_t ed identifica se c'è un pattern lungo N, che ritorna variabile bool
+tieni conto tutti i vari tipi di pattern possibili E-O, N-S, in base a tipo di pattern cambiare le variabili
+down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale consigliata */

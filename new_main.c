@@ -40,28 +40,28 @@ void delay_seconds(int seconds){
 }
 
 void eraser_ds(){
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         for(int j = 0; j < i; j++){
            printf("\b"); 
         }
-        delay_milliseconds(5);
+        delay_milliseconds(50);
         for(int j = 0; j < i; j++){
            printf(" "); 
         }
         fflush(stdout);
     }
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         printf("\b");
     }
 }
 
 void eraser_sd(){
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         printf("\b"); 
     }
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         printf(" ");
-        delay_milliseconds(5);
+        delay_milliseconds(50);
         fflush(stdout);
     }
 }
@@ -72,12 +72,12 @@ void eraser_sd(){
 
 int main(int argc, char * argv[]){
 
-    char test[]="faccio quello che voglio vaffanbrodo non sbattermi la macchina";
+    char test[]="ho visto un nero con le scarpe di gomma, porcodio e porcamdonna, le scarpe di gomma le volevo anch'io, porcamadonna e porcodio";
 
     
 
 
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         delay_milliseconds(SPEED);
         printf("%c", test[i]);
         fflush(stdout);
@@ -86,7 +86,7 @@ int main(int argc, char * argv[]){
 
     eraser_ds();
 
-    for(int i = 0; i < 62; i++){
+    for(int i = 0; i < 127; i++){
         delay_milliseconds(SPEED);
         printf("%c", test[i]);
         fflush(stdout);
