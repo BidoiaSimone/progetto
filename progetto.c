@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include "vectors.h"
 
 
 #ifdef __APPLE__
@@ -21,9 +22,21 @@
 
 #endif
 
+
 #ifdef __WIN32	
-		char* test = "Wow, you are using Windows";
+
+		char test[27] = "Wow, you are using Windows";
 		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
+		for(int i = 0; i < *row; i++){                   
+				for(int j = 0; j < *col; j++){
+					if(M[i][j] == '.')
+						M[i][j] = ' ';
+				}
+			}
+			for(int i = 0; i < tail->size; i++){
+				M[tail->row[i]][tail->col[i]] = '.';
+			}
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //funziona di merda per il merda di refresh rate del cmd
 			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
 				for(int j = 0; j < *col; j++){      
 						printf("%c", M[i][j]);	
@@ -32,41 +45,61 @@
 			}   
 				printf("\n");
 		}
-
+		
 #endif
 
 #ifdef __APPLE__
 
-		void matrix_printer(char **M, int *row, int *col){
+		void matrix_printer(char **M, int *row, int *col, vector_t *tail){
+			for(int i = 0; i < *row; i++){                   
+				for(int j = 0; j < *col; j++){
+					if(M[i][j] == '.')
+						M[i][j] = ' ';
+				}
+			}
+			for(int i = 0; i < tail->size; i++){
+				M[tail->row[i]][tail->col[i]] = '.';
+			}
 			for(int i = 0; i < *row; i++){                   
 				for(int j = 0; j < *col; j++){      
 					if(M[i][j] == '#'){
 						printf("█");
 					}else{
 						if(M[i][j] == 'o'){
-							printf(GREEN);
+							printf(BLUE);
 							printf("◉");
 							printf(DEFAULT);
 						}else{
-							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-								printf(PURPLE);
-							if(M[i][j] == '$')
-								printf(YELLOW);
-							if(M[i][j] == '!')
-								printf(RED);
-							if(M[i][j] == 'T')
-								printf(CYAN);
-
-							printf("%c", M[i][j]);
-							printf(DEFAULT);
+							if(M[i][j] == '.'){
+								printf(BLUE);
+								printf("•");
+								printf(DEFAULT);
+							}else{
+								if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+									printf(PURPLE);
+								if(M[i][j] == '$')
+									printf(YELLOW);
+								if(M[i][j] == '!')
+									printf(RED);
+								if(M[i][j] == 'T')
+									printf(CYAN);
+								
+								printf("%c", M[i][j]);
+								printf(DEFAULT);
+							}
 						}
 					}
 				}
 					printf("\n");
 			}   
+			
 				printf("\n");
 		}
 #endif
+
+
+
+
 
 int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
@@ -131,21 +164,25 @@ void labyrinth_initializer(char **M){
 }
 
 
-
-void labyrinth_player(char **M, int *row, int *col){
+void matrix_player(char **M, int *row, int *col){
     char c = '\0';
     int g_col;
     int g_row;
     int victory_row;
     int victory_col;
-    int points = 6500;
+    int points = 1000;
 	int trapano = 0;
-	int cnt;
+	vector_t *tail = v_create();
+	
+
+
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
                 g_col = j;
                 g_row = i;
+				tail->row = &i;
+				tail->col = &j;
             }
             if(M[i][j] == '_'){
                 victory_row = i;
@@ -156,7 +193,7 @@ void labyrinth_player(char **M, int *row, int *col){
 
 
 
-    matrix_printer(M, row, col);
+    matrix_printer(M, row, col, tail);
     
 
 
@@ -169,287 +206,278 @@ void labyrinth_player(char **M, int *row, int *col){
         c = getchar();
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
-            if(M[g_row-1][g_col] == '$')
-                points+=3;
-            if(M[g_row-1][g_col] == '!')
-                points /= 2;
+            if(M[g_row-1][g_col] == '$'){
+				points+=10;
+				v_push_back(tail, g_row, g_col);
+			}
+				
+			    
+            if(M[g_row-1][g_col] == '!'){
+				points /= 2;
+				if(tail->size > 0)
+					v_cut(tail, tail->size/2);
+			}  
 			if(M[g_row-1][g_col] == 'T')
 				trapano += 3;
 
-            if(M[g_row-1][g_col] == '^'){		//portale verso giù multiplo
-				cnt = g_row;
-                while(M[cnt-1][g_col] == '^'){
-                    cnt--;
-                }
+			
 
-				if(M[cnt-1][g_col] != '#' || (M[cnt-1][g_col] == '#' && trapano > 0)){
+			if(M[g_row-1][g_col] == '#' && trapano > 0){ //trapano
+				M[g_row-1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				if(tail->size >= 0){
+					for(int i = tail->size-1; i > 0; i--){
+						tail->row[i] = tail->row[i-1];
+						tail->col[i] = tail->col[i-1];
+					}
+					tail->row[0] = g_row;
+					tail->col[0] = g_col;
+				}
+				g_row--;
+				points--;
+				trapano--;
+				
 
-					if(M[cnt-1][g_col] == '#')
-						trapano--;
-					if(M[cnt-1][g_col] == '$')
-						points+=3;
-					if(M[cnt-1][g_col] == '!')
-						points /= 2;
-					if(M[cnt-1][g_col] == 'T')
-						trapano += 3;
+			}else{
+				//spazio o punti
+			
+				if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == '.' ||
+				M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T' || M[g_row-1][g_col] == '^'){
 
+					if(M[g_row-1][g_col] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]+1][tail->col[i]] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
+					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
-					g_row = cnt;
-					M[g_row-1][g_col] = 'o';
+					
+					if(tail->size >= 0){
+						for(int i = tail->size-1; i > 0; i--){
+							tail->row[i] = tail->row[i-1];
+							tail->col[i] = tail->col[i-1];
+						}
+						tail->row[0] = g_row;
+						tail->col[0] = g_col;
+					}
 					g_row--;
-				}
+					points--;
+				
+				}	
+			}
+		}
+	
 
-
-				if(M[g_row-1][g_col] == '$')
-					points += 3;
-				if(M[g_row-1][g_col] == '!')
-					points /= 2;
-				if(M[g_row-1][g_col] == 'T')
-					trapano += 3;
-
-            }else{
-
-				if(M[g_row-1][g_col] == '#' && g_row-1 > 0 && trapano >= 1){ //trapano
-					M[g_row-1][g_col] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_row--;
-                    points--;
-					trapano--;
-
-				}else{
-						//spazio o punti
-					if(M[g_row-1][g_col] == '!' || M[g_row-1][g_col] == '$' || 
-                		M[g_row-1][g_col] == ' ' || M[g_row-1][g_col] == '_' || M[g_row-1][g_col] == 'T'){
-
-                    	M[g_row-1][g_col] = 'o';
-                    	M[g_row][g_col] = ' ';
-                    	g_row--;
-                    	points--;
-                }
-
-				}
-            } 
-        }
-
-        if(c == 's' && g_row+1 >= 0){//muove pedina in giù
+        if(c == 's' && g_row+1 < *row){//muove pedina in giù
             
-            if(M[g_row+1][g_col] == '$')
-                points+=3;
-            if(M[g_row+1][g_col] == '!')
-                points /= 2;
+            if(M[g_row+1][g_col] == '$'){
+				points+=10;
+				v_push_back(tail, g_row, g_col);
+			}
+				
+			    
+            if(M[g_row+1][g_col] == '!'){
+				points /= 2;
+				if(tail->size > 0)
+					v_cut(tail, tail->size/2);
+			}  
 			if(M[g_row+1][g_col] == 'T')
 				trapano += 3;
 
-            if(M[g_row+1][g_col] == 'v'){		//portale verso giù multiplo
-				cnt = g_row;
-                while(M[cnt+1][g_col] == 'v'){
-                    cnt++;
-                }
+			
 
-				if(M[cnt+1][g_col] != '#' || (M[cnt+1][g_col] == '#' && trapano > 0)){
-
-					if(M[cnt+1][g_col] == '#')
-						trapano--;
-					if(M[cnt+1][g_col] == '$')
-						points+=3;
-					if(M[cnt+1][g_col] == '!')
-						points /= 2;
-					if(M[cnt+1][g_col] == 'T')
-						trapano += 3;
-
-					M[g_row][g_col] = ' ';
-					g_row = cnt;
-					M[g_row+1][g_col] = 'o';
-					g_row++;
+			if(M[g_row+1][g_col] == '#' && trapano > 0){ //trapano
+				M[g_row+1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				if(tail->size >= 0){
+					for(int i = tail->size-1; i > 0; i--){
+						tail->row[i] = tail->row[i-1];
+						tail->col[i] = tail->col[i-1];
+					}
+					tail->row[0] = g_row;
+					tail->col[0] = g_col;
 				}
-
-
-				if(M[g_row+1][g_col] == '$')
-					points += 3;
-				if(M[g_row+1][g_col] == '!')
-					points /= 2;
-				if(M[g_row+1][g_col] == 'T')
-					trapano += 3;
-
-            }else{
-
-				if(M[g_row+1][g_col] == '#' && g_row+1 < *row-1 && trapano > 0){ //trapano
-					M[g_row+1][g_col] = 'o';
-                    M[g_row][g_col] = ' ';
-                    g_row++;
-                    points--;
-					trapano--;
 				
-				}else{
-							//spazio o punti
-					if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || 
-                		M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T'){		//fine if
+				g_row++;
+				points--;
+				trapano--;
 
-                    	M[g_row+1][g_col] = 'o';
-                    	M[g_row][g_col] = ' ';
-                    	g_row++;
-                    	points--;
-                	}
-				}
-            }
-        }
+			}else{
+				//spazio o punti
+			
+				if(M[g_row+1][g_col] == '!' || M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == '.' ||
+				M[g_row+1][g_col] == ' ' || M[g_row+1][g_col] == '_' || M[g_row+1][g_col] == 'T' || M[g_row+1][g_col] == 'v'){
+
+					if(M[g_row+1][g_col] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]-1][tail->col[i]] == 'o')
+								v_cut(tail, i+1);
+						}
+					}
+					M[g_row+1][g_col] = 'o';
+					M[g_row][g_col] = ' ';
+					if(tail->size >= 0){
+						for(int i = tail->size-1; i > 0; i--){
+							tail->row[i] = tail->row[i-1];
+							tail->col[i] = tail->col[i-1];
+						}
+						tail->row[0] = g_row;
+						tail->col[0] = g_col;
+					}
+					g_row++;
+					points--;
+				
+				}	
+			}
+		}
 
         if(c == 'a' && g_col-1 >= 0){//muove pedina a sinistra
             
-            if(M[g_row][g_col-1] == '$')
-                points+=3;
-            if(M[g_row][g_col-1] == '!')
-                points /= 2;
+            if(M[g_row][g_col-1] == '$'){
+				points+=10;
+				v_push_back(tail, g_row, g_col);
+			}
+				
+			    
+            if(M[g_row][g_col-1] == '!'){
+				points /= 2;
+				if(tail->size > 0)
+					v_cut(tail, tail->size/2);
+			}  
 			if(M[g_row][g_col-1] == 'T')
 				trapano += 3;
 
-            if(M[g_row][g_col-1] == '<'){		//portale verso sinistra multiplo
-				cnt = g_col;
-                while(M[g_row][cnt-1] == '<'){
-                    cnt--;
-                }
+			
 
-				if(M[g_row][cnt-1] != '#' || (M[g_row][cnt-1] == '#' && trapano > 0)){
-
-					if(M[g_row][cnt-1] == '#')
-						trapano--;
-					if(M[g_row][cnt-1] == '$')
-						points+=3;
-					if(M[g_row][cnt-1] == '!')
-						points /= 2;
-					if(M[g_row][cnt-1] == 'T')
-						trapano += 3;
-
-					M[g_row][g_col] = ' ';
-					g_col = cnt;
-					M[g_row][g_col-1] = 'o';
-					g_col--;
+			if(M[g_row][g_col-1] == '#' && trapano > 0){ //trapano
+				M[g_row][g_col-1] = 'o';
+				M[g_row][g_col] = ' ';
+				if(tail->size >= 0){
+					for(int i = tail->size-1; i > 0; i--){
+						tail->row[i] = tail->row[i-1];
+						tail->col[i] = tail->col[i-1];
+					}
+					tail->row[0] = g_row;
+					tail->col[0] = g_col;
 				}
+				g_col--;
+				points--;
+				trapano--;
 
+			}else{
+				//spazio o punti
+			
+				if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == '.' ||
+				M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T' || M[g_row][g_col-1] == '<'){
 
-				if(M[g_row][g_col-1] == '$')
-					points += 3;
-				if(M[g_row][g_col-1] == '!')
-					points /= 2;
-				if(M[g_row][g_col-1] == 'T')
-					trapano += 3;
-
-            }else{
-
-				if(M[g_row][g_col-1] == '#' && g_col-1 > 0 && trapano >= 1){ //trapano
-
-						M[g_row][g_col-1] = 'o';
-						M[g_row][g_col] = ' ';
-						g_col--;
-						points--;
-						trapano--;
-
-				}else{
-								//spazio o punti
-					if(M[g_row][g_col-1] == '!' || M[g_row][g_col-1] == '$' || 
-						M[g_row][g_col-1] == ' ' || M[g_row][g_col-1] == '_' || M[g_row][g_col-1] == 'T'){		//fine if
-
-						M[g_row][g_col-1] = 'o';
-						M[g_row][g_col] = ' ';
-						g_col--;
-						points--;
+					if(M[g_row][g_col-1] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]][tail->col[i]+1] == 'o')
+								v_cut(tail, i+1);
+						}
 					}
 
-				}
+					M[g_row][g_col-1] = 'o';
+					M[g_row][g_col] = ' ';
+					if(tail->size >= 0){
+						for(int i = tail->size-1; i > 0; i--){
+							tail->row[i] = tail->row[i-1];
+							tail->col[i] = tail->col[i-1];
+						}
+						tail->row[0] = g_row;
+						tail->col[0] = g_col;
+					}
+					
+					g_col--;
+					points--;
+				
+				}	
+			}
+		}
 
-                
-            }
-        }
-
-        if(c == 'd' && g_col+1 >= 0){//muove pedina a destra
+        if(c == 'd' && g_col+1 < *col){//muove pedina a sinistra
             
-            if(M[g_row][g_col+1] == '$')
-                points+=3;
-            if(M[g_row][g_col+1] == '!')
-                points /= 2;
+            if(M[g_row][g_col+1] == '$'){
+				points+=10;
+				v_push_back(tail, g_row, g_col);
+			}
+				
+		    
+            if(M[g_row][g_col+1] == '!'){
+				points /= 2;
+				if(tail->size > 0)
+					v_cut(tail, tail->size/2);
+			}  
 			if(M[g_row][g_col+1] == 'T')
 				trapano += 3;
 
-            if(M[g_row][g_col+1] == '>'){		//portale verso destra multiplo
-				cnt = g_col;
-                while(M[g_row][cnt+1] == '>'){
-                    cnt++;
-                }
+			
 
-				if(M[g_row][cnt+1] != '#' || (M[g_row][cnt+1] == '#' && trapano > 0)){
-
-					if(M[g_row][cnt+1] == '#')
-						trapano--;
-					if(M[g_row][cnt+1] == '$')
-						points+=3;
-					if(M[g_row][cnt+1] == '!')
-						points /= 2;
-					if(M[g_row][cnt+1] == 'T')
-						trapano += 3;
-
-					M[g_row][g_col] = ' ';
-					g_col = cnt;
-					M[g_row][g_col+1] = 'o';
-					g_col++;
+			if(M[g_row][g_col+1] == '#' && trapano > 0){ //trapano
+				M[g_row][g_col+1] = 'o';
+				M[g_row][g_col] = ' ';
+				if(tail->size >= 0){
+					for(int i = tail->size-1; i > 0; i--){
+						tail->row[i] = tail->row[i-1];
+						tail->col[i] = tail->col[i-1];
+					}
+					tail->row[0] = g_row;
+					tail->col[0] = g_col;
 				}
+				g_col++;
+				points--;
+				trapano--;
 
+			}else{
+				//spazio o punti
+			
+				if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == '.' ||
+				M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T' || M[g_row][g_col+1] == '>'){
 
-				if(M[g_row][g_col+1] == '$')
-					points += 3;
-				if(M[g_row][g_col+1] == '!')
-					points /= 2;
-				if(M[g_row][g_col+1] == 'T')
-					trapano += 3;
-	
-                
-            }else{
-
-				if(M[g_row][g_col+1] == '#' && g_col+1 < *col-1 && trapano > 0){ //trapano
-
-						M[g_row][g_col+1] = 'o';
-						M[g_row][g_col] = ' ';
-						g_col++;
-						points--;
-						trapano--;
-
-				}else{
-									//spazio o punti
-					if(M[g_row][g_col+1] == '!' || M[g_row][g_col+1] == '$' || 
-						M[g_row][g_col+1] == ' ' || M[g_row][g_col+1] == '_' || M[g_row][g_col+1] == 'T'){		//fine if
-
-						M[g_row][g_col+1] = 'o';
-						M[g_row][g_col] = ' ';
-						g_col++;
-						points--;
+					if(M[g_row][g_col+1] == '.'){
+						for(int i = 0; i < tail->size; i++){
+							if(M[tail->row[i]][tail->col[i]-1] == 'o')
+								v_cut(tail, i+1);
+						}
 					}
 
-				}
+					M[g_row][g_col+1] = 'o';
+					M[g_row][g_col] = ' ';
+					if(tail->size >= 0){
+						for(int i = tail->size-1; i > 0; i--){
+							tail->row[i] = tail->row[i-1];
+							tail->col[i] = tail->col[i-1];
+						}
+						tail->row[0] = g_row;
+						tail->col[0] = g_col;
+					}
+					g_col++;
+					points--;
 				
-            }
-        }
+				}	
+			}
+		}
 		#ifdef __APPLE__
         system("stty cooked");
 		system("clear");
 		#endif
 
         if(c != '\n'){              
-			for(int i = 0; i < 30; i++){
-				printf("\n");
-			}
-            matrix_printer(M, row, col);
+			
+            matrix_printer(M, row, col, tail);
+			
 
-            if(points < 0)
-            	points = 0;
 
-        	printf("Score: %d\n", points);
+        	printf("%-10s%lu\n","Score: ", points+tail->size);
+			printf("%-10s%d\n", "T: ", trapano);
 
-        	if(points < 0)
-           		points = 0;
 
         	if(M[victory_row][victory_col] == 'o'){
             	printf("Vittoria!!!\n");
+				free(tail);
+				break;
             
-            break;
         	}
     	}	
     }
@@ -839,18 +867,20 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-
+	vector_t *test = v_create();
 	scanf("%d\n%d\n", &col, &row);
     
     char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
-    for(int i = 0; i < col; i++){
+    for(int i = 0; i < row; i++){
         M[i] = (char*)malloc(col * sizeof(char));
     }
+	
+	matrix_reader(M, &row, &col);
 
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
-        matrix_reader(M, &row, &col);  
+          
 		labyrint_global_direction(M, &row, &col);
         labyrint_analysis(M, &row, &col);             //IA
 			
@@ -858,8 +888,11 @@ int main(int argc, char * argv[]){
 
     }else{
 
-        matrix_reader(M, &row, &col);                 //legge un labirinto da input terminale
-        labyrinth_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
+                         //legge un labirinto da input terminale
+		#ifdef __APPLE__
+			system("clear");
+		#endif
+        matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
 	free(M);
