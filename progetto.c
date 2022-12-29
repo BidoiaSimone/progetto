@@ -630,7 +630,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
         
 	}
-	// controllo quali movimenti sono impossibilitati dalle pareti. QUI ANDRA' MESSA LA CONDIZIONE DELLA TRIVELLA
+	// controllo quali movimenti sono impossibilitati dalle pareti. 
 		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  == 0){
 			right_move = 0;
 		}else{
@@ -701,26 +701,41 @@ void labyrint_analysis( char **M, int *row, int *col){
 		}
 	}
 		
-	if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
-		if(g_row < victory_row){
-			x=1;
+	// inizio associazione valore a x in caso di pattern rilevato
+	
+	if(pattern == true){
+		if(vertical_global == 1){
+			vertical_global = 0;
+			x = 2;	
+			pattern = false;
+			
+		}	else{
+				vertical_global = 1;
+				x = 1;
+				pattern = false;
+			}
+	}	else{
+			if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+				if(g_row < victory_row){
+					x=1;
+				}
+				if(g_row > victory_row){
+					x=2;
+				}
+				if(g_row == victory_row && g_col < victory_col){
+					x=3;
+				}
+				if(g_row == victory_row && g_col > victory_col)
+					x=4;
+			}else{ 
+				if(g_col < victory_col){
+					x=3;
+				}
+				if(g_col > victory_col){
+					x=4;
+				}
+			}
 		}
-		if(g_row > victory_row){
-			x=2;
-		}
-		if(g_row == victory_row && g_col < victory_col){
-			x=3;
-		}
-		if(g_row == victory_row && g_col > victory_col)
-			x=4;
-	}else{ 
-		if(g_col < victory_col){
-			x=3;
-		}
-		if(g_col > victory_col){
-			x=4;
-		}
-	}
 	 /*
 		vertical_global=1; // down movimento preferito
 	
@@ -730,6 +745,7 @@ void labyrint_analysis( char **M, int *row, int *col){
 	
 		orizzontal_global=0; //movimento preferito a sx
 	*/
+	//	INSERIRE FUNZIONE PATTERN
     
 
 	switch (x) { //casi labirinto
@@ -906,3 +922,16 @@ int main(int argc, char * argv[]){
 /* funzione pattern che legge string_t ed identifica se c'è un pattern lungo N, che ritorna variabile bool
 tieni conto tutti i vari tipi di pattern possibili E-O, N-S, in base a tipo di pattern cambiare le variabili
 down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale consigliata */
+// codice che andrà dentro la funzione Pattern
+		 /*
+		vertical_global=1; // down movimento preferito
+	
+		vertical_global=0; // up movimento preferito
+	
+		orizzontal_global=1; // movimento preferito a dx
+	
+		orizzontal_global=0; //movimento preferito a sx
+	*/
+
+	pattern(
+
