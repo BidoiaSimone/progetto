@@ -55,7 +55,7 @@ void s_push_back(string_t *s, char c, int x){
         s->moves = (int *)malloc(1*sizeof(int));
     }else{
         s->string = realloc(s->string, (s->size+1)*sizeof(char));
-        s->moves = realloc(s->moves, (s->size+1)*sizeof(char));
+        s->moves = realloc(s->moves, (s->size+1)*sizeof(int));
     }
     s->moves[s->size] = x;
     s->string[s->size] = c;
