@@ -45,7 +45,12 @@
 			}   
 				printf("\n");
 		}
+<<<<<<< Updated upstream
 		
+=======
+	}
+
+>>>>>>> Stashed changes
 #endif
 
 #ifdef __APPLE__
@@ -895,12 +900,17 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 								labyrint_analysis(M, row, col, moves);
 								return;
 						
-                    case 0: 	if(vertical_global == 1){
+                    case 0: 	if(vertical_global == 1 && up_move == 1){
                                     x=1;
-                                }else{
-									vertical_global *= -1;
-									orizzontal_global *= -1;
-                                    x=2;
+                                }else{ 
+										if ( down_move == 1){
+											vertical_global *= -1;
+											orizzontal_global *= -1;
+											x=2;
+										}else{
+											x = 3;
+											
+										}
                                 }
                     
                                 switch (x) { 
@@ -913,13 +923,20 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 														return;
 							
 											case 2:	printf("%c\n", 'N');
-													s_push_back(moves, 'S', orizzontal_global);
+													s_push_back(moves, 'N', orizzontal_global);
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
 													labyrint_analysis(M, row, col, moves);
 													return;
-                                            
+											
+											case 3: printf("%c\n" , 'O');
+													s_push_back(moves, 'O', orizzontal_global);
+													M[g_row][g_col-1] = 'o';
+													M[g_row][g_col] = ' ';
+													matrix_printer(M, row, col, tail);
+													labyrint_analysis(M, row, col, moves);
+													return;
 								}
 				}
         case 4: switch(left_move){
@@ -934,13 +951,17 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 								labyrint_analysis(M, row, col, moves);
 								return;
 								
-                    case 0: if(vertical_global == 1){
-                                    x=1;         
+                    case 0: if(vertical_global == 1 && up_move == 1){
+                                    x=1;          
                                 }else{
-									vertical_global *= -1;
-									orizzontal_global *= -1;
-                                    x=2;
-                                }
+										if (down_move == 1){
+											vertical_global *= -1;
+											orizzontal_global *= -1;
+											x=2;
+										}else{
+											x = 3;
+										}
+									}
                                 
                                 switch (x) {
 
@@ -961,7 +982,15 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 														matrix_printer(M, row, col, tail);
 														labyrint_analysis(M, row, col, moves);
 														return;
-														                       
+														
+														
+											case 3:		printf("%c\n" , 'E');
+														s_push_back(moves, 'E', orizzontal_global);
+														M[g_row][g_col+1] = 'o';
+														M[g_row][g_col] = ' ';
+														matrix_printer(M, row, col, tail);
+														labyrint_analysis(M, row, col, moves);
+														return;			                       
 								}
 					}
     }
@@ -996,7 +1025,7 @@ int main(int argc, char * argv[]){
 	matrix_reader(M, &row, &col);
 
 
-    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
+  /*  if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
           
 		labyrint_global_direction(M, &row, &col);
@@ -1004,7 +1033,7 @@ int main(int argc, char * argv[]){
 		s_print(moves);
         return 0;
 
-    }else{
+    }else{*/
 
                          //legge un labirinto da input terminale
 		#ifdef __APPLE__
@@ -1012,7 +1041,7 @@ int main(int argc, char * argv[]){
 		#endif
         matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
-    }
+ //   }
 	free(M);
 	return 0;
 	
