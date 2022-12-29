@@ -732,13 +732,13 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		}
 	}*/
 	 /*
-		vertical_global=1; // down movimento preferito
+		vertical_global=-1; // down movimento preferito
 	
-		vertical_global=0; // up movimento preferito
+		vertical_global=1; // up movimento preferito
 	
 		orizzontal_global=1; // movimento preferito a dx
 	
-		orizzontal_global=0; //movimento preferito a sx
+		orizzontal_global=-1; //movimento preferito a sx
 	*/
 		
 	// inizio associazione valore a x in caso di pattern rilevato
@@ -746,35 +746,45 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	o_pattern = orizzontal_pattern(moves, M, &g_row, &g_col);
 	v_pattern = vertical_pattern(moves, M, &g_row, &g_col);
 		
-			
-	if(v_pattern == true){
+	if (orizzontal_pattern == true){
 		if(vertical_global == 1){
 			x = 2;
-		}else{
+		}
+		else{
 			x = 1;
 		}
-	}else{
-		if (abs(g_row - victory_row) >= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
-				if(g_row < victory_row){
-					x=1;
+	}
+	else{ 	if (vertical_pattern == true){
+				if (orizzontal_global == 1){
+					x = 3;
 				}
-				if(g_row > victory_row){
-					x=2;
-				}
-				if(g_row == victory_row && g_col < victory_col){
-					x=3;
-				}
-				if(g_row == victory_row && g_col > victory_col)
-					x=4;
-			}else{ 
-				if(g_col < victory_col){
-					x=3;
-				}
-				if(g_col > victory_col){
-					x=4;
+				else{
+					x=4
 				}
 			}
-	//}
+			else{
+				if (abs(g_row - victory_row) >= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+						if(g_row < victory_row  ){
+							x=1;
+						}
+						if(g_row > victory_row){
+							x=2;
+						}
+						if(g_row == victory_row && g_col < victory_col){
+							x=3;
+						}
+						if(g_row == victory_row && g_col > victory_col)
+							x=4;
+					}else{ 
+						if(g_col < victory_col &&){
+							x=3;
+						}
+						if(g_col > victory_col){
+							x=4;
+						}
+					}
+			}
+	}
 			
 
 			
@@ -886,7 +896,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 											case 1:     printf("101%c\n" , 'N');
 														s_push_back(moves, 'N', orizzontal_global);
 														M[g_row-1][g_col] = 'o';
-														M[g_row][g_col] = '#';
+														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
 														labyrint_analysis(M, row, col, moves);
 														return;                                            
@@ -937,7 +947,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 											case 2:		printf("202%c\n", 'S');
 														s_push_back(moves, 'S', orizzontal_global);
 														M[g_row+1][g_col] = 'o';
-														M[g_row][g_col] = '#';
+														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
 														labyrint_analysis(M, row, col, moves);
 														return;
@@ -993,7 +1003,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 											case 4: printf("304%c\n" , 'O');
 													s_push_back(moves, 'O', orizzontal_global);
 													M[g_row][g_col-1] = 'o';
-													M[g_row][g_col] = '#';
+													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
 													labyrint_analysis(M, row, col, moves);
 													return;
@@ -1047,7 +1057,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 											case 3:		printf("403%c\n" , 'E');
 														s_push_back(moves, 'E', orizzontal_global);
 														M[g_row][g_col+1] = 'o';
-														M[g_row][g_col] = '#';
+														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
 														labyrint_analysis(M, row, col, moves);
 														return;			                       
@@ -1072,17 +1082,17 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		}
 		if(s_cnt == n_cnt){
 			ptt = true;
-			vertical_global = 1;
+			vertical_global = -1;
 		
 			for(int i = 0; i < n_cnt+s_cnt; i++){
 				s_pop_back(moves);
 			}
-			for(int i = 0; i < n_cnt; i++){
+			/*for(int i = 0; i < n_cnt; i++){
 				s_push_back(moves, 'S', orizzontal_global);
 				M[*g_row++][*g_col] = 'o';
 				M[*g_row][*g_col] = ' ';
 		
-			}
+			}*/
 		}	
 	}
 
@@ -1095,16 +1105,22 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		}
 		if(s_cnt == n_cnt){
 			ptt = true;
-			vertical_global = -1;
+			vertical_global = 1;
 		
 			for(int i = 0; i < n_cnt+s_cnt; i++){
 				s_pop_back(moves);
 			}
-			for(int i = 0; i < n_cnt; i++){
+			/*for(int i = 0; i < n_cnt; i++){
 				s_push_back(moves, 'N', orizzontal_global);
 				M[*g_row--][*g_col] = 'o';
 				M[*g_row][*g_col] = ' ';
 				
+			}*/
+			if(moves->sting[moves->size-2] == 'O'){
+				orizzontal_global = 1;
+			}
+			else{
+				orizzontal_global = -1;
 			}
 		}
 	}
@@ -1133,7 +1149,7 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 				s_pop_back(moves);
 			}
 			for(int i = 0; i < e_cnt; i++){
-				s_push_back(moves, 'S', orizzontal_global);
+				s_push_back(moves, 'O', orizzontal_global);
 				M[*g_row][*g_col--] = 'o';
 				M[*g_row][*g_col] = ' ';
 				
@@ -1155,15 +1171,43 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 				s_pop_back(moves);
 			}
 			for(int i = 0; i < e_cnt; i++){
-				s_push_back(moves, 'S', orizzontal_global);
+				s_push_back(moves, 'E', orizzontal_global);
 				M[*g_row][*g_col++] = 'o';
 				M[*g_row][*g_col] = ' ';
 				
 			}
 		}
-			
+		
 	}
-	
+		if (ptt){
+				if (M[*g_row][*g_col+1] == '#'){
+						right_move = 0;
+					}else{
+						right_move = 1;
+					}
+					if (M[*g_row][*g_col-1] == '#'){
+						left_move = 0;
+					}else{
+						left_move = 1;
+					}
+					if (M[*g_row+1][*g_col] == '#'{
+						down_move = 0;
+					}else{
+						down_move = 1;
+					}
+					if (M[*g_row-1][*g_col] == '#'{
+						up_move = 0;
+					}else{
+						up_move = 1;
+					}
+					if (down_move == 0 && right_move == 0   ||   down_move == 0 && left_move == 0){
+						vertical_global = 1;
+					} else{
+							if(up_move == 0 && right_move == 0  ||  up_move == 0 && left_move == 0){
+								vertical_global = -1;
+							}
+					}
+		}
 	
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
 	s_print(moves);
