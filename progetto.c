@@ -101,8 +101,8 @@
 
 
 
-int vertical_global;	// vertical_global==1 movimento in basso, vertical_global==0 movimento verso l'alto
-int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==0 movimento sx
+int vertical_global;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
+int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
 int counter_trivella = 0;
 
 
@@ -483,7 +483,7 @@ void matrix_player(char **M, int *row, int *col){
     }
 }
 
-void labyrint_global_direction(char **M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
+void labyrint_global_direction(char  x**M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
 	int g_col;
     int g_row;
 	int victory_row;
@@ -501,14 +501,14 @@ void labyrint_global_direction(char **M, int *row,int *col) { // serve per inizi
 		}
 	}
 	if(g_row <= victory_row){
-		vertical_global=1; // down movimento preferito
+		vertical_global=-1; // down movimento preferito
 	}else{
-		vertical_global=0; // up movimento preferito
+		vertical_global=1; // up movimento preferito
 	}
 	if(g_col <= victory_col){
 		orizzontal_global=1; // movimento preferito a dx
 	}else{
-		orizzontal_global=0; //movimento preferito a sx
+		orizzontal_global=-1; //movimento preferito a sx
 	}
 	
 }
@@ -658,43 +658,43 @@ void labyrint_analysis( char **M, int *row, int *col){
 		M[g_row][g_col] = ' ';
 		labyrint_analysis(M, row, col);
 		return;
-	}else{
-		if(M[g_row][g_col-1] == '_'){
-			printf("%c", 'O');
-			M[g_row][g_col-1] = 'o';
-			M[g_row][g_col] = ' ';
-			labyrint_analysis(M, row, col);
-			return;
-		} else{
-			if(M[g_row+1][g_col] == '_'){
-				printf("%c", 'S');
-				M[g_row+1][g_col] = 'o';
+		}else{
+			if(M[g_row][g_col-1] == '_'){
+				printf("%c", 'O');
+				M[g_row][g_col-1] = 'o';
 				M[g_row][g_col] = ' ';
 				labyrint_analysis(M, row, col);
 				return;
-			}else{
-				if(M[g_row-1][g_col] == '_'){
-					printf("%c", 'N');
-					M[g_row-1][g_col] = 'o';
+			} else{
+				if(M[g_row+1][g_col] == '_'){
+					printf("%c", 'S');
+					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					labyrint_analysis(M, row, col);
 					return;
+				}else{
+					if(M[g_row-1][g_col] == '_'){
+						printf("%c", 'N');
+						M[g_row-1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						labyrint_analysis(M, row, col);
+						return;
+					}
 				}
 			}
-		}
-        
+			
 	}
 	// se la pedina finisce in un anglo cecocambia direzione preferita	
-	if (orizzontal_global == 1 && vertical_global == 1  && right_move==0 && down_move==0){
-		orizzontal_global = 0;
+	if (orizzontal_global == 1 && vertical_global == -1  && right_move==0 && down_move==0){
+		orizzontal_global = -1;
 	}else{	
-		if(orizzontal_global == 1 && vertical_global == 0  && right_move == 0  &&  up_move == 0){
-			orizzontal_global = 0;
+		if(orizzontal_global == 1 && vertical_global == 1  && right_move == 0  &&  up_move == 0){
+			orizzontal_global = -1;
 		}else{ 
-			if(orizzontal_global == 0  &&  vertical_global == 1  && left_move == 0 && down_move == 0){ 
+			if(orizzontal_global == 0  &&  vertical_global == -1  && left_move == 0 && down_move == 0){ 
 				orizzontal_global = 1;
 			}else{ 
-				if (orizzontal_global == 0 && vertical_global == 0 && left_move == 0 && up_move == 0){
+				if (orizzontal_global == 0 && vertical_global == 1 && left_move == 0 && up_move == 0){
 					orizzontal_global = 1;
 				}
 			}
@@ -703,19 +703,8 @@ void labyrint_analysis( char **M, int *row, int *col){
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	if(pattern == true){
-		if(vertical_global == 1){
-			vertical_global = 0;
-			x = 2;	
-			pattern = false;
-			
-		}	else{
-				vertical_global = 1;
-				x = 1;
-				pattern = false;
-			}
-	}	else{
-			if ( abs(g_row - victory_row)>= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+	
+			if ( abs(g_row - victory_row)> abs(g_col - victory_col)){		// associazione del valore di x per lo switch
 				if(g_row < victory_row){
 					x=1;
 				}
@@ -737,13 +726,13 @@ void labyrint_analysis( char **M, int *row, int *col){
 			}
 		}
 	 /*
-		vertical_global=1; // down movimento preferito
+		vertical_global=-1; // down movimento preferito
 	
-		vertical_global=0; // up movimento preferito
+		vertical_global=1; // up movimento preferito
 	
 		orizzontal_global=1; // movimento preferito a dx
 	
-		orizzontal_global=0; //movimento preferito a sx
+		orizzontal_global=-1; //movimento preferito a sx
 	*/
 	//	INSERIRE FUNZIONE PATTERN
     
@@ -822,6 +811,8 @@ void labyrint_analysis( char **M, int *row, int *col){
                     case 0: 	if(vertical_global == 1 ){
                                     x=1;
                                 }else{
+									vertical_global *= -1;
+									orizzontal_global *= -1;
                                     x=2;
                                 }
                     
@@ -853,6 +844,8 @@ void labyrint_analysis( char **M, int *row, int *col){
                     case 0: if(vertical_global == 1){
                                     x=1;         
                                 }else{
+									vertical_global *= -1;
+									orizzontal_global *= -1;
                                     x=2;
                                 }
                                 
@@ -924,14 +917,13 @@ tieni conto tutti i vari tipi di pattern possibili E-O, N-S, in base a tipo di p
 down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale consigliata */
 // codice che andrà dentro la funzione Pattern
 		 /*
-		vertical_global=1; // down movimento preferito
+		vertical_global=-1; // down movimento preferito
 	
-		vertical_global=0; // up movimento preferito
+		vertical_global=1; // up movimento preferito
 	
 		orizzontal_global=1; // movimento preferito a dx
 	
-		orizzontal_global=0; //movimento preferito a sx
+		orizzontal_global=-1; //movimento preferito a sx
 	*/
-
-	pattern(
+	
 
