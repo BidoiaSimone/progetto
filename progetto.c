@@ -45,12 +45,8 @@
 			}   
 				printf("\n");
 		}
-<<<<<<< Updated upstream
-		
-=======
 	}
 
->>>>>>> Stashed changes
 #endif
 
 #ifdef __APPLE__
@@ -488,7 +484,7 @@ void matrix_player(char **M, int *row, int *col){
     }
 }
 
-void labyrint_global_direction(char  x**M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
+void labyrint_global_direction(char  **M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
 	int g_col;
     int g_row;
 	int victory_row;
@@ -683,12 +679,6 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		matrix_printer(M, row, col, tail);
 		labyrint_analysis(M, row, col, moves);
 		return;
-<<<<<<< Updated upstream
-		}else{
-			if(M[g_row][g_col-1] == '_'){
-				printf("%c", 'O');
-				M[g_row][g_col-1] = 'o';
-=======
 	}else{
 		if(M[g_row][g_col-1] == '_'){
 			printf("%c\n", 'O');
@@ -703,23 +693,15 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 				printf("%c\n", 'S');
 				s_push_back(moves, 'S', orizzontal_global);
 				M[g_row+1][g_col] = 'o';
->>>>>>> Stashed changes
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
 				labyrint_analysis(M, row, col, moves);
 				return;
-<<<<<<< Updated upstream
-			} else{
-				if(M[g_row+1][g_col] == '_'){
-					printf("%c", 'S');
-					M[g_row+1][g_col] = 'o';
-=======
 			}else{
 				if(M[g_row-1][g_col] == '_'){
 					printf("%c\n", 'N');
 					s_push_back(moves, 'N', orizzontal_global);
 					M[g_row-1][g_col] = 'o';
->>>>>>> Stashed changes
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
 					labyrint_analysis(M, row, col, moves);
@@ -729,7 +711,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 						printf("%c", 'N');
 						M[g_row-1][g_col] = 'o';
 						M[g_row][g_col] = ' ';
-						labyrint_analysis(M, row, col);
+						labyrint_analysis(M, row, col, moves);
 						return;
 					}
 				}
@@ -763,11 +745,6 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	*/
 		
 	// inizio associazione valore a x in caso di pattern rilevato
-<<<<<<< Updated upstream
-	
-	
-			if ( abs(g_row - victory_row)> abs(g_col - victory_col)){		// associazione del valore di x per lo switch
-=======
 	/*
 	if(pattern(moves) == true){
 		if(vertical_global == 1){
@@ -782,7 +759,6 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 			}
 	}	else{  */
 			if (abs(g_row - victory_row) > abs(g_col - victory_col)){		// associazione del valore di x per lo switch
->>>>>>> Stashed changes
 				if(g_row < victory_row){
 					x=1;
 				}
@@ -994,9 +970,9 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 								}
 					}
     }
-} 
+	} 
 
-
+}
 
 
 bool pattern(string_t *moves){
@@ -1025,7 +1001,7 @@ int main(int argc, char * argv[]){
 	matrix_reader(M, &row, &col);
 
 
-  /*  if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
+    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 
           
 		labyrint_global_direction(M, &row, &col);
@@ -1033,7 +1009,7 @@ int main(int argc, char * argv[]){
 		s_print(moves);
         return 0;
 
-    }else{*/
+    }else{
 
                          //legge un labirinto da input terminale
 		#ifdef __APPLE__
@@ -1041,7 +1017,7 @@ int main(int argc, char * argv[]){
 		#endif
         matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
- //   }
+    }
 	free(M);
 	return 0;
 	
@@ -1062,10 +1038,6 @@ down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale co
 	
 		orizzontal_global=-1; //movimento preferito a sx
 	*/
-<<<<<<< Updated upstream
-	
-=======
 
 
->>>>>>> Stashed changes
 
