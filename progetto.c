@@ -99,8 +99,8 @@
 #endif
 
 
-
-bool pattern(string_t *moves);
+bool vertical_pattern(string_t *moves);
+bool orizzontal_pattern(string_t *moves);
 
 int vertical_global;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
 int orizzontal_global;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
@@ -975,8 +975,32 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 }
 
 
-bool pattern(string_t *moves){
+bool vertical_pattern(string_t *moves){
 	bool ptt = 0;
+	int s_cnt = 0;
+	int n_cnt = 0;
+	if(moves->string[moves->size-1] == 'N'){
+		for(int i = moves->size; moves->string[i] == 'N'; i--){
+			n_cnt++;
+		}
+		for(int i = moves->size-n_cnt; moves->string[i] == 'S'; i--){
+			s_cnt++;
+		}
+		if(s_cnt == n_cnt)
+			ptt = true;
+	}
+
+	if(moves->string[moves->size-1] == 'S'){
+		for(int i = moves->size-n_cnt; moves->string[i] == 'S'; i--){
+			s_cnt++;
+		}
+		for(int i = moves->size; moves->string[i] == 'N'; i--){
+			n_cnt++;
+		}
+		if(s_cnt == n_cnt)
+			ptt = true;
+	}
+
 	return ptt;
 }
 
@@ -1018,6 +1042,9 @@ int main(int argc, char * argv[]){
         matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
+	for(int i = 0; i < row; i++){
+		free(M[i]);
+	}
 	free(M);
 	return 0;
 	
