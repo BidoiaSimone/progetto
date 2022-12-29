@@ -890,13 +890,13 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
                                 }
                     
                                 switch (x) { 
-											case  1: 	printf("%c\n", 'N');
-														s_push_back(moves, 'N', orizzontal_global);
-														M[g_row-1][g_col] = 'o';
-														M[g_row][g_col] = ' ';
-														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
-														return;
+											case 1:printf("%c\n", 'N');
+													s_push_back(moves, 'N', orizzontal_global);
+													M[g_row-1][g_col] = 'o';
+													M[g_row][g_col] = ' ';
+													matrix_printer(M, row, col, tail);
+													labyrint_analysis(M, row, col, moves);
+													return;
 							
 											case 2:	printf("%c\n", 'S');
 													s_push_back(moves, 'S', orizzontal_global);
