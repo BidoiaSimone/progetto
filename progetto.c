@@ -842,7 +842,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
         
 		case  1: switch(down_move){
 
-					case 1: 	
+					case 1: 	if(v_pattern == false){
 									printf("11%c\n", 'S');
 									s_push_back(moves, 'S', orizzontal_global);
 									if(M[g_row+1][g_col] == '#'){
@@ -853,7 +853,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 									matrix_printer(M, row, col, tail);
 									labyrint_analysis(M, row, col, moves);
 									return;
-								
+								}
 								
 					case 0: 	if(orizzontal_global == 1 && right_move == 1){
 									x = 3;
@@ -894,7 +894,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		}                        
 					
 		case 2: switch(up_move){
-					case 1: 	
+					case 1: 	if(v_pattern == false){
 									printf("21%c\n", 'N');
 									s_push_back(moves, 'N', orizzontal_global);
 									if(M[g_row-1][g_col] == '#'){
@@ -905,7 +905,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 									matrix_printer(M, row, col, tail);
 									labyrint_analysis(M, row, col, moves);
 									return;
-								
+								}
 								
 					case 0:		if(orizzontal_global == 1 && right_move == 1){
 									x = 3;
@@ -947,7 +947,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 					}	
 		case 3: switch(right_move){
 
-                    case 1: 		
+                    case 1: 		if(o_pattern == false){
 										printf("31%c\n", 'E');
 										s_push_back(moves, 'E', orizzontal_global);
 										if(M[g_row][g_col+1] == '#'){
@@ -958,7 +958,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 										matrix_printer(M, row, col, tail);
 										labyrint_analysis(M, row, col, moves);
 										return;
-									
+									}
 									
 								
 									
@@ -1000,7 +1000,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 								}
 				}
         case 4: switch(left_move){
-                    case 1:  		
+                    case 1:  		if(o_pattern == false){
 										printf("41%c\n", 'O');
 										s_push_back(moves, 'O', orizzontal_global);
 										if(M[g_row][g_col-1] == '#'){
@@ -1011,7 +1011,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 										matrix_printer(M, row, col, tail);
 										labyrint_analysis(M, row, col, moves);
 										return;
-									
+									}
 								
                     case 0: if(vertical_global == 1 && up_move == 1){
                                     x=1;          
@@ -1054,6 +1054,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 								}
 					}
     }
+
 	} 
 }
 
@@ -1106,7 +1107,6 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 				
 			}
 		}
-
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
 	s_print(moves);
@@ -1139,9 +1139,7 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 				
 			}
 		}
-			
 	}
-
 	if(moves->string[moves->size-1] == 'O'){
 		for(int i = moves->size-1; moves->string[i] == 'O'; i--){
 			o_cnt++;
