@@ -759,7 +759,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 					x = 3;
 				}
 				else{
-					x=4
+					x=4;
 				}
 			}
 			else{
@@ -776,7 +776,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 						if(g_row == victory_row && g_col > victory_col)
 							x=4;
 					}else{ 
-						if(g_col < victory_col &&){
+						if(g_col < victory_col){
 							x=3;
 						}
 						if(g_col > victory_col){
@@ -1066,7 +1066,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
     }
 
 	} 
-}
+
 
 
 bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
@@ -1116,7 +1116,7 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 				M[*g_row][*g_col] = ' ';
 				
 			}*/
-			if(moves->sting[moves->size-2] == 'O'){
+			if(moves->string[moves->size-2] == 'O'){
 				orizzontal_global = 1;
 			}
 			else{
@@ -1134,6 +1134,10 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 	bool ptt = 0;
 	int o_cnt = 0;
 	int e_cnt = 0;
+	int up_move;
+	int right_move;
+	int left_move;
+	int down_move;
 	if(moves->string[moves->size-1] == 'E'){
 		for(int i = moves->size-1; moves->string[i] == 'E'; i--){
 			e_cnt++;
@@ -1190,12 +1194,12 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 					}else{
 						left_move = 1;
 					}
-					if (M[*g_row+1][*g_col] == '#'{
+					if (M[*g_row+1][*g_col] == '#'){
 						down_move = 0;
 					}else{
 						down_move = 1;
 					}
-					if (M[*g_row-1][*g_col] == '#'{
+					if (M[*g_row-1][*g_col] == '#'){
 						up_move = 0;
 					}else{
 						up_move = 1;
