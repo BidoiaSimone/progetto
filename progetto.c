@@ -561,6 +561,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 	
     if (g_col==0){   // uscita del giocatore dal bordo
+		if( M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == 'T'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '$' o 'T'
+			if (M[g_row][g_col+1] == 'T'){
+				counter_trivella += 3;
+			}
+		}
         printf("%c\n",'E');
 		s_push_back(moves, 'E', orizzontal_global);
         M[g_row][g_col+1] = 'o';
@@ -570,6 +575,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		return;
 	}else{
 		if (g_col== *col-1){
+			if(M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == 'T'){
+				if (M[g_row][g_col+1] == 'T'){
+					counter_trivella += 3;
+				}
+			}
 			printf("%c\n",'O');
 			s_push_back(moves, 'O', orizzontal_global);
 			M[g_row][g_col-1] = 'o';
@@ -579,6 +589,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 			return;
 		}else{
 			if (g_row==0){
+				if(M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == 'T'){
+					if (M[g_row][g_col+1] == 'T'){
+						counter_trivella += 3;
+					}
+				}
 				printf("%c\n",'S');
 				s_push_back(moves, 'S', orizzontal_global);
 				M[g_row+1][g_col] = 'o';
@@ -588,6 +603,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 				return;
 			}else{
 				if(g_row== *row-1){
+					if(M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == 'T'){
+						if (M[g_row][g_col+1] == 'T'){
+							counter_trivella += 3;
+						}
+					}
 					printf("%c\n",'N');
 					s_push_back(moves, 'N', orizzontal_global);
 					M[g_row-1][g_col] = 'o';
@@ -1152,12 +1172,12 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 			/*for(int i = 0; i < e_cnt+o_cnt; i++){
 				s_pop_back(moves);
 			}*/
-			for(int i = 0; i < e_cnt; i++){
+			/*for(int i = 0; i < e_cnt; i++){
 				s_push_back(moves, 'O', orizzontal_global);
 				M[*g_row][*g_col--] = 'o';
 				M[*g_row][*g_col] = ' ';
 				
-			}
+			}*/
 		}
 	}
 	if(moves->string[moves->size-1] == 'O'){
