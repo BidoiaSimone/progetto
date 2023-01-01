@@ -532,7 +532,8 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	int up_move;
 	int down_move;
 	int right_move;
-	int left_move;
+
+	
     for(int i = 0; i < *row; i++){
         for(int j = 0; j < *col; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == 'o'){
@@ -703,54 +704,39 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		matrix_printer(M, row, col, tail);
 		labyrint_analysis(M, row, col, moves);
 		return;
-	}else{
-		if(M[g_row][g_col-1] == '_'){
-			printf("_%c\n", 'O');
-			s_push_back(moves, 'O', orizzontal_global);
-			M[g_row][g_col-1] = 'o';
-			M[g_row][g_col] = ' ';
-			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves);
-			return;
-		} else{
-			if(M[g_row+1][g_col] == '_'){
-				printf("_%c\n", 'S');
-				s_push_back(moves, 'S', orizzontal_global);
-				M[g_row+1][g_col] = 'o';
+		}else{
+			if(M[g_row][g_col-1] == '_'){
+				printf("_%c\n", 'O');
+				s_push_back(moves, 'O', orizzontal_global);
+				M[g_row][g_col-1] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
 				labyrint_analysis(M, row, col, moves);
 				return;
-			}else{
-				if(M[g_row-1][g_col] == '_'){
-					printf("_%c\n", 'N');
-					s_push_back(moves, 'N', orizzontal_global);
-					M[g_row-1][g_col] = 'o';
+			} else{
+				if(M[g_row+1][g_col] == '_'){
+					printf("_%c\n", 'S');
+					s_push_back(moves, 'S', orizzontal_global);
+					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
 					labyrint_analysis(M, row, col, moves);
 					return;
+				}else{
+					if(M[g_row-1][g_col] == '_'){
+						printf("_%c\n", 'N');
+						s_push_back(moves, 'N', orizzontal_global);
+						M[g_row-1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis(M, row, col, moves);
+						return;
+					}
+					}
 				}
-				}
-			}
-			
+				
 	}
-	// se la pedina finisce in un anglo ceco cambia direzione preferita	
-	/*if (orizzontal_global == 1 && vertical_global == -1  && right_move==0 && down_move==0){
-		orizzontal_global = -1;
-	}else{	
-		if(orizzontal_global == 1 && vertical_global == 1  && right_move == 0  &&  up_move == 0){
-			orizzontal_global = -1;
-		}else{ 
-			if(orizzontal_global == 0  &&  vertical_global == -1  && left_move == 0 && down_move == 0){ 
-				orizzontal_global = 1;
-			}else{ 
-				if (orizzontal_global == 0 && vertical_global == 1 && left_move == 0 && up_move == 0){
-					orizzontal_global = 1;
-				}
-			}
-		}
-	}*/
+	
 	 /*
 		vertical_global=-1; // down movimento preferito
 	
@@ -1089,7 +1075,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 
 
-bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
+bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col,){
 	bool ptt = 0;
 	int s_cnt = 0;
 	int n_cnt = 0;
@@ -1100,7 +1086,7 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		for(int i = moves->size-n_cnt-1; moves->string[i] == 'S'; i--){
 			s_cnt++;
 		}
-		if(s_cnt == n_cnt){
+		if( s_cnt > 1  &&  s_cnt == n_cnt){
 			ptt = true;
 			vertical_global = -1;
 		
@@ -1123,25 +1109,25 @@ bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		for(int i = moves->size-s_cnt-1; moves->string[i] == 'N'; i--){
 			n_cnt++;
 		}
-		if(s_cnt == n_cnt){
+		if( s_cnt > 1  &&  s_cnt == n_cnt){
 			ptt = true;
 			vertical_global = 1;
 		
-			/*for(int i = 0; i < n_cnt+s_cnt; i++){
-				s_pop_back(moves);
-			}*/
+			for(int i = s_cnt; i >0; i--){
+				
+			}
 			/*for(int i = 0; i < n_cnt; i++){
 				s_push_back(moves, 'N', orizzontal_global);
 				M[*g_row--][*g_col] = 'o';
 				M[*g_row][*g_col] = ' ';
 				
 			}*/
-			if(moves->string[moves->size-2] == 'O'){
+			/*if(moves->string[moves->size-2] == 'O'){
 				orizzontal_global = 1;
 			}
 			else{
 				orizzontal_global = -1;
-			}
+			}*/
 		}
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
@@ -1155,9 +1141,18 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 	int o_cnt = 0;
 	int e_cnt = 0;
 	int up_move;
-	int right_move;
-	int left_move;
 	int down_move;
+	
+	if (M[*g_row+1][*g_col] == '#'){ // aggiungere trivella
+		down_move = 0;
+	}else{
+		down_move = 1;
+	}
+	if (M[*g_row-1][*g_col] == '#'){
+		up_move = 0;
+	}else{
+		up_move = 1;
+	}
 	if(moves->string[moves->size-1] == 'E'){
 		for(int i = moves->size-1; moves->string[i] == 'E'; i--){
 			e_cnt++;
@@ -1169,15 +1164,29 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 			ptt = true;
 			orizzontal_global = 1;
 
-			/*for(int i = 0; i < e_cnt+o_cnt; i++){
-				s_pop_back(moves);
-			}*/
-			/*for(int i = 0; i < e_cnt; i++){
+			for(int i = o_cnt; i > 0; i--){
 				s_push_back(moves, 'O', orizzontal_global);
 				M[*g_row][*g_col--] = 'o';
 				M[*g_row][*g_col] = ' ';
-				
-			}*/
+			}
+			
+				if( vertical_global == 1  &&  up_move == 1){
+					s_push_back(moves, 'O', orizzontal_global);
+					M[*g_row--][*g_col] = 'o';
+					M[*g_row][*g_col] = ' ';
+					labyrint_analysis ( M , row, col, moves);
+					return;
+				}
+				else {
+					if ( vertical_global == -1  && down_move == 1){
+						s_push_back(moves, 'O', orizzontal_global);
+						M[*g_row++][*g_col] = 'o';
+						M[*g_row][*g_col] = ' ';
+						labyrint_analysis ( M , row, col, moves);
+						return;
+					}
+				}
+			
 		}
 	}
 	if(moves->string[moves->size-1] == 'O'){
@@ -1187,7 +1196,7 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		for(int i = moves->size-o_cnt-1; moves->string[i] == 'E'; i--){
 			e_cnt++;
 		}
-		if(o_cnt == e_cnt){
+		if(o_cnt > 1  &&  o_cnt == e_cnt){
 			ptt = true;
 			orizzontal_global = -1;
 
@@ -1204,33 +1213,8 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 		
 	}
 		if (ptt){
-				if (M[*g_row][*g_col+1] == '#'){
-						right_move = 0;
-					}else{
-						right_move = 1;
-					}
-					if (M[*g_row][*g_col-1] == '#'){
-						left_move = 0;
-					}else{
-						left_move = 1;
-					}
-					if (M[*g_row+1][*g_col] == '#'){
-						down_move = 0;
-					}else{
-						down_move = 1;
-					}
-					if (M[*g_row-1][*g_col] == '#'){
-						up_move = 0;
-					}else{
-						up_move = 1;
-					}
-					if (down_move == 0 && right_move == 0   ||   down_move == 0 && left_move == 0){
-						vertical_global = 1;
-					} else{
-							if(up_move == 0 && right_move == 0  ||  up_move == 0 && left_move == 0){
-								vertical_global = -1;
-							}
-					}
+				
+
 		}
 	
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
