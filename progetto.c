@@ -102,6 +102,7 @@
 bool vertical_pattern(string_t *moves, char **M, int *row, int *col);
 bool orizzontal_pattern(string_t *moves, char **M, int *row, int *col);
 
+
 int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
 int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
 int counter_trivella = 0;
@@ -515,7 +516,7 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 	
 }
 
-void temp_name( char **M, int *row, int *col, string_t *moves){ 
+/*void temp_name( char **M, int *row, int *col, string_t *moves){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
@@ -549,7 +550,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
         for(int j = 0; j < *col && finish_check == 0; j++){          //controlla dove è la posizione di partenza del giocaotore
             if(M[i][j] == '_'){
                 victory_row = i;
-                victory_col = j;			/* inserire questo check dopo ogni chiamata di analysis */
+                victory_col = j;			
 				finish_check = 1;
 				break;
 			}else{
@@ -738,15 +739,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 				
 	}
 	
-	 /*
-		vertical_global=-1; // down movimento preferito
 	
-		vertical_global=1; // up movimento preferito
-	
-		orizzontal_global=1; // movimento preferito a dx
-	
-		orizzontal_global=-1; //movimento preferito a sx
-	*/
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
@@ -770,7 +763,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 				}
 			}
 			else{
-				if (abs(g_row - victory_row) >= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
+				if(abs(g_row - victory_row) >= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
 						if(g_row < victory_row  ){
 							x=1;
 						}
@@ -796,17 +789,8 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 
 			
 		
-	 /*
-		vertical_global=-1; // down movimento preferito
 	
-		vertical_global=1; // up movimento preferito
-	
-		orizzontal_global=1; // movimento preferito a dx
-	
-		orizzontal_global=-1; //movimento preferito a sx
-	*/
-
-    //aggiungere count trivella in tutte le mosse dello switch
+  
 
 	if(up_move == 0 && right_move == 0 && down_move == 0){
 		printf("41%c\n", 'O');
@@ -816,8 +800,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 		matrix_printer(M, row, col, tail);
 		labyrint_analysis(M, row, col, moves);
 		return;
-	}
-	else{
+	}else{
 		if(left_move == 0 && right_move == 0 && down_move == 0){
 			printf("21%c\n", 'N');
 			s_push_back(moves, 'N', orizzontal_global);
@@ -826,8 +809,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 			matrix_printer(M, row, col, tail);
 			labyrint_analysis(M, row, col, moves);
 			return;
-		}
-		else{
+		}else{
 			if(left_move == 0 && up_move == 0 && down_move == 0){
 				printf("31%c\n", 'E');
 				s_push_back(moves, 'E', orizzontal_global);
@@ -836,8 +818,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 				matrix_printer(M, row, col, tail);
 				labyrint_analysis(M, row, col, moves);
 				return;
-			}
-			else{
+			}else{
 				if(left_move == 0 && up_move == 0 && right_move == 0){
 					printf("11%c\n", 'S');
 					s_push_back(moves, 'S', orizzontal_global);
@@ -1075,7 +1056,7 @@ void temp_name( char **M, int *row, int *col, string_t *moves){
 	} 
 
 
-
+*/
 bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 	bool ptt = 0;
 	int s_cnt = 0;
@@ -1175,16 +1156,16 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 					s_push_back(moves, 'O', orizzontal_global);
 					M[*g_row--][*g_col] = 'o';
 					M[*g_row][*g_col] = ' ';
-					labyrint_analysis ( M , row, col, moves);
-					return;
+					//labyrint_analysis ( M , row, col, moves);
+					return ptt;
 				}
 				else {
 					if ( vertical_global == -1  && down_move == 1){
 						s_push_back(moves, 'O', orizzontal_global);
 						M[*g_row++][*g_col] = 'o';
 						M[*g_row][*g_col] = ' ';
-						labyrint_analysis ( M , row, col, moves);
-						return;
+						//labyrint_analysis ( M , row, col, moves);
+						return ptt;
 					}
 				}
 			
@@ -1201,9 +1182,7 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 			ptt = true;
 			orizzontal_global = -1;
 
-			/*for(int i = 0; i < e_cnt+o_cnt; i++){
-				s_pop_back(moves);
-			}*/
+
 			for(int i = 0; i < e_cnt; i++){
 				s_push_back(moves, 'E', orizzontal_global);
 				M[*g_row][*g_col++] = 'o';
@@ -1228,46 +1207,7 @@ bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
 
 
 
-int main(int argc, char * argv[]){
 
-	int row = 0;
-	int col = 0;
-	scanf("%d\n%d\n", &col, &row);
-	string_t *moves = s_create();
-
-    
-    char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
-    for(int i = 0; i < row; i++){
-        M[i] = (char*)malloc(col * sizeof(char));
-    }
-	
-	matrix_reader(M, &row, &col);
-
-
-    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
-
-          
-		labyrint_global_direction(M, &row, &col);
-        labyrint_analysis(M, &row, &col, moves);             //IA
-		s_print(moves);
-        return 0;
-
-    }else{
-
-                         //legge un labirinto da input terminale
-		#ifdef __APPLE__
-			system("clear");
-		#endif
-        matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
-        return 0;
-    }
-	for(int i = 0; i < row; i++){
-		free(M[i]);
-	}
-	free(M);
-	return 0;
-	
-}
 
 
 
@@ -1299,9 +1239,14 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	int g_col;	//giocatore col
 	int w_row;	//win row
 	int w_col;	//win col
+	
 							vector_t *tail = v_create();
 	bool global_direction_priority; //se = 1 propiorità verticale, se = 0 priorità orizzontale
-
+	bool up_move;
+	bool down_move;
+	bool right_move;
+	bool left_move;
+	bool finish_check;
 
 	for(int i = 0; i < *row; i++){
 		for(int j = 0; j < *col; j++){
@@ -1323,8 +1268,22 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		}
 	}
 
+	for(int i = 0; i < *row; i++){
+        for(int j = 0; j < *col && finish_check == 0; j++){          //controlla dove è la posizione di partenza del giocaotore
+            if(M[i][j] == '_'){
+                w_row = i;
+                w_col = j;			
+				finish_check = 1;
+				break;
+			}else{
+				finish_check = 0;
+			}
+        }
+	}
+	if(finish_check == 0){
+		return;
+	}
 
-	
 
 
 
@@ -1387,5 +1346,293 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 			}
 		}
 	}
+
+	if (M[g_row][g_col+1] == '#'  &&  counter_trivella  == 0){
+			right_move = 0;
+		}else{
+			right_move = 1;
+		}
+		if(M[g_row][g_col-1] == '#'  &&  counter_trivella == 0){
+			left_move = 0;
+		}else{
+			left_move = 1;
+		}
+		if(M[g_row+1][g_col] == '#'  &&  counter_trivella == 0){
+			down_move = 0;
+		}else{
+			down_move = 1;
+		}
+		if(M[g_row-1][g_col] == '#'  &&  counter_trivella == 0){
+			up_move = 0;
+		}else{
+			up_move = 1;
+		}
+
+	if(up_move == 0 && right_move == 0 && down_move == 0){		//check vicolo ceco
+		printf("41%c\n", 'O');
+		s_push_back(moves, 'O', orizzontal_global);
+		M[g_row][g_col-1] = 'o';
+		M[g_row][g_col] = '#';
+		matrix_printer(M, row, col, tail);
+		labyrint_analysis(M, row, col, moves);
+		return;
+	}else{
+		if(left_move == 0 && right_move == 0 && down_move == 0){
+			printf("21%c\n", 'N');
+			s_push_back(moves, 'N', orizzontal_global);
+			M[g_row-1][g_col] = 'o';
+			M[g_row][g_col] = '#';
+			matrix_printer(M, row, col, tail);
+			labyrint_analysis(M, row, col, moves);
+			return;
+		}else{
+			if(left_move == 0 && up_move == 0 && down_move == 0){
+				printf("31%c\n", 'E');
+				s_push_back(moves, 'E', orizzontal_global);
+				M[g_row][g_col+1] = 'o';
+				M[g_row][g_col] = '#';
+				matrix_printer(M, row, col, tail);
+				labyrint_analysis(M, row, col, moves);
+				return;
+			}else{
+				if(left_move == 0 && up_move == 0 && right_move == 0){
+					printf("11%c\n", 'S');
+					s_push_back(moves, 'S', orizzontal_global);
+					M[g_row+1][g_col] = 'o';
+					M[g_row][g_col] = '#';
+					matrix_printer(M, row, col, tail);
+					labyrint_analysis(M, row, col, moves);
+					return;
+				}
+			}
+		}
+	}
+
+
+
+
+
+	if(abs(g_row - w_row) >= abs(g_col - w_col)){
+		global_direction_priority = 1;				//priorità vertical_global
+	}else{
+		global_direction_priority = 0;				//priorità orizzontal_global
+	}
+
+	if(global_direction_priority == 1){		//verticale
+
+		if(vertical_global == 1){	//su
+			if(up_move == 1){
+				printf("%c\n",'N');
+				s_push_back(moves, 'N', orizzontal_global);
+				M[g_row-1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				matrix_printer(M, row, col, tail);
+				labyrint_analysis( M, row, col, moves);
+				return;
+			}else{
+				if(orizzontal_global == 1){	//dx
+					if(right_move == 1){
+						printf("%c\n",'E');
+						s_push_back(moves, 'E', orizzontal_global);
+						M[g_row][g_col+1] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare S e __O__ e vedere da quale posizione non è arrivato
+					}
+				}
+				if(orizzontal_global == 0){	//sx
+					if(left_move == 1){
+						printf("%c\n",'O');
+						s_push_back(moves, 'O', orizzontal_global);
+						M[g_row][g_col-1] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis(M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare S e __E__ e vedere da quale posizione non è arrivato
+					}
+				}
+			}
+		}else{	//if(vertical_global == 0)
+			if(down_move == 1){
+				printf("%c\n",'S');
+				s_push_back(moves, 'S', orizzontal_global);
+				M[g_row+1][g_col] = 'o';
+				M[g_row][g_col] = ' ';
+				matrix_printer(M, row, col, tail);
+				labyrint_analysis( M, row, col, moves);
+				return;
+			}else{
+				if(orizzontal_global == 1){	//dx
+					if(right_move == 1){
+						printf("%c\n",'E');
+						s_push_back(moves, 'E', orizzontal_global);
+						M[g_row][g_col+1] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare N e __O__ e vedere da quale posizione non è arrivato
+					}
+				}
+				if(orizzontal_global == 0){
+					if(left_move == 1){
+						printf("%c\n",'O');
+						s_push_back(moves, 'O', orizzontal_global);
+						M[g_row][g_col-1] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis(M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare N e __O__ e vedere da quale posizione non è arrivato
+					}
+				}
+			}
+		}
+	}
+
+			
+		
+	
+
+	
+	if(global_direction_priority == 0){ //orizzonatale
+
+		if(orizzontal_global == 1){	//dx
+			if(right_move == 1){
+				printf("%c\n",'E');
+				s_push_back(moves, 'E', orizzontal_global);
+				M[g_row][g_col+1] = 'o';
+				M[g_row][g_col] = ' ';
+				matrix_printer(M, row, col, tail);
+				labyrint_analysis( M, row, col, moves);
+				return;
+			}else{
+				if(vertical_global == 1){
+					if(up_move == 1){
+						printf("%c\n",'N');
+						s_push_back(moves, 'N', orizzontal_global);
+						M[g_row-1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare O e __S__ e vedere da quale posizione non è arrivato
+					}
+				}
+				if(vertical_global == 0){
+					if(down_move == 1){
+						printf("%c\n",'S');
+						s_push_back(moves, 'S', orizzontal_global);
+						M[g_row+1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare O e __S__ e vedere da quale posizione non è arrivato
+					}
+				}
+			}
+		}else{	//if(orizzontal_global == 0)
+			if(left_move == 1){
+				printf("%c\n",'O');
+				s_push_back(moves, 'O', orizzontal_global);
+				M[g_row][g_col-1] = 'o';
+				M[g_row][g_col] = ' ';
+				matrix_printer(M, row, col, tail);
+				labyrint_analysis(M, row, col, moves);
+				return;
+			}else{
+				if(vertical_global == 1){
+					if(up_move == 1){
+						printf("%c\n",'N');
+						s_push_back(moves, 'N', orizzontal_global);
+						M[g_row-1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare O e __S__ e vedere da quale posizione non è arrivato
+					}
+				}
+				if(vertical_global == 0){
+					if(down_move == 1){
+						printf("%c\n",'S');
+						s_push_back(moves, 'S', orizzontal_global);
+						M[g_row+1][g_col] = 'o';
+						M[g_row][g_col] = ' ';
+						matrix_printer(M, row, col, tail);
+						labyrint_analysis( M, row, col, moves);
+						return;
+					}else{
+						//unica da cui non è venuto (mi sono dimenticato ragionamento per questa mossa)
+						//ma in teoria basta controllare O e __S__ e vedere da quale posizione non è arrivato
+					}
+				}
+			}
+		}	
+	}
 }
 
+
+
+
+
+
+
+int main(int argc, char * argv[]){
+
+	int row = 0;
+	int col = 0;
+	scanf("%d\n%d\n", &col, &row);
+	
+
+    
+    char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
+    for(int i = 0; i < row; i++){
+        M[i] = (char*)malloc(col * sizeof(char));
+    }
+	
+	matrix_reader(M, &row, &col);
+
+
+    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
+
+        string_t *moves = s_create();  
+		labyrint_global_direction(M, &row, &col);
+        labyrint_analysis(M, &row, &col, moves);             //IA
+		s_print(moves);
+        return 0;
+
+    }else{
+
+                         //legge un labirinto da input terminale
+		#ifdef __APPLE__
+			system("clear");
+		#endif
+        matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
+        return 0;
+    }
+	for(int i = 0; i < row; i++){
+		free(M[i]);
+	}
+	free(M);
+	return 0;
+	
+}
