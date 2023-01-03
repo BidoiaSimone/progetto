@@ -206,7 +206,7 @@ void v_cut(vector_t *v, size_t index){                  //rimuove tutti gli elem
 
 
 void s_cut(string_t *s, size_t index){
-    if(index > s->size){
+    if(index >= s->size){
         printf("Error: index out of string bounds");
         exit(EXIT_FAILURE);
     }

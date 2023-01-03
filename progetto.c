@@ -106,8 +106,6 @@ bool orizzontal_pattern(string_t *moves);
 int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
 int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
 int counter_trivella = 0;
-int v_ptt = 0;
-int o_ptt = 0;
 
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
@@ -1231,6 +1229,8 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	bool right_move;
 	bool left_move;
 	bool finish_check;
+	bool v_ptt = 0;
+	bool o_ptt = 0;
 	
 
 	for(int i = 0; i < *row; i++){
@@ -1271,8 +1271,8 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 	
 	if(moves->size >= 1){
-		v_ptt += vertical_pattern(moves);
-		o_ptt += orizzontal_pattern(moves);
+		v_ptt = vertical_pattern(moves);
+		o_ptt = orizzontal_pattern(moves);
 	}
 	if(v_ptt == 0 && o_ptt == 0){
 		labyrint_global_direction(M, row, col);
@@ -1406,7 +1406,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		}
 
 	if(up_move == 0 && right_move == 0 && down_move == 0){		//check vicolo ceco
-		printf("41%c\n", 'O');
+		printf("%c\n", 'O');
 		s_pop_back(moves);
 		M[g_row][g_col-1] = 'o';
 		M[g_row][g_col] = '#';
@@ -1415,7 +1415,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 		return;
 	}else{
 		if(left_move == 0 && right_move == 0 && down_move == 0){
-			printf("21%c\n", 'N');
+			printf("%c\n", 'N');
 			s_pop_back(moves);
 			M[g_row-1][g_col] = 'o';
 			M[g_row][g_col] = '#';
@@ -1424,7 +1424,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 			return;
 		}else{
 			if(left_move == 0 && up_move == 0 && down_move == 0){
-				printf("31%c\n", 'E');
+				printf("%c\n", 'E');
 				s_pop_back(moves);
 				M[g_row][g_col+1] = 'o';
 				M[g_row][g_col] = '#';
@@ -1433,7 +1433,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 				return;
 			}else{
 				if(left_move == 0 && up_move == 0 && right_move == 0){
-					printf("11%c\n", 'S');
+					printf("%c\n", 'S');
 					s_pop_back(moves);
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = '#';
