@@ -1837,7 +1837,6 @@ int main(int argc, char * argv[]){
 
     }else{
 
-                         //legge un labirinto da input terminale
 		#ifdef __APPLE__
 			system("clear");
 		#endif
