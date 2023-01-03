@@ -106,6 +106,8 @@ bool orizzontal_pattern(string_t *moves);
 int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
 int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
 int counter_trivella = 0;
+int v_ptt = 0;
+int o_ptt = 0;
 
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
@@ -1229,8 +1231,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 	bool right_move;
 	bool left_move;
 	bool finish_check;
-	bool v_ptt = 0;
-	bool o_ptt = 0;
+	
 	
 
 	for(int i = 0; i < *row; i++){
@@ -1271,12 +1272,10 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 	
 	if(moves->size >= 1){
-		v_ptt = vertical_pattern(moves);
-		o_ptt = orizzontal_pattern(moves);
+		v_ptt += vertical_pattern(moves);
+		o_ptt += orizzontal_pattern(moves);
 	}
-	if(v_ptt == 0 && o_ptt == 0){
-		labyrint_global_direction(M, row, col);
-	}	
+
 	
 	
 	
@@ -1833,6 +1832,7 @@ int main(int argc, char * argv[]){
 		labyrint_global_direction(M, &row, &col);
         labyrint_analysis(M, &row, &col, moves);             //IA
 		s_print(moves);
+		s_free(moves);
         return 0;
 
     }else{
