@@ -7,7 +7,6 @@ typedef struct string string_t;
 struct string{
     size_t size;
     char *string;
-    int *moves;
 };
 
 
@@ -49,15 +48,12 @@ void v_push_back(vector_t *v, int x, int y){      //aggiungi valori row e col al
     v->size++;
 }
 
-void s_push_back(string_t *s, char c, int x){
+void s_push_back(string_t *s, char c){
     if(s->size == 0){
         s->string = (char*)malloc(1*sizeof(char));
-        s->moves = (int *)malloc(1*sizeof(int));
     }else{
         s->string = realloc(s->string, (s->size+1)*sizeof(char));
-        s->moves = realloc(s->moves, (s->size+1)*sizeof(int));
     }
-    s->moves[s->size] = x;
     s->string[s->size] = c;
     s->size++;
 }
@@ -84,20 +80,16 @@ void v_push_front(vector_t * v, int x, int y){      //aggiungi valori alla testa
 
 }
 
-void s_push_front(string_t *s, char c, int x){
+void s_push_front(string_t *s, char c){
     if(s->size == 0){
         s->string = (char *)malloc(1*sizeof(char));
-        s->moves = (int *)malloc(1*sizeof(int));
-        s->moves[0] = x;
         s->string[0] = c;
         s->size++;
     }else{
         s->string = realloc(s->string, (s->size+1)*sizeof(char));
-        s->moves = realloc(s->moves, (s->size+1)*sizeof(int));
         for(int i = s->size; i > 0; i--){
             s->string[i] = s->string[i-1];
         }
-        s->moves[0] = x;
         s->string[0] = c;
         s->size++;
     }
@@ -116,7 +108,6 @@ void v_free(vector_t *v){                          //libera la memoria allocata 
 
 void s_free(string_t *s){
     if(s->size != 0){
-        free(s->moves);
         free(s->string);
     }
     free(s);
@@ -133,7 +124,6 @@ void v_pop_back(vector_t *v){
 void s_pop_back(string_t *s){
     s->size--;
     s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->moves = realloc(s->moves, (s->size)*sizeof(int));
 }
 
 
@@ -151,12 +141,10 @@ void v_pop_front(vector_t *v){                          //rimuove il primo eleme
 void s_pop_front(string_t *s){
     for(int i = 0; i < s->size-1; i++){
         s->string[i] = s->string[i+1];
-        s->moves[i] = s->moves[i+1];
     }
     
     s->size--;
     s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->moves = realloc(s->moves, (s->size)*sizeof(int));
 }
 
 
@@ -185,11 +173,9 @@ void s_pop_elem(string_t *s, size_t index){
     }
     for(int i = index; i < s->size; i++){
         s->string[i] = s->string[i+1];
-        s->moves[i] = s->moves[i+1];
     }
     s->size--;
     s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->moves = realloc(s->moves, (s->size)*sizeof(int));
 }
 
 
@@ -212,7 +198,6 @@ void s_cut(string_t *s, size_t index){
     }
     s->size = index;
     s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->moves = realloc(s->moves, (s->size)*sizeof(int));
 }
 
 
@@ -240,11 +225,9 @@ void s_cut_front(string_t *s, size_t index){
     }
     for(int i = index; i < s->size; i++){
         s->string[i - index] = s->string[i+1];
-        s->moves[i - index] = s->moves[i+1];
     }
     s->size = s->size - index - 1;
     s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->moves = realloc(s->moves, (s->size)*sizeof(int));
 }
 
 
@@ -261,7 +244,9 @@ void v_print(vector_t *v){                              //stampa a schermo un ve
 void s_print(string_t *s){
     printf("{ ");
     for(int i = 0; i < s->size; i++){
-        printf("\n(%c, %d)", s->string[i], s->moves[i]);
+        printf("%c", s->string[i]);
+        if(i != s->size-1)
+            printf(",");
     }
-    printf("\n}\n");
+    printf(" }\n");
 }
