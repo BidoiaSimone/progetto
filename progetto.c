@@ -26,7 +26,7 @@
 #ifdef __WIN32	
 
 		char test[27] = "Wow, you are using Windows";
-		void matrix_printer(char **M, int *row, int *col){      //implementare bella stampa a colori da usare
+		void matrix_printer(char **M, int *row, int *col ,vector_t *tail){      //implementare bella stampa a colori da usare
 		for(int i = 0; i < *row; i++){                   
 				for(int j = 0; j < *col; j++){
 					if(M[i][j] == '.')
@@ -469,19 +469,19 @@ void labyrint_global_direction(char  **M, int *row,int *col, vector_t *check_glo
 	}
 	if (abs(g_row -victory_row) > abs( g_col - victory_col)){
 		if(vertical_global == 1){
-			check_global.vertical_global[0] = -1;
-			check_global.vertical_global[1] = 1;
+			check_global->vertical_direction[0] = -1;
+			check_global->vertical_direction[1] = 1;
 		}else{
-			check_global.vertical_global[0] = 1;
-			check_global.vertical_global[1] = -1
+			check_global->vertical_direction[0] = 1;
+			check_global->vertical_direction[1] = -1;
 		}
 	}else{
 		if( orizzontal_global == 1){
-			check_global.orizzontal_global[0] = -1;
-			check_global.orizzontal_global[1] = 1
+			check_global->orizzontal_direction[0] = -1;
+			check_global->orizzontal_direction[1] = 1;
 		}else{
-			check_global.orizzontal_global[0] = 1;
-			check_global.orizzontal_global[1] = -1
+			check_global->orizzontal_direction[0] = 1;
+			check_global->orizzontal_direction[1] = -1;
 		}
 	}
 }
@@ -678,7 +678,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 		}else{
 			if(M[g_row][g_col-1] == '_'){
 				printf("_%c\n", 'O');
-				s_push_back(moves, 'O', vertical_global, orizzontal_global;
+				s_push_back(moves, 'O', vertical_global, orizzontal_global);
 				M[g_row][g_col-1] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
@@ -712,20 +712,20 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	orizzontal_pattern(moves, M, &g_row, &g_col);
-	vertical_pattern(moves, M, &g_row, &g_col);
+	orizzontal_pattern(string_t *moves, vector_global *check_global);
+	 vertical_pattern(string_t *moves, vector_global *check_global);
 		
-		if ( check_global.orizzontal_global[0]  !=  check_global.orizzontal_global[1]){
-			if(check_global.orizzontal_global[1] == 1){
+		if ( check_global->orizzontal_global[0]  !=  check_global->orizzontal_global[1]){
+			if(check_global->orizzontal_global[1] == 1){
 				x = 3;
-			}esle{
+			}else{
 				x = 4;
 			}
 			
-		}else{check_global.vertical_global[1]  ==  1){}
+		}else{
 			
-			if (check_global.vertical_global[[0]  !=  check_global.vertical_global[1]){
-				if ( check_global.vertical_global[1]  ==  1){
+			if (check_global->vertical_global[0]  !=  check_global->vertical_global[1]){
+				if ( check_global->vertical_global[1]  ==  1){
 					x = 2;
 				}else{
 					x = 1;
@@ -1000,7 +1000,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 
 
 
-void vertical_pattern(string_t *moves, vector_t *check_global){
+void vertical_pattern(string_t *moves, vector_global *check_global){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1013,9 +1013,9 @@ void vertical_pattern(string_t *moves, vector_t *check_global){
 		}
 	}
 	if(ptt == true){
-		check_global.vertical_global[0] = vertical_global;
+		check_global->vertical_global[0] = vertical_global;
 		vertical_global *= -1;
-		check_global.vertical_global[1] = vertical_global;
+		check_global->vertical_global[1] = vertical_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
@@ -1023,7 +1023,7 @@ void vertical_pattern(string_t *moves, vector_t *check_global){
 	return;
 }
 
-void orizzontal_pattern(string_t *moves){
+void orizzontal_pattern(string_t *moves, vectort_global *check_global){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1036,9 +1036,9 @@ void orizzontal_pattern(string_t *moves){
 		}
 	}
 	if(ptt == true){
-		check_global.orizzontal_global[0] = orizzontal_global;
+		check_global->orizzontal_global[0] = orizzontal_global;
 		orizzontal_global *= -1;
-		check_global.orizzontal_global[1] = orizzontal_global;
+		check_global->orizzontal_global[1] = orizzontal_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
@@ -1687,7 +1687,7 @@ int main(int argc, char * argv[]){
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 		
         string_t *moves = s_create();  
-		vector_t *check_global= v_create();
+		vector_global *check_global= v_create();
 		v_push_back (check_global , vertical_global, orizzontal_global) ; 
 		v_push_back (check_global , vertical_global, orizzontal_global) ;
 		labyrint_global_direction(M, &row, &col, check_global);		

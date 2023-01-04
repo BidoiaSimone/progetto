@@ -19,7 +19,11 @@ struct vector{
     int *row;
     int *col;
 };
-
+struct vector_global{
+	size_t size;
+    int *vertica_direction;
+    int *orizzontal_direction;
+};
 
 string_t *s_create(){
     string_t *s = (string_t*)malloc(sizeof(string_t));
