@@ -439,7 +439,7 @@ void matrix_player(char **M, int *row, int *col){
     }
 }
 
-void labyrint_global_direction(char  **M, int *row,int *col) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
+void labyrint_global_direction(char  **M, int *row,int *col, vector_t *check_global) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
 
 	int g_col;
     int g_row;
@@ -467,10 +467,26 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 	}else{
 		orizzontal_global = -1; //movimento preferito a sx
 	}
-	
+	if (abs(g_row -victory_row) > abs( g_col - victory_col)){
+		if(vertical_global == 1){
+			check_global.vertical_global[0] = -1;
+			check_global.vertical_global[1] = 1;
+		}else{
+			check_global.vertical_global[0] = 1;
+			check_global.vertical_global[1] = -1
+		}
+	}else{
+		if( orizzontal_global == 1){
+			check_global.orizzontal_global[0] = -1;
+			check_global.orizzontal_global[1] = 1
+		}else{
+			check_global.orizzontal_global[0] = 1;
+			check_global.orizzontal_global[1] = -1
+		}
+	}
 }
 
-/*void temp_name( char **M, int *row, int *col, string_t *moves){ 
+void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t *check_global){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
@@ -480,8 +496,7 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 								//se non c'era l'arrivo nella prima cella, faceva return
 
 							vector_t *tail = v_create();//da togliere, solo per chimare funzione printer
-	bool v_pattern = false;	
-	bool o_pattern = false;
+
     int victory_row;
     int victory_col;
 	bool left_move;
@@ -524,11 +539,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 			}
 		}
         printf("%c\n",'E');
-		s_push_back(moves, 'E', orizzontal_global);
+		s_push_back(moves, 'E', vertical_global, orizzontal_global);
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis( M, row, col, moves);
+		labyrint_analysis( M, row, col, moves, check_global);
 		return;
 	}else{
 		if (g_col== *col-1){
@@ -538,11 +553,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 				}
 			}
 			printf("%c\n",'O');
-			s_push_back(moves, 'O', orizzontal_global);
+			s_push_back(moves, 'O', vertical_global, orizzontal_global);
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves);
+			labyrint_analysis(M, row, col, moves, check_global);
 			return;
 		}else{
 			if (g_row==0){
@@ -552,11 +567,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 					}
 				}
 				printf("%c\n",'S');
-				s_push_back(moves, 'S', orizzontal_global);
+				s_push_back(moves, 'S', vertical_global, orizzontal_global);
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis( M, row, col, moves);
+				labyrint_analysis( M, row, col, moves, check_global);
 				return;
 			}else{
 				if(g_row== *row-1){
@@ -566,11 +581,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 						}
 					}
 					printf("%c\n",'N');
-					s_push_back(moves, 'N', orizzontal_global);
+					s_push_back(moves, 'N', vertical_global, orizzontal_global);
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis( M, row, col, moves);
+					labyrint_analysis( M, row, col, moves, check_global);
 					return;
 				}
 			}
@@ -583,11 +598,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 			counter_trivella += 3;
 		}
 		printf("$%c\n", 'E');
-		s_push_back(moves, 'E', orizzontal_global);
+		s_push_back(moves, 'E', vertical_global, orizzontal_global);
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves);
+		labyrint_analysis(M, row, col, moves, check_global);
 		return;
 	}else{
 		if(M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == 'T'){
@@ -595,11 +610,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 				counter_trivella += 3;
 			}
 			printf("$%c\n", 'O');
-			s_push_back(moves, 'O', orizzontal_global);
+			s_push_back(moves, 'O', vertical_global, orizzontal_global);
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves);
+			labyrint_analysis(M, row, col, moves, check_global);
 			return;
 		} else{
 			if(M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == 'T'){
@@ -607,11 +622,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 					counter_trivella += 3;
 				}
 				printf("$%c\n", 'S');
-				s_push_back(moves, 'S', orizzontal_global);
+				s_push_back(moves, 'S', vertical_global, orizzontal_global);
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves);
+				labyrint_analysis(M, row, col, moves ,check_global);
 				return;
 			}else{
 				if(M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == 'T'){
@@ -619,11 +634,11 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 						counter_trivella += 3;
 					}
 					printf("$%c\n", 'N');
-					s_push_back(moves, 'N', orizzontal_global);
+					s_push_back(moves, 'N', vertical_global, orizzontal_global);
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves);
+					labyrint_analysis(M, row, col, moves, check_global);
 					return;
 				}
 			}
@@ -654,38 +669,38 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
 		printf("_%c\n", 'E');
-		s_push_back(moves, 'E', orizzontal_global);
+		s_push_back(moves, 'E', vertical_global, orizzontal_global);
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves);
+		labyrint_analysis(M, row, col, moves, check_global);
 		return;
 		}else{
 			if(M[g_row][g_col-1] == '_'){
 				printf("_%c\n", 'O');
-				s_push_back(moves, 'O', orizzontal_global);
+				s_push_back(moves, 'O', vertical_global, orizzontal_global;
 				M[g_row][g_col-1] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves);
+				labyrint_analysis(M, row, col, moves, check_global);
 				return;
 			} else{
 				if(M[g_row+1][g_col] == '_'){
 					printf("_%c\n", 'S');
-					s_push_back(moves, 'S', orizzontal_global);
+					s_push_back(moves, 'S', vertical_global, orizzontal_global);
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves);
+					labyrint_analysis(M, row, col, moves, check_global);
 					return;
 				}else{
 					if(M[g_row-1][g_col] == '_'){
 						printf("_%c\n", 'N');
-						s_push_back(moves, 'N', orizzontal_global);
+						s_push_back(moves, 'N', vertical_global, orizzontal_global);
 						M[g_row-1][g_col] = 'o';
 						M[g_row][g_col] = ' ';
 						matrix_printer(M, row, col, tail);
-						labyrint_analysis(M, row, col, moves);
+						labyrint_analysis(M, row, col, moves, check_global);
 						return;
 					}
 					}
@@ -697,48 +712,26 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	o_pattern = orizzontal_pattern(moves, M, &g_row, &g_col);
-	v_pattern = vertical_pattern(moves, M, &g_row, &g_col);
+	orizzontal_pattern(moves, M, &g_row, &g_col);
+	vertical_pattern(moves, M, &g_row, &g_col);
 		
-	if (o_pattern == true){
-		if(vertical_global == 1){
-			x = 2;
-		}
-		else{
-			x = 1;
-		}
-	}
-	else{ 	if (v_pattern == true){
-				if (orizzontal_global == 1){
-					x = 3;
-				}
-				else{
-					x=4;
+		if ( check_global.orizzontal_global[0]  !=  check_global.orizzontal_global[1]){
+			if(check_global.orizzontal_global[1] == 1){
+				x = 3;
+			}esle{
+				x = 4;
+			}
+			
+		}else{check_global.vertical_global[1]  ==  1){}
+			
+			if (check_global.vertical_global[[0]  !=  check_global.vertical_global[1]){
+				if ( check_global.vertical_global[1]  ==  1){
+					x = 2;
+				}else{
+					x = 1;
 				}
 			}
-			else{
-				if(abs(g_row - victory_row) >= abs(g_col - victory_col)){		// associazione del valore di x per lo switch
-						if(g_row < victory_row  ){
-							x=1;
-						}
-						if(g_row > victory_row){
-							x=2;
-						}
-						if(g_row == victory_row && g_col < victory_col){
-							x=3;
-						}
-						if(g_row == victory_row && g_col > victory_col)
-							x=4;
-					}else{ 
-						if(g_col < victory_col){
-							x=3;
-						}
-						if(g_col > victory_col){
-							x=4;
-						}
-					}
-			}
-	}
+		}
 			
 
 			
@@ -748,38 +741,38 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 
 	if(up_move == 0 && right_move == 0 && down_move == 0){
 		printf("41%c\n", 'O');
-		s_push_back(moves, 'O', orizzontal_global);
+		s_push_back(moves, 'O', vertical_global, orizzontal_global);
 		M[g_row][g_col-1] = 'o';
 		M[g_row][g_col] = '#';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves);
+		labyrint_analysis(M, row, col, moves, check_global);
 		return;
 	}else{
 		if(left_move == 0 && right_move == 0 && down_move == 0){
 			printf("21%c\n", 'N');
-			s_push_back(moves, 'N', orizzontal_global);
+			s_push_back(moves, 'N', vertical_global, orizzontal_global);
 			M[g_row-1][g_col] = 'o';
 			M[g_row][g_col] = '#';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves);
+			labyrint_analysis(M, row, col, moves, check_global);
 			return;
 		}else{
 			if(left_move == 0 && up_move == 0 && down_move == 0){
 				printf("31%c\n", 'E');
-				s_push_back(moves, 'E', orizzontal_global);
+				s_push_back(moves, 'E', vertical_global, orizzontal_global);
 				M[g_row][g_col+1] = 'o';
 				M[g_row][g_col] = '#';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves);
+				labyrint_analysis(M, row, col, moves, check_global);
 				return;
 			}else{
 				if(left_move == 0 && up_move == 0 && right_move == 0){
 					printf("11%c\n", 'S');
-					s_push_back(moves, 'S', orizzontal_global);
+					s_push_back(moves, 'S', vertical_global, orizzontal_global);
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = '#';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves);
+					labyrint_analysis(M, row, col, moves,check_global);
 					return;
 				}
 			}
@@ -794,23 +787,22 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
         
 		case  1: switch(down_move){
 
-					case 1: 	if(v_pattern == false){
+					case 1: 	
 									printf("11%c\n", 'S');
-									s_push_back(moves, 'S', orizzontal_global);
+									s_push_back(moves, 'S', vertical_global, orizzontal_global);
 									if(M[g_row+1][g_col] == '#'){
 										counter_trivella--;
-									}
 									M[g_row+1][g_col] = 'o';
 									M[g_row][g_col] = ' ';
 									matrix_printer(M, row, col, tail);
-									labyrint_analysis(M, row, col, moves);
+									labyrint_analysis(M, row, col, moves, check_global);
 									return;
-								}
+								
 								
 					case 0: 	if(orizzontal_global == 1 && right_move == 1){
 									x = 3;
 								}else{
-									if(left_move == 1){
+									if(left_move == 1 ){
 										x = 4;
 									}else{
 
@@ -820,44 +812,43 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 								}
 								switch (x){
 											case 3: 	printf("103%c\n", 'E');
-														s_push_back(moves, 'E', orizzontal_global);
+														s_push_back(moves, 'E', vertical_global, orizzontal_global);
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves,check_global);
 														return;
 
 											case 4:	 	printf("104%c\n", 'O');
-														s_push_back(moves, 'O', orizzontal_global);
+														s_push_back(moves, 'O', vertical_global, orizzontal_global);
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;
 
 											case 1:     printf("101%c\n" , 'N');
-														s_push_back(moves, 'N', orizzontal_global);
+														s_push_back(moves, 'N', vertical_global, orizzontal_global);
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;                                            
 								}
 		}                        
 					
 		case 2: switch(up_move){
-					case 1: 	if(v_pattern == false){
+					case 1: 	
 									printf("21%c\n", 'N');
-									s_push_back(moves, 'N', orizzontal_global);
+									s_push_back(moves, 'N', vertical_global, orizzontal_global);
 									if(M[g_row-1][g_col] == '#'){
 										counter_trivella--;
-									}
 									M[g_row-1][g_col] = 'o';
 									M[g_row][g_col] = ' ';
 									matrix_printer(M, row, col, tail);
-									labyrint_analysis(M, row, col, moves);
+									labyrint_analysis(M, row, col, moves, check_global);
 									return;
-								}
+								
 								
 					case 0:		if(orizzontal_global == 1 && right_move == 1){
 									x = 3;
@@ -871,27 +862,27 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 								}    
                                 switch (x) {
 											case 3: 	printf("203%c\n", 'E');
-														s_push_back(moves, 'E', orizzontal_global);
+														s_push_back(moves, 'E', vertical_global, orizzontal_global);
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves,check_global);
 														return;
 						
 											case 4:	 	printf("204%c\n", 'O');
-														s_push_back(moves, 'O', orizzontal_global);
+														s_push_back(moves, 'O', vertical_global, orizzontal_global);
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;
 
 											case 2:		printf("202%c\n", 'S');
-														s_push_back(moves, 'S', orizzontal_global);
+														s_push_back(moves, 'S', vertical_global, orizzontal_global);
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;
 
                                             
@@ -899,18 +890,17 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 					}	
 		case 3: switch(right_move){
 
-                    case 1: 		if(o_pattern == false){
+                    case 1: 		
 										printf("31%c\n", 'E');
-										s_push_back(moves, 'E', orizzontal_global);
+										s_push_back(moves, 'E', vertical_global, orizzontal_global);
 										if(M[g_row][g_col+1] == '#'){
 											counter_trivella--;
-										}
 										M[g_row][g_col+1] = 'o';
 										M[g_row][g_col] = ' ';
 										matrix_printer(M, row, col, tail);
-										labyrint_analysis(M, row, col, moves);
+										labyrint_analysis(M, row, col, moves, check_global);
 										return;
-									}
+									
 									
 								
 									
@@ -927,43 +917,42 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
                     
                                 switch (x) { 
 											case 1: printf("301%c\n", 'N');
-													s_push_back(moves, 'N', orizzontal_global);
+													s_push_back(moves, 'N', vertical_global, orizzontal_global);
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves);
+													labyrint_analysis(M, row, col, moves, check_global);
 													return;
 							
 											case 2:	printf("302%c\n", 'S');
-													s_push_back(moves, 'S', orizzontal_global);
+													s_push_back(moves, 'S', vertical_global, orizzontal_global);
 													M[g_row+1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves);
+													labyrint_analysis(M, row, col, moves, check_global);
 													return;
 											
 											case 4: printf("304%c\n" , 'O');
-													s_push_back(moves, 'O', orizzontal_global);
+													s_push_back(moves, 'O', vertical_global, orizzontal_global);
 													M[g_row][g_col-1] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves);
+													labyrint_analysis(M, row, col, moves, check_global);
 													return;
 								}
 				}
         case 4: switch(left_move){
-                    case 1:  		if(o_pattern == false){
+                    case 1:  		
 										printf("41%c\n", 'O');
-										s_push_back(moves, 'O', orizzontal_global);
+										s_push_back(moves, 'O', vertical_global, orizzontal_global);
 										if(M[g_row][g_col-1] == '#'){
 											counter_trivella--;
-										}
 										M[g_row][g_col-1] = 'o';
 										M[g_row][g_col] = ' ';
 										matrix_printer(M, row, col, tail);
-										labyrint_analysis(M, row, col, moves);
+										labyrint_analysis(M, row, col, moves, check_global);
 										return;
-									}
+									
 								
                     case 0: if(vertical_global == 1 && up_move == 1){
                                     x=1;          
@@ -979,29 +968,29 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 
 
 											case  1:	printf("401%c\n", 'N');
-														s_push_back(moves, 'N', orizzontal_global);
+														s_push_back(moves, 'N', vertical_global, orizzontal_global);
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;
 														
 							
 											case 2:		printf("402%c\n", 'S');
-														s_push_back(moves, 'S', orizzontal_global);
+														s_push_back(moves, 'S', vertical_global, orizzontal_global);
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;
 														
 														
 											case 3:		printf("403%c\n" , 'E');
-														s_push_back(moves, 'E', orizzontal_global);
+														s_push_back(moves, 'E', vertical_global, orizzontal_global);
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves);
+														labyrint_analysis(M, row, col, moves, check_global);
 														return;			                       
 								}
 					}
@@ -1010,133 +999,53 @@ void labyrint_global_direction(char  **M, int *row,int *col) { // serve per iniz
 	} 
 
 
-*/
-/*bool vertical_pattern(string_t *moves, char **M, int *g_row, int *g_col){
-	bool ptt = 0;
-	int s_cnt = 0;
-	int n_cnt = 0;
-	if(moves->string[moves->size-1] == 'N'){
-		for(int i = moves->size-1; moves->string[i] == 'N'; i--){
-			n_cnt++;
-		}
-		for(int i = moves->size-n_cnt-1; moves->string[i] == 'S'; i--){
-			s_cnt++;
-		}
-		if( s_cnt > 1  &&  s_cnt == n_cnt){
-			ptt = true;
-			vertical_global = -1;
-		
-			
-		}	
-	}
 
-	if(moves->string[moves->size-1] == 'S'){
-		for(int i = moves->size-1; moves->string[i] == 'S'; i--){
-			s_cnt++;
-		}
-		for(int i = moves->size-s_cnt-1; moves->string[i] == 'N'; i--){
-			n_cnt++;
-		}
-		if( s_cnt > 1  &&  s_cnt == n_cnt){
+void vertical_pattern(string_t *moves, vector_t *check_global){
+	bool ptt = 0;
+	if(moves->string[moves->size-1] == 'N'){
+		if(moves->string[moves->size-2] == 'S'){
 			ptt = true;
-			vertical_global = 1;
-		
-			for(int i = s_cnt; i >0; i--){
-				
-			}
-			
 		}
+	}
+	if(moves->string[moves->size-1] == 'S'){
+		if(moves->string[moves->size-2] == 'N'){
+			ptt = true;
+		}
+	}
+	if(ptt == true){
+		check_global.vertical_global[0] = vertical_global;
+		vertical_global *= -1;
+		check_global.vertical_global[1] = vertical_global;
+		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
 	s_print(moves);
-	return ptt;
+	return;
 }
 
-
-bool orizzontal_pattern(string_t *moves, char **M, int *g_row, int *g_col){
+void orizzontal_pattern(string_t *moves){
 	bool ptt = 0;
-	int o_cnt = 0;
-	int e_cnt = 0;
-	int up_move;
-	int down_move;
-	
-	if (M[*g_row+1][*g_col] == '#'){ // aggiungere trivella
-		down_move = 0;
-	}else{
-		down_move = 1;
-	}
-	if (M[*g_row-1][*g_col] == '#'){
-		up_move = 0;
-	}else{
-		up_move = 1;
-	}
 	if(moves->string[moves->size-1] == 'E'){
-		for(int i = moves->size-1; moves->string[i] == 'E'; i--){
-			e_cnt++;
-		}
-		for(int i = moves->size-e_cnt-1; moves->string[i] == 'O'; i--){
-			o_cnt++;
-		}
-		if(o_cnt == e_cnt){
+		if(moves->string[moves->size-2] == 'O'){
 			ptt = true;
-			orizzontal_global = 1;
-
-			for(int i = o_cnt; i > 0; i--){
-				s_push_back(moves, 'O', orizzontal_global);
-				M[*g_row][*g_col--] = 'o';
-				M[*g_row][*g_col] = ' ';
-			}
-			
-				if( vertical_global == 1  &&  up_move == 1){
-					s_push_back(moves, 'O', orizzontal_global);
-					M[*g_row--][*g_col] = 'o';
-					M[*g_row][*g_col] = ' ';
-					//labyrint_analysis ( M , row, col, moves);
-					return ptt;
-				}
-				else {
-					if ( vertical_global == -1  && down_move == 1){
-						s_push_back(moves, 'O', orizzontal_global);
-						M[*g_row++][*g_col] = 'o';
-						M[*g_row][*g_col] = ' ';
-						//labyrint_analysis ( M , row, col, moves);
-						return ptt;
-					}
-				}
-			
 		}
 	}
 	if(moves->string[moves->size-1] == 'O'){
-		for(int i = moves->size-1; moves->string[i] == 'O'; i--){
-			o_cnt++;
-		}
-		for(int i = moves->size-o_cnt-1; moves->string[i] == 'E'; i--){
-			e_cnt++;
-		}
-		if(o_cnt > 1  &&  o_cnt == e_cnt){
+		if(moves->string[moves->size-2] == 'E'){
 			ptt = true;
-			orizzontal_global = -1;
-
-
-			for(int i = 0; i < e_cnt; i++){
-				s_push_back(moves, 'E', orizzontal_global);
-				M[*g_row][*g_col++] = 'o';
-				M[*g_row][*g_col] = ' ';
-				
-			}
 		}
-		
 	}
-		if (ptt){
-				
-
-		}
-	
+	if(ptt == true){
+		check_global.orizzontal_global[0] = orizzontal_global;
+		orizzontal_global *= -1;
+		check_global.orizzontal_global[1] = orizzontal_global;
+		s_cut(moves, moves->size-2);
+	}
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
 	s_print(moves);
-	return ptt;
+	return;
 }
-*/
+
 
 
 
@@ -1168,7 +1077,7 @@ down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale co
 
 //per comodità scriviamo una nuova funzione copiando i pezzi che possiamo riutilizzare 
 
-void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
+/*void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 	int g_row;	//giocatore row
 	int g_col;	//giocatore col
@@ -1711,7 +1620,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
 
 
-bool vertical_pattern(string_t *moves){
+void vertical_pattern(string_t *moves, vector_t *check_global){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1724,15 +1633,17 @@ bool vertical_pattern(string_t *moves){
 		}
 	}
 	if(ptt == true){
+		check_global.vertical_global[0] = vertical_global;
 		vertical_global *= -1;
+		check_global.vertical_global[1] = vertical_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
 	s_print(moves);
-	return ptt;
+	return;
 }
 
-bool orizzontal_pattern(string_t *moves){
+void orizzontal_pattern(string_t *moves){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1745,14 +1656,16 @@ bool orizzontal_pattern(string_t *moves){
 		}
 	}
 	if(ptt == true){
+		check_global.orizzontal_global[0] = orizzontal_global;
 		orizzontal_global *= -1;
+		check_global.orizzontal_global[1] = orizzontal_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
 	s_print(moves);
-	return ptt;
+	return;
 }
-
+*/
 
 
 int main(int argc, char * argv[]){
@@ -1772,10 +1685,13 @@ int main(int argc, char * argv[]){
 
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
-
+		
         string_t *moves = s_create();  
-		labyrint_global_direction(M, &row, &col);
-        labyrint_analysis(M, &row, &col, moves);             //IA
+		vector_t *check_global= v_create();
+		v_push_back (check_global , vertical_global, orizzontal_global) ; 
+		v_push_back (check_global , vertical_global, orizzontal_global) ;
+		labyrint_global_direction(M, &row, &col, check_global);		
+		labyrint_analysis(M, &row, &col, moves, check_global);             //IA
 		s_print(moves);
 		s_free(moves);
         return 0;
