@@ -104,7 +104,7 @@ int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_glob
 int counter_trivella = 0;
 int v_ptt = 0;
 int o_ptt = 0;
-
+string_t *nome = s_create();
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
@@ -1085,9 +1085,9 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 	}
 }
 
+// string_t void s_push_back( tring_t *s, charc, vertical, orizzontal)
 
-
-void vertical_pattern(string_t *moves, vector_global *check_global){
+void vertical_pattern(string_t *moves, vector_global *check_global,**M, *row, *col){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1104,6 +1104,33 @@ void vertical_pattern(string_t *moves, vector_global *check_global){
 		check_global->orizzontal_direction[0] = check_global->orizzontal_direction[1];
 		vertical_global *= -1;
 		check_global->vertical_direction[1] = vertical_global;
+		if(vertical_global == 1  && M[row - 2][col] != '#'){
+			s_push_back(nome , 'N', *row - 2, *col);
+			for(int i=0; i<nome->size; i++){
+				if(nome->vertical[i]	== nome->vertical[size - 1]  && nome->orizzontal[i] == nome->orizzontal[size - 1]  && nome->charc[i] == nome->charc[size - 1]){
+					vertical_global *= -1;
+					orizzontal_global *= -1;
+					check_global->vertical_direction[1] = vertical_global;
+					check_global->orizzontal_direction[1] = orizzontal_global;
+					s_pop_back(nome);
+					s_pop_element(nome, i);
+				}
+			}
+		}else{
+			if(vertical_global == -1  && M[row + 2][col] != '#'){
+				s_push_back(nome , 'S', *row + 2, *col);
+				for(int i=0; i<nome->size; i++){
+					if(nome->vertical[i]	== nome->vertical[size - 1]  && nome->orizzontal[i] == nome->orizzontal[size - 1]  && nome->charc[i] == nome->charc[size - 1]){
+						vertical_global *= -1;
+						orizzontal_global *= -1;
+						check_global->vertical_direction[1] = vertical_global;
+						check_global->orizzontal_direction[1] = orizzontal_global;
+						s_pop_back(nome);
+						s_pop_element(nome, i);
+					}
+				}
+			}
+		}
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
@@ -1129,6 +1156,33 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global){
 		check_global->vertical_direction[0] = check_global->vertical_direction[1];
 		orizzontal_global *= -1;
 		check_global->orizzontal_direction[1] = orizzontal_global;
+		if(orizzontal_global == 1  && M[row][col + 2] != '#'){
+			s_push_back(nome , 'E', *row, *col + 2);
+			for(int i=0; i<nome->size; i++){
+				if(nome->vertical[i]	== nome->vertical[size - 1]  && nome->orizzontal[i] == nome->orizzontal[size - 1]  && nome->charc[i] == nome->charc[size - 1]){
+					vertical_global *= -1;
+					orizzontal_global *= -1;
+					check_global->vertical_direction[1] = vertical_global;
+					check_global->orizzontal_direction[1] = orizzontal_global;
+					s_pop_back(nome);
+					s_pop_element(nome, i);
+				}
+			}
+		}else{
+			if(orizzontal_global == -1  && M[row][col - 2] != '#'){
+				s_push_back(nome , 'O', *row, *col - 2);
+				for(int i=0; i<nome->size; i++){
+					if(nome->vertical[i]	== nome->vertical[size - 1]  && nome->orizzontal[i] == nome->orizzontal[size - 1]  && nome->charc[i] == nome->charc[size - 1]){
+						vertical_global *= -1;
+						orizzontal_global *= -1;
+						check_global->vertical_direction[1] = vertical_global;
+						check_global->orizzontal_direction[1] = orizzontal_global;
+						s_pop_back(nome);
+						s_pop_element(nome, i);
+					}
+				}
+			}
+		}
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n%d, %d", check_global->orizzontal_direction[0], check_global->orizzontal_direction[1]);
