@@ -23,31 +23,6 @@
 #endif
 
 
-#ifdef __WIN32	
-
-		char test[27] = "Wow, you are using Windows";
-		void matrix_printer(char **M, int *row, int *col ,vector_t *tail){      //implementare bella stampa a colori da usare
-		for(int i = 0; i < *row; i++){                   
-				for(int j = 0; j < *col; j++){
-					if(M[i][j] == '.')
-						M[i][j] = ' ';
-				}
-			}
-			for(int i = 0; i < tail->size; i++){
-				M[tail->row[i]][tail->col[i]] = '0';
-			}
-		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //funziona di merda per il merda di refresh rate del cmd
-			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
-				for(int j = 0; j < *col; j++){      
-						printf("%c", M[i][j]);	
-				}
-					printf("\n");
-			}   
-				printf("\n");
-		}
-	}
-
-#endif
 
 #ifdef __APPLE__
 
@@ -94,6 +69,27 @@
 					printf("\n");
 			}   
 			
+				printf("\n");
+		}
+#else
+
+		void matrix_printer(char **M, int *row, int *col ,vector_t *tail){      //implementare bella stampa a colori da usare
+		for(int i = 0; i < *row; i++){                   
+				for(int j = 0; j < *col; j++){
+					if(M[i][j] == '.')
+						M[i][j] = ' ';
+				}
+			}
+			for(int i = 0; i < tail->size; i++){
+				M[tail->row[i]][tail->col[i]] = '0';
+			}
+		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //funziona di merda per il merda di refresh rate del cmd
+			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
+				for(int j = 0; j < *col; j++){      
+						printf("%c", M[i][j]);	
+				}
+					printf("\n");
+			}   
 				printf("\n");
 		}
 #endif
