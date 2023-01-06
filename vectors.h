@@ -54,8 +54,8 @@ void v_push_back(vector_t *v, int x, int y){      //aggiungi valori row e col al
         v->row = (int *)malloc(1*sizeof(int));
         v->col = (int *)malloc(1*sizeof(int));
     }else{
-        v->row = realloc(v->row, (v->size+1)*sizeof(int));
-        v->col = realloc(v->col, (v->size+1)*sizeof(int));
+        v->row = (int*)realloc(v->row, (v->size+1)*sizeof(int));
+        v->col = (int*)realloc(v->col, (v->size+1)*sizeof(int));
     }
     v->row[v->size] = x;
     v->col[v->size] = y;
@@ -68,9 +68,9 @@ void s_push_back(string_t *s, char c, int v, int o){
         s->vertical = (int*)malloc(1*sizeof(int));
         s->orizzontal = (int*)malloc(1*sizeof(int));
     }else{
-        s->string = realloc(s->string, (s->size+1)*sizeof(char));
-        s->vertical = realloc(s->vertical, (s->size+1)*sizeof(int));
-        s->orizzontal = realloc(s->orizzontal, (s->size+1)*sizeof(int));
+        s->string = (char*)realloc(s->string, (s->size+1)*sizeof(char));
+        s->vertical = (int*)realloc(s->vertical, (s->size+1)*sizeof(int));
+        s->orizzontal = (int*)realloc(s->orizzontal, (s->size+1)*sizeof(int));
     }
     s->string[s->size] = c;
     s->vertical[s->size] = v;
@@ -85,8 +85,8 @@ void v_global_push_back(vector_global *v, int x, int y){      //aggiungi valori 
         v->vertical_direction = (int *)malloc(1*sizeof(int));
         v->orizzontal_direction = (int *)malloc(1*sizeof(int));
     }else{
-        v->vertical_direction = realloc(v->vertical_direction, (v->size+1)*sizeof(int));
-        v->orizzontal_direction = realloc(v->orizzontal_direction, (v->size+1)*sizeof(int));
+        v->vertical_direction = (int*)realloc(v->vertical_direction, (v->size+1)*sizeof(int));
+        v->orizzontal_direction = (int*)realloc(v->orizzontal_direction, (v->size+1)*sizeof(int));
     }
     v->vertical_direction[v->size] = x;
     v->orizzontal_direction[v->size] = y;
@@ -104,8 +104,8 @@ void v_push_front(vector_t * v, int x, int y){      //aggiungi valori alla testa
         v->col[0] = y;
         v->size++;
     }else{
-        v->row = realloc(v->row, (v->size+1)*sizeof(int));
-        v->col = realloc(v->col, (v->size+1)*sizeof(int));
+        v->row = (int*)realloc(v->row, (v->size+1)*sizeof(int));
+        v->col = (int*)realloc(v->col, (v->size+1)*sizeof(int));
         for(int i = v->size; i > 0; i--){
             v->row[i] = v->row[i-1];
             v->col[i] = v->col[i-1];
@@ -127,9 +127,9 @@ void s_push_front(string_t *s, char c, int v, int o){
         s->orizzontal[0] = o;
         s->size++;
     }else{
-        s->string = realloc(s->string, (s->size+1)*sizeof(char));
-        s->vertical = realloc(s->vertical, (s->size+1)*sizeof(int));
-        s->orizzontal = realloc(s->orizzontal, (s->size+1)*sizeof(int));
+        s->string = (char*)realloc(s->string, (s->size+1)*sizeof(char));
+        s->vertical = (int*)realloc(s->vertical, (s->size+1)*sizeof(int));
+        s->orizzontal = (int*)realloc(s->orizzontal, (s->size+1)*sizeof(int));
         for(int i = s->size; i > 0; i--){
             s->string[i] = s->string[i-1];
             s->vertical[i] = s->vertical[i-1];
@@ -174,16 +174,16 @@ void s_free(string_t *s){
 
 void v_pop_back(vector_t *v){
     v->size--;
-    v->row = realloc(v->row, (v->size)*sizeof(int));
-    v->col = realloc(v->col, (v->size)*sizeof(int));
+    v->row = (int*)realloc(v->row, (v->size)*sizeof(int));
+    v->col = (int*)realloc(v->col, (v->size)*sizeof(int));
 }
 
 
 void s_pop_back(string_t *s){
     s->size--;
-    s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->vertical = realloc(s->vertical, (s->size)*sizeof(int));
-    s->orizzontal = realloc(s->orizzontal, (s->size)*sizeof(int));
+    s->string = (char*)realloc(s->string, (s->size)*sizeof(char));
+    s->vertical = (int*)realloc(s->vertical, (s->size)*sizeof(int));
+    s->orizzontal = (int*)realloc(s->orizzontal, (s->size)*sizeof(int));
 }
 
 
@@ -194,8 +194,8 @@ void v_pop_front(vector_t *v){                          //rimuove il primo eleme
         v->col[i] = v->col[i+1];
     }
     v->size--;
-    v->row = realloc(v->row, (v->size)*sizeof(int));
-    v->col = realloc(v->col, (v->size)*sizeof(int));
+    v->row = (int*)realloc(v->row, (v->size)*sizeof(int));
+    v->col = (int*)realloc(v->col, (v->size)*sizeof(int));
 }
 
 void s_pop_front(string_t *s){
@@ -206,9 +206,9 @@ void s_pop_front(string_t *s){
     }
     
     s->size--;
-    s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->vertical = realloc(s->vertical, (s->size)*sizeof(int));
-    s->orizzontal = realloc(s->orizzontal, (s->size)*sizeof(int));
+    s->string = (char*)realloc(s->string, (s->size)*sizeof(char));
+    s->vertical = (int*)realloc(s->vertical, (s->size)*sizeof(int));
+    s->orizzontal = (int*)realloc(s->orizzontal, (s->size)*sizeof(int));
 }
 
 
@@ -225,8 +225,8 @@ void v_pop_elem(vector_t *v, size_t index){             //rimuove l'elemento in 
         v->col[i] = v->col[i+1];
     }
     v->size--;
-    v->row = realloc(v->row, (v->size)*sizeof(int));
-    v->col = realloc(v->col, (v->size)*sizeof(int));
+    v->row = (int*)realloc(v->row, (v->size)*sizeof(int));
+    v->col = (int*)realloc(v->col, (v->size)*sizeof(int));
 }
 
 
@@ -241,9 +241,9 @@ void s_pop_elem(string_t *s, size_t index){
         s->orizzontal[i] = s->orizzontal[i+1];
     }
     s->size--;
-    s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->vertical = realloc(s->vertical, (s->size)*sizeof(int));
-    s->orizzontal = realloc(s->orizzontal, (s->size)*sizeof(int));
+    s->string = (char*)realloc(s->string, (s->size)*sizeof(char));
+    s->vertical = (int*)realloc(s->vertical, (s->size)*sizeof(int));
+    s->orizzontal = (int*)realloc(s->orizzontal, (s->size)*sizeof(int));
 }
 
 
@@ -254,8 +254,8 @@ void v_cut(vector_t *v, size_t index){                  //rimuove tutti gli elem
         exit(EXIT_FAILURE);
     }
     v->size = index;
-    v->row = realloc(v->row, (v->size)*sizeof(int));
-    v->col = realloc(v->col, (v->size)*sizeof(int));
+    v->row = (int*)realloc(v->row, (v->size)*sizeof(int));
+    v->col = (int*)realloc(v->col, (v->size)*sizeof(int));
 }
 
 
@@ -265,9 +265,9 @@ void s_cut(string_t *s, size_t index){
         exit(EXIT_FAILURE);
     }
     s->size = index;
-    s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->vertical = realloc(s->vertical, (s->size)*sizeof(int));
-    s->orizzontal = realloc(s->orizzontal, (s->size)*sizeof(int));
+    s->string = (char*)realloc(s->string, (s->size)*sizeof(char));
+    s->vertical =(int*)realloc(s->vertical, (s->size)*sizeof(int));
+    s->orizzontal = (int*)realloc(s->orizzontal, (s->size)*sizeof(int));
 }
 
 
@@ -283,8 +283,8 @@ void v_cut_front(vector_t *v, size_t index){            //rimuove tutti gli elem
         v->col[i - index] = v->col[i+1];
     }
     v->size = v->size - index - 1;
-    v->row = realloc(v->row, (v->size)*sizeof(int));
-    v->col = realloc(v->col, (v->size)*sizeof(int));
+    v->row = (int*)realloc(v->row, (v->size)*sizeof(int));
+    v->col = (int*)realloc(v->col, (v->size)*sizeof(int));
 }
 
 
@@ -299,9 +299,9 @@ void s_cut_front(string_t *s, size_t index){
         s->orizzontal[i - index] = s->orizzontal[i+1];
     }
     s->size = s->size - index - 1;
-    s->string = realloc(s->string, (s->size)*sizeof(char));
-    s->vertical = realloc(s->vertical, (s->size)*sizeof(int));
-    s->orizzontal = realloc(s->orizzontal, (s->size)*sizeof(int));
+    s->string = (char*)realloc(s->string, (s->size)*sizeof(char));
+    s->vertical = (int*)realloc(s->vertical, (s->size)*sizeof(int));
+    s->orizzontal = (int*)realloc(s->orizzontal, (s->size)*sizeof(int));
 }
 
 
