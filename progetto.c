@@ -99,8 +99,8 @@
 #endif
 
 
-bool vertical_pattern(string_t *moves);
-bool orizzontal_pattern(string_t *moves);
+void vertical_pattern(string_t *moves, vector_global *check_global);
+void orizzontal_pattern(string_t *moves, vector_global *check_global);
 
 
 int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
@@ -439,7 +439,7 @@ void matrix_player(char **M, int *row, int *col){
     }
 }
 
-void labyrint_global_direction(char  **M, int *row,int *col, vector_t *check_global) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
+void labyrint_global_direction(char  **M, int *row,int *col, vector_global *check_global) { // serve per inizializzare le direzioni principali (dx/sx) (up/down)
 
 	int g_col;
     int g_row;
@@ -486,7 +486,7 @@ void labyrint_global_direction(char  **M, int *row,int *col, vector_t *check_glo
 	}
 }
 
-void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t *check_global){ 
+void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_global *check_global){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
@@ -712,11 +712,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	orizzontal_pattern(string_t *moves, vector_global *check_global);
-	 vertical_pattern(string_t *moves, vector_global *check_global);
+	orizzontal_pattern(moves, check_global);
+	vertical_pattern(moves, check_global);
 		
-		if ( check_global->orizzontal_global[0]  !=  check_global->orizzontal_global[1]){
-			if(check_global->orizzontal_global[1] == 1){
+		if ( check_global->orizzontal_direction[0]  !=  check_global->orizzontal_direction[1]){
+			if(check_global->orizzontal_direction[1] == 1){
 				x = 3;
 			}else{
 				x = 4;
@@ -724,8 +724,8 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 			
 		}else{
 			
-			if (check_global->vertical_global[0]  !=  check_global->vertical_global[1]){
-				if ( check_global->vertical_global[1]  ==  1){
+			if (check_global->vertical_direction[0]  !=  check_global->vertical_direction[1]){
+				if ( check_global->vertical_direction[1]  ==  1){
 					x = 2;
 				}else{
 					x = 1;
@@ -996,9 +996,11 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_t 
 					}
     }
 
-	} 
-
-
+} 
+}
+}
+}
+}
 
 void vertical_pattern(string_t *moves, vector_global *check_global){
 	bool ptt = 0;
@@ -1013,9 +1015,9 @@ void vertical_pattern(string_t *moves, vector_global *check_global){
 		}
 	}
 	if(ptt == true){
-		check_global->vertical_global[0] = vertical_global;
+		check_global->vertical_direction[0] = vertical_global;
 		vertical_global *= -1;
-		check_global->vertical_global[1] = vertical_global;
+		check_global->vertical_direction[1] = vertical_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- v_g %d   %d -----------------------\n",vertical_global, ptt);
@@ -1023,7 +1025,7 @@ void vertical_pattern(string_t *moves, vector_global *check_global){
 	return;
 }
 
-void orizzontal_pattern(string_t *moves, vectort_global *check_global){
+void orizzontal_pattern(string_t *moves, vector_global *check_global){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1036,9 +1038,9 @@ void orizzontal_pattern(string_t *moves, vectort_global *check_global){
 		}
 	}
 	if(ptt == true){
-		check_global->orizzontal_global[0] = orizzontal_global;
+		check_global->orizzontal_direction[0] = orizzontal_global;
 		orizzontal_global *= -1;
-		check_global->orizzontal_global[1] = orizzontal_global;
+		check_global->orizzontal_direction[1] = orizzontal_global;
 		s_cut(moves, moves->size-2);
 	}
 	printf("\n----------------------- o_g %d   %d -----------------------\n",orizzontal_global, ptt);
@@ -1687,13 +1689,14 @@ int main(int argc, char * argv[]){
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
 		
         string_t *moves = s_create();  
-		vector_global *check_global= v_create();
-		v_push_back (check_global , vertical_global, orizzontal_global) ; 
-		v_push_back (check_global , vertical_global, orizzontal_global) ;
+		vector_global *check_global= v_global_create();
+		v_global_push_back (check_global, vertical_global, orizzontal_global); 
+		v_global_push_back (check_global, vertical_global, orizzontal_global);
 		labyrint_global_direction(M, &row, &col, check_global);		
 		labyrint_analysis(M, &row, &col, moves, check_global);             //IA
 		s_print(moves);
 		s_free(moves);
+		v_global_free(check_global);
         return 0;
 
     }else{

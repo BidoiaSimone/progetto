@@ -3,6 +3,10 @@
 
 typedef struct vector vector_t;
 typedef struct string string_t;
+typedef struct vector_global vector_global;
+
+//row = vertcial direction
+
 
 struct string{
     size_t size;
@@ -11,17 +15,15 @@ struct string{
     int *orizzontal;
 };
 
-
-
-
 struct vector{
     size_t size;
     int *row;
     int *col;
 };
+
 struct vector_global{
 	size_t size;
-    int *vertica_direction;
+    int *vertical_direction;
     int *orizzontal_direction;
 };
 
@@ -37,6 +39,12 @@ struct vector *v_create(){
     return v;
 }
 
+
+struct vector_global *v_global_create(){
+    vector_global *v = (vector_global*)malloc(sizeof(vector_global));
+    v->size = 0; //inizializzo
+    return v;
+}
 
 
 
@@ -69,6 +77,23 @@ void s_push_back(string_t *s, char c, int v, int o){
     s->orizzontal[s->size] = o;
     s->size++;
 }
+
+
+
+void v_global_push_back(vector_global *v, int x, int y){      //aggiungi valori row e col alla coda del vettore
+    if(v->size == 0){
+        v->vertical_direction = (int *)malloc(1*sizeof(int));
+        v->orizzontal_direction = (int *)malloc(1*sizeof(int));
+    }else{
+        v->vertical_direction = realloc(v->vertical_direction, (v->size+1)*sizeof(int));
+        v->orizzontal_direction = realloc(v->orizzontal_direction, (v->size+1)*sizeof(int));
+    }
+    v->vertical_direction[v->size] = x;
+    v->orizzontal_direction[v->size] = y;
+    v->size++;
+}
+
+
 
 
 void v_push_front(vector_t * v, int x, int y){      //aggiungi valori alla testa del vettore
@@ -124,6 +149,15 @@ void v_free(vector_t *v){                          //libera la memoria allocata 
     if(v->size != 0){
         free(v->row);
         free(v->col);
+    }
+    free(v);
+}
+
+
+void v_global_free(vector_global *v){
+    if(v->size != 0){
+        free(v->vertical_direction);
+        free(v->orizzontal_direction);
     }
     free(v);
 }

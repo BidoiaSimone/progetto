@@ -1,34 +1,17 @@
 labirinti di prova per fare velocemente copia-incolla <3
 
 
-
-idee di implementazione:
-warp: (@,@),(*,*)
-due caratteri uguali dentro ad un labirinto, se vai sopra uno, 
-ti teletrasporta sul carattere uguale dall'altra parte (e viceversa), 
-diventa difficile da implementare volendo fare più di un teletrasporto con labirinti non prefissati
-
-
-one-way-door:
-in alcuni punti che dovrebbero essere muri si può mettere una freccetta (↑, ←, →, ↓) che fa andare
-attraverso di essa ma solo nella direzione in cui punta
-
-
-design:
-invece di '#' cercarsi dei caratteri rettangolo pieno o quadrato pieno per avere immagine più bella
-
-
 19
 10
 ###################
-o    #            #
-#    #            #
-#    #      #     #
-#    #      #     #
-#    #      #     _
-#    #      #     #
-#           #     #
-#           #     #
+o    #   !        #
+#    #       $$   #
+#    #   $  #     #
+#    #   $  #     #
+#    #   $  #     _
+#    #   $  #     #
+# TT        #     #
+# $$$$$$    #     #
 ###################
 
 
