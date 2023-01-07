@@ -1132,7 +1132,6 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 			
 		}
 		s_cut(moves, moves->size-2);
-	}
 	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
 	printf("\nv_g %d   %d \n",vertical_global, ptt);
 	//s_print(moves);
