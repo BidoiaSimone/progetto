@@ -548,7 +548,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
         M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis( M, row, col, moves, check_global, nome);
+		labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 		return;
 	}else{
 		if (g_col== *col-1){
@@ -562,7 +562,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves, check_global, nome);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 			return;
 		}else{
 			if (g_row==0){
@@ -576,7 +576,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis( M, row, col, moves, check_global, nome);
+				labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 				return;
 			}else{
 				if(g_row== *row-1){
@@ -590,7 +590,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis( M, row, col, moves, check_global, nome);
+					labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 					return;
 				}
 			}
@@ -606,7 +606,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves, check_global, nome);
+		labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 		return;
 	}else{
 		if(M[g_row][g_col-1] == '$' || M[g_row][g_col-1] == 'T'){
@@ -618,7 +618,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			M[g_row][g_col-1] = 'o';
 			M[g_row][g_col] = ' ';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves, check_global, nome);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 			return;
 		} else{
 			if(M[g_row+1][g_col] == '$' || M[g_row+1][g_col] == 'T'){
@@ -630,7 +630,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				M[g_row+1][g_col] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves ,check_global, nome);
+				labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 				return;
 			}else{
 				if(M[g_row-1][g_col] == '$' || M[g_row-1][g_col] == 'T'){
@@ -642,7 +642,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					M[g_row-1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves, check_global, nome);
+					labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 					return;
 				}
 			}
@@ -677,7 +677,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		M[g_row][g_col+1] = 'o';
 		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves, check_global, nome);
+		labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 		return;
 		}else{
 			if(M[g_row][g_col-1] == '_'){
@@ -686,7 +686,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				M[g_row][g_col-1] = 'o';
 				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves, check_global, nome);
+				labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 				return;
 			} else{
 				if(M[g_row+1][g_col] == '_'){
@@ -695,7 +695,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves, check_global, nome);
+					labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 					return;
 				}else{
 					if(M[g_row-1][g_col] == '_'){
@@ -704,7 +704,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 						M[g_row-1][g_col] = 'o';
 						M[g_row][g_col] = ' ';
 						matrix_printer(M, row, col, tail);
-						labyrint_analysis(M, row, col, moves, check_global, nome);
+						labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 						return;
 					}
 					}
@@ -716,8 +716,8 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	orizzontal_pattern(moves, check_global, M, row, col, nome);
-	vertical_pattern(moves, check_global, M, row, col, nome);
+	orizzontal_pattern(moves, check_global, M, g_row, g_col, pattern_history);
+	vertical_pattern(moves, check_global, M, row, col, pattern_history);
 		
 		if (check_global->orizzontal_direction[0]  !=  check_global->orizzontal_direction[1]){
 			if(check_global->orizzontal_direction[1] == 1){
@@ -748,7 +748,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		M[g_row][g_col-1] = 'o';
 		M[g_row][g_col] = '#';
 		matrix_printer(M, row, col, tail);
-		labyrint_analysis(M, row, col, moves, check_global, nome);
+		labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 		return;
 	}else{
 		if(left_move == 0 && right_move == 0 && down_move == 0){
@@ -757,7 +757,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			M[g_row-1][g_col] = 'o';
 			M[g_row][g_col] = '#';
 			matrix_printer(M, row, col, tail);
-			labyrint_analysis(M, row, col, moves, check_global, nome);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 			return;
 		}else{
 			if(left_move == 0 && up_move == 0 && down_move == 0){
@@ -766,7 +766,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				M[g_row][g_col+1] = 'o';
 				M[g_row][g_col] = '#';
 				matrix_printer(M, row, col, tail);
-				labyrint_analysis(M, row, col, moves, check_global, nome);
+				labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 				return;
 			}else{
 				if(left_move == 0 && up_move == 0 && right_move == 0){
@@ -775,7 +775,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = '#';
 					matrix_printer(M, row, col, tail);
-					labyrint_analysis(M, row, col, moves,check_global, nome);
+					labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 					return;
 				}
 			}
@@ -798,7 +798,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 									M[g_row+1][g_col] = 'o';
 									M[g_row][g_col] = ' ';
 									matrix_printer(M, row, col, tail);
-									labyrint_analysis(M, row, col, moves, check_global, nome);
+									labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 									return;
 								
 								
@@ -836,7 +836,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves,check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 
 											case 4:	 	printf("104%c\n", 'O');
@@ -844,7 +844,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 
 											case 2:     printf("101%c\n" , 'N');
@@ -852,7 +852,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;                                            
 								}
 		}
@@ -868,7 +868,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 									M[g_row-1][g_col] = 'o';
 									M[g_row][g_col] = ' ';
 									matrix_printer(M, row, col, tail);
-									labyrint_analysis(M, row, col, moves, check_global, nome);
+									labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 									return;
 								
 								
@@ -905,7 +905,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves,check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 						
 											case 4:	 	printf("204%c\n", 'O');
@@ -913,7 +913,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row][g_col-1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 
 											case 1:		printf("201%c\n", 'S');
@@ -921,7 +921,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 
                                             
@@ -939,7 +939,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 								M[g_row][g_col+1] = 'o';
 								M[g_row][g_col] = ' ';
 								matrix_printer(M, row, col, tail);
-								labyrint_analysis(M, row, col, moves, check_global, nome);
+								labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 								return;
 									
 									
@@ -987,7 +987,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 													M[g_row-1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves, check_global, nome);
+													labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 													return;
 							
 											case 1:	printf("302%c\n", 'S');
@@ -995,7 +995,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 													M[g_row+1][g_col] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves, check_global, nome);
+													labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 													return;
 											
 											case 4: printf("304%c\n" , 'O');
@@ -1003,7 +1003,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 													M[g_row][g_col-1] = 'o';
 													M[g_row][g_col] = ' ';
 													matrix_printer(M, row, col, tail);
-													labyrint_analysis(M, row, col, moves, check_global, nome);
+													labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 													return;
 								}
 				}
@@ -1019,7 +1019,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 										M[g_row][g_col-1] = 'o';
 										M[g_row][g_col] = ' ';
 										matrix_printer(M, row, col, tail);
-										labyrint_analysis(M, row, col, moves, check_global, nome);
+										labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 										return;
 									
 								
@@ -1059,7 +1059,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row-1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 														
 							
@@ -1068,7 +1068,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row+1][g_col] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;
 														
 														
@@ -1077,7 +1077,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 														M[g_row][g_col+1] = 'o';
 														M[g_row][g_col] = ' ';
 														matrix_printer(M, row, col, tail);
-														labyrint_analysis(M, row, col, moves, check_global, nome);
+														labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 														return;			                       
 								}
 		}
@@ -1086,7 +1086,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 
 // string_t void s_push_back( tring_t *s, charc, vertical, orizzontal)
 
-void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *nome){
+void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1105,30 +1105,30 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 		check_global->vertical_direction[1] = vertical_global;
 		if(vertical_global == 1){
 			if(M[*g_row - 2][*g_col] != '#'){
-				s_push_back(nome , 'N', *g_row - 2, *g_col);
-				for(int i=0; i<nome->size && nome->size > 1; i++){
-					if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+				s_push_back(pattern_history , 'N', *g_row - 2, *g_col);
+				for(int i=0; i<pattern_history->size && pattern_history->size > 1; i++){
+					if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] ==pattern_history->string[pattern_history->size - 1]){
 						vertical_global *= -1;
 						orizzontal_global *= -1;
 						check_global->vertical_direction[1] = vertical_global;
 						check_global->orizzontal_direction[1] = orizzontal_global;
-						s_pop_elem(nome, i);
-						s_pop_back(nome);
+						s_pop_elem(pattern_history, i);
+						s_pop_back(pattern_history);
 					}
 				}
 			}
 		}else{
 			if(vertical_global == -1){
 				if(M[*g_row + 2][*g_col] != '#'){
-					s_push_back(nome , 'S', *g_row + 2, *g_col);
-					for(int i=0; i<nome->size && nome->size > 1; i++){
-						if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+					s_push_back(pattern_history , 'S', *g_row + 2, *g_col);
+					for(int i=0; i<pattern_history->size && pattern_history->size > 1; i++){
+						if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
 							vertical_global *= -1;
 							orizzontal_global *= -1;
 							check_global->vertical_direction[1] = vertical_global;
 							check_global->orizzontal_direction[1] = orizzontal_global;
-							s_pop_elem(nome, i);
-							s_pop_back(nome);
+							s_pop_elem(pattern_history, i);
+							s_pop_back(pattern_history);
 						}
 					}
 				}
@@ -1143,7 +1143,7 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 	return;
 }
 
-void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *nome){
+void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1162,15 +1162,15 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 		check_global->orizzontal_direction[1] = orizzontal_global;
 		if(orizzontal_global == 1){
 			if(M[*g_row][*g_col + 2] != '#'){
-				s_push_back(nome , 'E', *g_row, *g_col + 2);
-				for(int i=0; i<nome->size && nome->size > 1; i++){
-					if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+				s_push_back(pattern_history , 'E', *g_row, *g_col + 2);
+				for(int i=0; i<pattern_history->size &&pattern_history->size > 1; i++){
+					if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
 						vertical_global *= -1;
 						orizzontal_global *= -1;
 						check_global->vertical_direction[1] = vertical_global;
 						check_global->orizzontal_direction[1] = orizzontal_global;
-						s_pop_elem(nome, i);
-						s_pop_back(nome);
+						s_pop_elem(pattern_history, i);
+						s_pop_back(pattern_history);
 					}
 				}
 			}
@@ -1178,15 +1178,15 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 		}else{
 			if(orizzontal_global == -1){
 				if(M[*g_row][*g_col - 2] != '#'){
-					s_push_back(nome , 'O', *g_row, *g_col - 2);
-					for(int i=0; i<nome->size && nome->size > 1; i++){
-						if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+					s_push_back(pattern_history , 'O', *g_row, *g_col - 2);
+					for(int i=0; i<pattern_history->size && pattern_history->size > 1; i++){
+						if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
 							vertical_global *= -1;
 							orizzontal_global *= -1;
 							check_global->vertical_direction[1] = vertical_global;
 							check_global->orizzontal_direction[1] = orizzontal_global;
-							s_pop_elem(nome, i);
-							s_pop_back(nome);
+							s_pop_elem(pattern_history, i);
+							s_pop_back(pattern_history);
 						}
 					}
 				}
@@ -1840,15 +1840,16 @@ int main(int argc, char * argv[]){
 
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
-		string_t *nome = s_create();
+		string_t *pattern_history = s_create();
         string_t *moves = s_create();  
 		vector_global *check_global= v_global_create();
 		v_global_push_back (check_global, vertical_global, orizzontal_global); 
 		v_global_push_back (check_global, vertical_global, orizzontal_global);
 		labyrint_global_direction(M, &row, &col, check_global);		
-		labyrint_analysis(M, &row, &col, moves, check_global, nome);             //IA
+		labyrint_analysis(M, &row, &col, moves, check_global, pattern_history);             //IA
 		s_print(moves);
 		s_free(moves);
+		s_free(pattern_history);
 		v_global_free(check_global);
         return 0;
 
