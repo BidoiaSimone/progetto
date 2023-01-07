@@ -546,7 +546,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
         printf("%c\n",'E');
 		s_push_back(moves, 'E', vertical_global, orizzontal_global);
         M[g_row][g_col+1] = 'o';
-		M[g_row][g_col] = '#';
+		M[g_row][g_col] = ' ';
 		matrix_printer(M, row, col, tail);
 		labyrint_analysis( M, row, col, moves, check_global, nome);
 		return;
@@ -560,7 +560,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			printf("%c\n",'O');
 			s_push_back(moves, 'O', vertical_global, orizzontal_global);
 			M[g_row][g_col-1] = 'o';
-			M[g_row][g_col] = '#';
+			M[g_row][g_col] = ' ';
 			matrix_printer(M, row, col, tail);
 			labyrint_analysis(M, row, col, moves, check_global, nome);
 			return;
@@ -574,7 +574,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				printf("%c\n",'S');
 				s_push_back(moves, 'S', vertical_global, orizzontal_global);
 				M[g_row+1][g_col] = 'o';
-				M[g_row][g_col] = '#';
+				M[g_row][g_col] = ' ';
 				matrix_printer(M, row, col, tail);
 				labyrint_analysis( M, row, col, moves, check_global, nome);
 				return;
@@ -588,14 +588,13 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					printf("%c\n",'N');
 					s_push_back(moves, 'N', vertical_global, orizzontal_global);
 					M[g_row-1][g_col] = 'o';
-					M[g_row][g_col] = '#';
+					M[g_row][g_col] = ' ';
 					matrix_printer(M, row, col, tail);
 					labyrint_analysis( M, row, col, moves, check_global, nome);
 					return;
 				}
 			}
 		}
-        
 	}
 		
 	if( M[g_row][g_col+1] == '$' || M[g_row][g_col+1] == 'T'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '$' o 'T'
@@ -745,7 +744,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 
 	if(up_move == 0 && right_move == 0 && down_move == 0){
 		printf("41%c\n", 'O');
-		s_push_back(moves, 'O', vertical_global, orizzontal_global);
+		s_pop_back(moves);
 		M[g_row][g_col-1] = 'o';
 		M[g_row][g_col] = '#';
 		matrix_printer(M, row, col, tail);
@@ -754,7 +753,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 	}else{
 		if(left_move == 0 && right_move == 0 && down_move == 0){
 			printf("21%c\n", 'N');
-			s_push_back(moves, 'N', vertical_global, orizzontal_global);
+			s_pop_back(moves);
 			M[g_row-1][g_col] = 'o';
 			M[g_row][g_col] = '#';
 			matrix_printer(M, row, col, tail);
@@ -763,7 +762,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		}else{
 			if(left_move == 0 && up_move == 0 && down_move == 0){
 				printf("31%c\n", 'E');
-				s_push_back(moves, 'E', vertical_global, orizzontal_global);
+				s_pop_back(moves);
 				M[g_row][g_col+1] = 'o';
 				M[g_row][g_col] = '#';
 				matrix_printer(M, row, col, tail);
@@ -772,7 +771,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			}else{
 				if(left_move == 0 && up_move == 0 && right_move == 0){
 					printf("11%c\n", 'S');
-					s_push_back(moves, 'S', vertical_global, orizzontal_global);
+					s_pop_back(moves);
 					M[g_row+1][g_col] = 'o';
 					M[g_row][g_col] = '#';
 					matrix_printer(M, row, col, tail);
@@ -1087,7 +1086,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 
 // string_t void s_push_back( tring_t *s, charc, vertical, orizzontal)
 
-void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *nome){
+void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *nome){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1104,31 +1103,36 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 		check_global->orizzontal_direction[0] = check_global->orizzontal_direction[1];
 		vertical_global *= -1;
 		check_global->vertical_direction[1] = vertical_global;
-		if(vertical_global == 1  && M[*row - 2][*col] != '#'){
-			s_push_back(nome , 'N', *row - 2, *col);
-			for(int i=0; i<nome->size; i++){
-				if(nome->vertical[i]	== nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
-					vertical_global *= -1;
-					orizzontal_global *= -1;
-					check_global->vertical_direction[1] = vertical_global;
-					check_global->orizzontal_direction[1] = orizzontal_global;
-					s_pop_back(nome);
-					s_pop_element(nome, i);
-				}
-			}
-		}else{
-			if(vertical_global == -1  && M[*row + 2][*col] != '#'){
-				s_push_back(nome , 'S', *row + 2, *col);
-				for(int i=0; i<nome->size; i++){
-					if(nome->vertical[i]	== nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+		if(vertical_global == 1){
+			if(M[*g_row - 2][*g_col] != '#'){
+				s_push_back(nome , 'N', *g_row - 2, *g_col);
+				for(int i=0; i<nome->size && nome->size > 1; i++){
+					if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
 						vertical_global *= -1;
 						orizzontal_global *= -1;
 						check_global->vertical_direction[1] = vertical_global;
 						check_global->orizzontal_direction[1] = orizzontal_global;
+						s_pop_elem(nome, i);
 						s_pop_back(nome);
-						s_pop_element(nome, i);
 					}
 				}
+			}
+		}else{
+			if(vertical_global == -1){
+				if(M[*g_row + 2][*g_col] != '#'){
+					s_push_back(nome , 'S', *g_row + 2, *g_col);
+					for(int i=0; i<nome->size && nome->size > 1; i++){
+						if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+							vertical_global *= -1;
+							orizzontal_global *= -1;
+							check_global->vertical_direction[1] = vertical_global;
+							check_global->orizzontal_direction[1] = orizzontal_global;
+							s_pop_elem(nome, i);
+							s_pop_back(nome);
+						}
+					}
+				}
+				
 			}
 		}
 		s_cut(moves, moves->size-2);
@@ -1139,7 +1143,7 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 	return;
 }
 
-void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *nome){
+void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *nome){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1156,31 +1160,37 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 		check_global->vertical_direction[0] = check_global->vertical_direction[1];
 		orizzontal_global *= -1;
 		check_global->orizzontal_direction[1] = orizzontal_global;
-		if(orizzontal_global == 1  && M[*row][*col + 2] != '#'){
-			s_push_back(nome , 'E', *row, *col + 2);
-			for(int i=0; i<nome->size; i++){
-				if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
-					vertical_global *= -1;
-					orizzontal_global *= -1;
-					check_global->vertical_direction[1] = vertical_global;
-					check_global->orizzontal_direction[1] = orizzontal_global;
-					s_pop_back(nome);
-					s_pop_element(nome, i);
-				}
-			}
-		}else{
-			if(orizzontal_global == -1  && M[*row][*col - 2] != '#'){
-				s_push_back(nome , 'O', *row, *col - 2);
-				for(int i=0; i<nome->size; i++){
-					if(nome->vertical[i]	== nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+		if(orizzontal_global == 1){
+			if(M[*g_row][*g_col + 2] != '#'){
+				s_push_back(nome , 'E', *g_row, *g_col + 2);
+				for(int i=0; i<nome->size && nome->size > 1; i++){
+					if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
 						vertical_global *= -1;
 						orizzontal_global *= -1;
 						check_global->vertical_direction[1] = vertical_global;
 						check_global->orizzontal_direction[1] = orizzontal_global;
+						s_pop_elem(nome, i);
 						s_pop_back(nome);
-						s_pop_element(nome, i);
 					}
 				}
+			}
+			
+		}else{
+			if(orizzontal_global == -1){
+				if(M[*g_row][*g_col - 2] != '#'){
+					s_push_back(nome , 'O', *g_row, *g_col - 2);
+					for(int i=0; i<nome->size && nome->size > 1; i++){
+						if(nome->vertical[i] == nome->vertical[nome->size - 1]  && nome->orizzontal[i] == nome->orizzontal[nome->size - 1]  && nome->string[i] == nome->string[nome->size - 1]){
+							vertical_global *= -1;
+							orizzontal_global *= -1;
+							check_global->vertical_direction[1] = vertical_global;
+							check_global->orizzontal_direction[1] = orizzontal_global;
+							s_pop_elem(nome, i);
+							s_pop_back(nome);
+						}
+					}
+				}
+				
 			}
 		}
 		s_cut(moves, moves->size-2);
