@@ -1104,17 +1104,27 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 		}
 	}
 	if(ptt == true){
+
 		check_global->vertical_direction[0] = check_global->vertical_direction[1];
 		check_global->orizzontal_direction[0] = check_global->orizzontal_direction[1];
+		vertical_global *= -1;
 		check_global->vertical_direction[1] = vertical_global;
-		if(vertical_global == 1 && M[*g_row + 2][*g_col] == '#'){
+		
+		if(vertical_global == 1  &&  M[*g_row - 2][*g_col] != '#'){
+			
 				s_push_back(pattern_history, 'N', *g_row - 2, *g_col);
+				
 				for(int i=0; i<pattern_history->size-1 && pattern_history->size > 1; i++){
+					
 					if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] ==pattern_history->string[pattern_history->size - 1]){
+						
+						vertical_global *= -1;
 						orizzontal_global *= -1;
+						check_global->vertical_direction[1] = vertical_global;
 						check_global->orizzontal_direction[1] = orizzontal_global;
 						s_pop_elem(pattern_history, i);
 						s_pop_back(pattern_history);
+						break;
 					}
 					printf("here\n");
 				}			
@@ -1125,20 +1135,21 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 					s_push_back(pattern_history, 'S', *g_row + 2, *g_col);
 					for(int i=0; i<pattern_history->size-1 && pattern_history->size > 1; i++){
 						if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
+							vertical_global *= -1;
 							orizzontal_global *= -1;
+							check_global->vertical_direction[1] = vertical_global;
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
+							break;
 						}
 					}
-			}else{
-				vertical_global *= -1;
-				check_global->vertical_direction[1] = vertical_global;
 			}
 				
-			
+				
 		}
-		s_cut(moves, moves->size-2);
+	}
+	
 	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
 	printf("\nv_g %d   %d \n",vertical_global, ptt);
 	//s_print(moves);
@@ -1163,9 +1174,13 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 		orizzontal_global *= -1;
 		check_global->orizzontal_direction[1] = orizzontal_global;
 		if(orizzontal_global == 1){
+			
 			if(M[*g_row][*g_col + 2] != '#'){
+				
 				s_push_back(pattern_history , 'E', *g_row, *g_col + 2);
+				
 				for(int i=0; i<pattern_history->size-1 &&pattern_history->size > 1; i++){
+					
 					if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
 						vertical_global *= -1;
 						orizzontal_global *= -1;
@@ -1173,28 +1188,38 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 						check_global->orizzontal_direction[1] = orizzontal_global;
 						s_pop_elem(pattern_history, i);
 						s_pop_back(pattern_history);
+						break;
 					}
 				}
 			}
 		}else{
 			if(orizzontal_global == -1){
+				
 				if(M[*g_row][*g_col - 2] != '#'){
+					
 					s_push_back(pattern_history , 'O', *g_row, *g_col - 2);
 					for(int i=0; i<pattern_history->size-1 && pattern_history->size > 1; i++){
+						
 						if(pattern_history->vertical[i] == pattern_history->vertical[pattern_history->size - 1]  && pattern_history->orizzontal[i] == pattern_history->orizzontal[pattern_history->size - 1]  && pattern_history->string[i] == pattern_history->string[pattern_history->size - 1]){
+							
 							vertical_global *= -1;
 							orizzontal_global *= -1;
 							check_global->vertical_direction[1] = vertical_global;
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
+							break;
 						}
 					}
 				}
 				
+			}else{
+				orizzontal_global *= -1;
+				check_global->orizzontal_direction[1] = orizzontal_global;
+				s_cut(moves, moves->size - 2);
 			}
-		}
-		s_cut(moves, moves->size-2);
+			}
+		
 	}
 	printf("\n%d, %d", check_global->orizzontal_direction[0], check_global->orizzontal_direction[1]);
 	printf("\no_g %d   %d \n",orizzontal_global, ptt);
