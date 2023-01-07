@@ -491,7 +491,7 @@ void labyrint_global_direction(char  **M, int *row,int *col, vector_global *chec
 	}
 }
 
-void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_global *check_global, string_t *nome){ 
+void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_global *check_global, string_t *pattern_history){ 
 //iniziallizzo le variabili che mi serviranno per tenere tracia delle 
 //coordinate dell'inizio e della fine del labirinto
 	int g_col;
@@ -1231,6 +1231,7 @@ down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale co
 
 
 //per comodità scriviamo una nuova funzione copiando i pezzi che possiamo riutilizzare 
+
 
 /*void labyrint_analysis( char **M, int *row, int *col, string_t *moves){
 
