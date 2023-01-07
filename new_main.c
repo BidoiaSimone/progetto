@@ -7,7 +7,6 @@ così non faccio confusione con le challenge se riusciamo a consegnarle*/
 #include <unistd.h>
 #include <time.h>
 #define MS                  1227.133
-#define SPEED               10
 
 void delay_milliseconds(int milliseconds);
 void delay_seconds(int seconds);

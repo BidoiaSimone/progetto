@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include "vectors.h"
+#include <time.h>
 #ifdef __WIN32__
 
 	#include <conio.h>
@@ -15,6 +16,7 @@
 
 #ifdef __APPLE__
 
+#define MS                  1227.133
 #define DEFAULT 	"\033[0m"
 #define BLACK		"\033[0;30m"
 #define RED 		"\033[0;31m"		
@@ -30,6 +32,10 @@
 
 
 #ifdef __APPLE__
+		void delay_milliseconds(int milliseconds){
+    		double start_time = clock();
+    		while(clock() <= start_time + (milliseconds * MS)){}
+		}
 
 		void matrix_printer(char **M, int *row, int *col, vector_t *tail){
 			for(int i = 0; i < *row; i++){                   
@@ -41,6 +47,7 @@
 			for(int i = 0; i < tail->size; i++){
 				M[tail->row[i]][tail->col[i]] = '0';
 			}
+			system("clear");
 			for(int i = 0; i < *row; i++){                   
 				for(int j = 0; j < *col; j++){      
 					if(M[i][j] == '#'){
@@ -75,6 +82,7 @@
 			}   
 			
 				printf("\n");
+				delay_milliseconds(60);
 		}
 #else
 
@@ -100,8 +108,8 @@
 #endif
 
 
-void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *nome);
-void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *nome);
+bool vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
+bool orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
 
 
 int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
@@ -551,7 +559,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
         printf("%c\n",'E');
 		s_push_back(moves, 'E', vertical_global, orizzontal_global);
         M[g_row][g_col+1] = 'o';
-		M[g_row][g_col] = ' ';
+		M[g_row][g_col] = '#';
 		matrix_printer(M, row, col, tail);
 		labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 		return;
@@ -565,7 +573,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 			printf("%c\n",'O');
 			s_push_back(moves, 'O', vertical_global, orizzontal_global);
 			M[g_row][g_col-1] = 'o';
-			M[g_row][g_col] = ' ';
+			M[g_row][g_col] = '#';
 			matrix_printer(M, row, col, tail);
 			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 			return;
@@ -579,7 +587,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 				printf("%c\n",'S');
 				s_push_back(moves, 'S', vertical_global, orizzontal_global);
 				M[g_row+1][g_col] = 'o';
-				M[g_row][g_col] = ' ';
+				M[g_row][g_col] = '#';
 				matrix_printer(M, row, col, tail);
 				labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 				return;
@@ -593,7 +601,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 					printf("%c\n",'N');
 					s_push_back(moves, 'N', vertical_global, orizzontal_global);
 					M[g_row-1][g_col] = 'o';
-					M[g_row][g_col] = ' ';
+					M[g_row][g_col] = '#';
 					matrix_printer(M, row, col, tail);
 					labyrint_analysis(M, row, col, moves, check_global, pattern_history);
 					return;
@@ -655,7 +663,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
         
 	}
 	// controllo quali movimenti sono impossibilitati dalle pareti. 
-		if (M[g_row][g_col+1] == '#'  &&  counter_trivella  == 0){
+		if (M[g_row][g_col+1] == '#' &&  counter_trivella  == 0){
 			right_move = 0;
 		}else{
 			right_move = 1;
@@ -721,8 +729,46 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		
 	// inizio associazione valore a x in caso di pattern rilevato
 	
-	orizzontal_pattern(moves, check_global, M, &g_row, &g_col, pattern_history);
-	vertical_pattern(moves, check_global, M, &g_row, &g_col, pattern_history);
+	if(orizzontal_pattern(moves, check_global, M, &g_row, &g_col, pattern_history) == 1){
+		if(moves->string[moves->size-1] == 'E'){
+			printf("_%c\n", 'E');
+			s_push_back(moves, 'E', vertical_global, orizzontal_global);
+			M[g_row][g_col+1] = 'o';
+			M[g_row][g_col] = ' ';
+			matrix_printer(M, row, col, tail);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
+			return;
+		}
+		if(moves->string[moves->size-1] == 'O'){
+			printf("_%c\n", 'O');
+			s_push_back(moves, 'O', vertical_global, orizzontal_global);
+			M[g_row][g_col-1] = 'o';
+			M[g_row][g_col] = ' ';
+			matrix_printer(M, row, col, tail);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
+			return;
+		}
+	}
+	if(vertical_pattern(moves, check_global, M, &g_row, &g_col, pattern_history) == 1){
+		if(moves->string[moves->size-1] == 'N'){
+			printf("_%c\n", 'N');
+			s_push_back(moves, 'N', vertical_global, orizzontal_global);
+			M[g_row-1][g_col] = 'o';
+			M[g_row][g_col] = ' ';
+			matrix_printer(M, row, col, tail);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
+			return;
+		}
+		if(moves->string[moves->size-1] == 'S'){
+			printf("_%c\n", 'S');
+			s_push_back(moves, 'S', vertical_global, orizzontal_global);
+			M[g_row+1][g_col] = 'o';
+			M[g_row][g_col] = ' ';
+			matrix_printer(M, row, col, tail);
+			labyrint_analysis(M, row, col, moves, check_global, pattern_history);
+			return;
+		}
+	}
 		
 		if (check_global->orizzontal_direction[0]  !=  check_global->orizzontal_direction[1]){
 			if(check_global->orizzontal_direction[1] == 1){
@@ -1091,7 +1137,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 
 // string_t void s_push_back( tring_t *s, charc, vertical, orizzontal)
 
-void vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
+bool vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'N'){
 		if(moves->string[moves->size-2] == 'S'){
@@ -1125,14 +1171,11 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
-							M[*g_row + 1][*g_col] = 'o';
-							M[*g_row][*g_col] = ' ';
-							*g_row ++;
-							break;
+							s_cut(moves, moves->size-1);
+							return ptt;
 						}
 					}
 			}
-		
 		}else{
 			if(vertical_global == 1){
 				if(M[*g_row - 2][*g_col] != '#'){
@@ -1148,10 +1191,8 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
-							M[*g_row - 1][*g_col] = 'o';
-							M[*g_row][*g_col] = ' ';
-							*g_row --;
-							break;
+							s_cut(moves, moves->size-1);
+							return ptt;
 						}
 					}
 				}
@@ -1159,16 +1200,16 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 				
 				
 		}
-		s_cut(moves, moves->size-1);
+		s_cut(moves, moves->size-2);
 	}
 	
 	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
 	printf("\nv_g %d   %d \n",vertical_global, ptt);
 	//s_print(moves);
-	return;
+	return 0;
 }
 
-void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
+bool orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *g_row, int *g_col, string_t *pattern_history){
 	bool ptt = 0;
 	if(moves->string[moves->size-1] == 'E'){
 		if(moves->string[moves->size-2] == 'O'){
@@ -1180,6 +1221,7 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 			ptt = true;
 		}
 	}
+
 	if(ptt == true){
 		check_global->orizzontal_direction[0] = check_global->orizzontal_direction[1];
 		check_global->vertical_direction[0] = check_global->vertical_direction[1];
@@ -1200,10 +1242,8 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 						check_global->orizzontal_direction[1] = orizzontal_global;
 						s_pop_elem(pattern_history, i);
 						s_pop_back(pattern_history);
-						M[*g_row][*g_col + 1] = 'o';
-							M[*g_row][*g_col] = ' ';
-							*g_col ++;
-						break;
+						s_cut(moves, moves->size - 1);
+						return ptt;
 					}
 				}
 			}
@@ -1223,22 +1263,19 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
-							M[*g_row][*g_col - 1] = 'o';
-							M[*g_row][*g_col] = ' ';
-							*g_col --;
-							break;
+							s_cut(moves, moves->size - 1);
+							return ptt;
 						}
 					}
-				}
-				
+				}	
 			}
-			}
-		s_cut(moves, moves->size-1);
+		}
+		s_cut(moves, moves->size - 2);
 	}
 	printf("\n%d, %d", check_global->orizzontal_direction[0], check_global->orizzontal_direction[1]);
 	printf("\no_g %d   %d \n",orizzontal_global, ptt);
 	//s_print(moves);
-	return;
+	return 0;
 }
 
 
