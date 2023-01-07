@@ -1125,6 +1125,9 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
+							M[*g_row + 1][*g_col] = 'o';
+							M[*g_row][*g_col] = ' ';
+							*g_row ++;
 							break;
 						}
 					}
@@ -1145,6 +1148,9 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
+							M[*g_row - 1][*g_col] = 'o';
+							M[*g_row][*g_col] = ' ';
+							*g_row --;
 							break;
 						}
 					}
@@ -1153,7 +1159,7 @@ void vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 				
 				
 		}
-		s_cut(moves, moves->size-2);
+		s_cut(moves, moves->size-1);
 	}
 	
 	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
@@ -1194,6 +1200,9 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 						check_global->orizzontal_direction[1] = orizzontal_global;
 						s_pop_elem(pattern_history, i);
 						s_pop_back(pattern_history);
+						M[*g_row][*g_col + 1] = 'o';
+							M[*g_row][*g_col] = ' ';
+							*g_col ++;
 						break;
 					}
 				}
@@ -1214,6 +1223,9 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 							check_global->orizzontal_direction[1] = orizzontal_global;
 							s_pop_elem(pattern_history, i);
 							s_pop_back(pattern_history);
+							M[*g_row][*g_col - 1] = 'o';
+							M[*g_row][*g_col] = ' ';
+							*g_col --;
 							break;
 						}
 					}
@@ -1221,7 +1233,7 @@ void orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 				
 			}
 			}
-		s_cut(moves, moves->size-2);
+		s_cut(moves, moves->size-1);
 	}
 	printf("\n%d, %d", check_global->orizzontal_direction[0], check_global->orizzontal_direction[1]);
 	printf("\no_g %d   %d \n",orizzontal_global, ptt);
