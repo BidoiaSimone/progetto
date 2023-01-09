@@ -316,9 +316,7 @@ void v_print(vector_t *v){                              //stampa a schermo un ve
 }
 
 void s_print(string_t *s){
-    printf("{\n");
     for(int i = 0; i < s->size; i++){
-        printf("(%c, v%d, o%d)\n", s->string[i], s->vertical[i], s->orizzontal[i]);
+        printf("%c", s->string[i]);
     }
-    printf(" }\n");
 }
