@@ -22,6 +22,22 @@
 #define CYAN		"\033[0;36m"
 #define WHITE		"\033[0;37m"
 
+
+bool vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
+bool orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
+
+
+int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
+int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
+int counter_trivella = 0;
+int v_ptt = 0;
+int o_ptt = 0;
+int MS;
+
+
+
+
+
 #ifdef __APPLE__
 
 	int milliseconds_calculator(){
@@ -214,16 +230,7 @@
 #endif
 
 
-bool vertical_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
-bool orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, int *row, int *col, string_t *pattern_history);
 
-
-int vertical_global = 1;	// vertical_global==-1 movimento in basso, vertical_global==1 movimento verso l'alto
-int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_global==-1 movimento sx
-int counter_trivella = 0;
-int v_ptt = 0;
-int o_ptt = 0;
-int MS;
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
@@ -1429,7 +1436,11 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
-	MS = milliseconds_calculator();
+	#ifdef __APPLE__
+		MS = milliseconds_calculator();
+	#elif __unix__
+		MS = milliseconds_calculator();
+	#endif
 	scanf("%d\n%d\n", &col, &row);
 	
 
