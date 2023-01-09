@@ -548,7 +548,7 @@ void matrix_player(char **M, int *row, int *col){
 
         	if(M[victory_row][victory_col] == 'o'){
             	printf("Vittoria!!!\n");
-				free(tail);
+				v_free(tail);
 				break;
             
         	}
@@ -1420,7 +1420,7 @@ down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale co
 
 int main(){
 	int selection=0;
-	puts("press 1 for Single Player or 2 for IA mode, than copy paste the matrix to play with!"):
+	puts("Press 1 for Single Player or 2 for AI mode, than copy paste the matrix to play with!");
 	scanf("%d", &selection);
 	
 	if(selection == 1){
@@ -1439,8 +1439,19 @@ int main(){
 		}
 	
 		matrix_reader(M, &row, &col);
-	}
+		#ifdef __APPLE__
+			system("clear");
+		#elif __unix__
+			system("clear");
+		#endif
 
+        matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
+		for(int i = 0; i < row; i++){
+			free(M[i]);
+		}
+		free(M);
+		return 0;
+	}
     if(selection == 2){           //--challenge branch (IA)
 		int row = 0;
 		int col = 0;
@@ -1468,23 +1479,12 @@ int main(){
 		s_free(moves);
 		s_free(pattern_history);
 		v_global_free(check_global);
-        return 0;
-
-    }else{
-
-		#ifdef __APPLE__
-			system("clear");
-		#elif __unix__
-			system("clear");
-		#endif
-
-        matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
-        return 0;
+        for(int i = 0; i < row; i++){
+			free(M[i]);
+		}
+		free(M);
+		return 0;
     }
-	for(int i = 0; i < row; i++){
-		free(M[i]);
-	}
-	free(M);
-	return 0;
+	
 	
 }
