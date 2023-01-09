@@ -215,7 +215,7 @@ int MS;
 			}   
 			
 				printf("\n");
-				system("sleep 0.4s");
+				system("sleep 0.2s");
 		}
 
 #endif
