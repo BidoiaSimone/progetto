@@ -319,4 +319,5 @@ void s_print(string_t *s){
     for(int i = 0; i < s->size; i++){
         printf("%c", s->string[i]);
     }
+    printf("\n");
 }

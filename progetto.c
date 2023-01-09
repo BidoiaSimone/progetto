@@ -160,15 +160,6 @@ int MS;
 	}
 #elif __unix__
 
-	int milliseconds_calculator(){
-		int start = time(NULL);
-		double clock_start = clock();
-		while(time(NULL) <= start+1){}
-		double clock_finish = clock();
-		double clocks_in_one_sec = clock_finish - clock_start;
-		double clocks_in_one_millisec = clocks_in_one_sec / 1000;
-		return clocks_in_one_millisec;
-	}
 
 	void delay_milliseconds(int milliseconds){
     		double start_time = clock();
@@ -224,7 +215,7 @@ int MS;
 			}   
 			
 				printf("\n");
-				delay_milliseconds(40);
+				system("sleep 0.4s");
 		}
 
 #endif
@@ -1437,8 +1428,6 @@ int main(int argc, char * argv[]){
 	int row = 0;
 	int col = 0;
 	#ifdef __APPLE__
-		MS = milliseconds_calculator();
-	#elif __unix__
 		MS = milliseconds_calculator();
 	#endif
 	scanf("%d\n%d\n", &col, &row);
