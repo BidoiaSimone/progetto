@@ -7,15 +7,10 @@
 #include <stdbool.h>
 #include "vectors.h"
 #include <time.h>
-#define MS                  1227.133
+
 #ifdef __WIN32__
-
-	#include <conio.h>
-
+#include <conio.h>
 #endif
-
-#ifdef __APPLE__
-
 
 #define DEFAULT 	"\033[0m"
 #define BLACK		"\033[0;30m"
@@ -27,23 +22,139 @@
 #define CYAN		"\033[0;36m"
 #define WHITE		"\033[0;37m"
 
+#ifdef __APPLE__
+
+	int milliseconds_calculator(){
+		int start = time(NULL);
+		double clock_start = clock();
+		while(time(NULL) <= start+1){}
+		double clock_finish = clock();
+		double clocks_in_one_sec = clock_finish - clock_start;
+		double clocks_in_one_millisec = clocks_in_one_sec / 1000;
+		return clocks_in_one_millisec;
+	}
+
+	void delay_milliseconds(int milliseconds){
+		double start_time = clock();
+		while(clock() <= start_time + (milliseconds * MS)){}
+	}
+
+	void matrix_printer(char **M, int *row, int *col, vector_t *tail){
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){
+				if(M[i][j] == '0')
+					M[i][j] = ' ';
+			}
+		}
+		for(int i = 0; i < tail->size; i++){
+			M[tail->row[i]][tail->col[i]] = '0';
+		}
+		system("clear");
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){      
+				if(M[i][j] == '#'){
+					printf("█");
+				}else{
+					if(M[i][j] == 'o'){
+						printf(BLUE);
+						printf("◉");
+						printf(DEFAULT);
+					}else{
+						if(M[i][j] == '0'){
+							printf(BLUE);
+							printf("•");
+							printf(DEFAULT);
+						}else{
+							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+								printf(PURPLE);
+							if(M[i][j] == '$')
+								printf(YELLOW);
+							if(M[i][j] == '!')
+								printf(RED);
+							if(M[i][j] == 'T')
+								printf(CYAN);
+							if(M[i][j] == 'a'){
+								printf(" ");
+							}else{
+								printf("%c", M[i][j]);
+							}
+							
+							printf(DEFAULT);
+						}
+					}
+				}
+			}
+				printf("\n");
+		}   
+		
+			printf("\n");
+			delay_milliseconds(40);
+	}
 #elif __WIN32__
 
-#define BLACK		"\033[0;30m"
-#define RED 		"\033[0;31m"		
-#define GREEN		"\033[0;32m"
-#define YELLOW		"\033[0;33m"
-#define BLUE		"\033[0;34m"
-#define PURPLE		"\033[0;35m"
-#define CYAN		"\033[0;36m"
-#define WHITE		"\033[0;37m"
+	void matrix_printer(char **M, int *row, int *col, vector_t *tail){
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){
+				if(M[i][j] == '0')
+					M[i][j] = ' ';
+			}
+		}
+		for(int i = 0; i < tail->size; i++){
+			M[tail->row[i]][tail->col[i]] = '0';
+		}
+		system("cls");
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){      
+				if(M[i][j] == '#'){
+					printf("%c", M[i][j]);
+				}else{
+					if(M[i][j] == 'o'){
+						printf(BLUE);
+						printf("o");
+						printf(WHITE);
+					}else{
+						if(M[i][j] == '0'){
+							printf(BLUE);
+							printf("0");
+							printf(WHITE);
+						}else{
+							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+								printf(PURPLE);
+							if(M[i][j] == '$')
+								printf(YELLOW);
+							if(M[i][j] == '!')
+								printf(RED);
+							if(M[i][j] == 'T')
+								printf(CYAN);
+							if(M[i][j] == 'a'){
+								printf(" ");
+							}else{
+								printf("%c", M[i][j]);
+							}
+							printf(WHITE);
+						}
+					}
+				}
+			}
+				printf("\n");
+		}   
+		
+			printf("\n");
+			system("ping /n 1 /w 20 localhost >nul");
+	}
+#elif __unix__
 
-#endif
+	int milliseconds_calculator(){
+		int start = time(NULL);
+		double clock_start = clock();
+		while(time(NULL) <= start+1){}
+		double clock_finish = clock();
+		double clocks_in_one_sec = clock_finish - clock_start;
+		double clocks_in_one_millisec = clocks_in_one_sec / 1000;
+		return clocks_in_one_millisec;
+	}
 
-
-
-#ifdef __APPLE__
-		void delay_milliseconds(int milliseconds){
+	void delay_milliseconds(int milliseconds){
     		double start_time = clock();
     		while(clock() <= start_time + (milliseconds * MS)){}
 		}
@@ -66,7 +177,7 @@
 					}else{
 						if(M[i][j] == 'o'){
 							printf(BLUE);
-							printf("◉");
+							printf("o");
 							printf(DEFAULT);
 						}else{
 							if(M[i][j] == '0'){
@@ -99,58 +210,7 @@
 				printf("\n");
 				delay_milliseconds(40);
 		}
-#elif __WIN32__
 
-		void matrix_printer(char **M, int *row, int *col, vector_t *tail){
-			for(int i = 0; i < *row; i++){                   
-				for(int j = 0; j < *col; j++){
-					if(M[i][j] == '0')
-						M[i][j] = ' ';
-				}
-			}
-			for(int i = 0; i < tail->size; i++){
-				M[tail->row[i]][tail->col[i]] = '0';
-			}
-			system("cls");
-			for(int i = 0; i < *row; i++){                   
-				for(int j = 0; j < *col; j++){      
-					if(M[i][j] == '#'){
-						printf("%c", M[i][j]);
-					}else{
-						if(M[i][j] == 'o'){
-							printf(BLUE);
-							printf("o");
-							printf(WHITE);
-						}else{
-							if(M[i][j] == '0'){
-								printf(BLUE);
-								printf("0");
-								printf(WHITE);
-							}else{
-								if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-									printf(PURPLE);
-								if(M[i][j] == '$')
-									printf(YELLOW);
-								if(M[i][j] == '!')
-									printf(RED);
-								if(M[i][j] == 'T')
-									printf(CYAN);
-								if(M[i][j] == 'a'){
-									printf(" ");
-								}else{
-									printf("%c", M[i][j]);
-								}
-								printf(WHITE);
-							}
-						}
-					}
-				}
-					printf("\n");
-			}   
-			
-				printf("\n");
-				system("ping /n 1 /w 20 localhost >nul");
-		}
 #endif
 
 
@@ -163,7 +223,7 @@ int orizzontal_global = 1;	// orizzontal_global==1 movimento dx, orizzontal_glob
 int counter_trivella = 0;
 int v_ptt = 0;
 int o_ptt = 0;
-
+int MS;
 
 void matrix_reader(char **M, int *row, int *col){       //legge una matrice da stdin riga per riga
         int i = 0;
@@ -215,7 +275,8 @@ void matrix_player(char **M, int *row, int *col){
 			c = getchar();
 		#elif __WIN32__
 			c = getch();
-		#else
+		#elif __unix__
+			system("stty raw");
         	c = getchar();
 		#endif
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
@@ -474,6 +535,11 @@ void matrix_player(char **M, int *row, int *col){
 		}
 		#ifdef __APPLE__
         system("stty cooked");
+		system("clear");
+		#elif __WIN32__
+		system("cls");
+		#elif __unix__
+		system("stty cooked");
 		system("clear");
 		#endif
 
@@ -1363,6 +1429,7 @@ int main(int argc, char * argv[]){
 
 	int row = 0;
 	int col = 0;
+	MS = milliseconds_calculator();
 	scanf("%d\n%d\n", &col, &row);
 	
 
@@ -1376,6 +1443,7 @@ int main(int argc, char * argv[]){
 
 
     if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
+
 		string_t *pattern_history = s_create();
         string_t *moves = s_create();  
 		vector_global *check_global= v_global_create();
@@ -1393,7 +1461,10 @@ int main(int argc, char * argv[]){
 
 		#ifdef __APPLE__
 			system("clear");
+		#elif __unix__
+			system("clear");
 		#endif
+
         matrix_player(M, &row, &col);              //modifica la matrice facendo muovere il giocatore
         return 0;
     }
