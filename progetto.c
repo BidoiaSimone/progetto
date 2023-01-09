@@ -106,58 +106,6 @@ int MS;
 			printf("\n");
 			delay_milliseconds(40);
 	}
-#elif _WIN32
-
-	void matrix_printer(char **M, int *row, int *col, vector_t *tail){
-		for(int i = 0; i < *row; i++){                   
-			for(int j = 0; j < *col; j++){
-				if(M[i][j] == '0')
-					M[i][j] = ' ';
-			}
-		}
-		for(int i = 0; i < tail->size; i++){
-			M[tail->row[i]][tail->col[i]] = '0';
-		}
-		system("cls");
-		for(int i = 0; i < *row; i++){                   
-			for(int j = 0; j < *col; j++){      
-				if(M[i][j] == '#'){
-					printf("%c", M[i][j]);
-				}else{
-					if(M[i][j] == 'o'){
-						printf(BLUE);
-						printf("o");
-						printf(WHITE);
-					}else{
-						if(M[i][j] == '0'){
-							printf(BLUE);
-							printf("0");
-							printf(WHITE);
-						}else{
-							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
-								printf(PURPLE);
-							if(M[i][j] == '$')
-								printf(YELLOW);
-							if(M[i][j] == '!')
-								printf(RED);
-							if(M[i][j] == 'T')
-								printf(CYAN);
-							if(M[i][j] == 'a'){
-								printf(" ");
-							}else{
-								printf("%c", M[i][j]);
-							}
-							printf(WHITE);
-						}
-					}
-				}
-			}
-				printf("\n");
-		}   
-		
-			printf("\n");
-			system("ping /n 1 /w 20 localhost >nul");
-	}
 #elif __unix__
 
 
@@ -213,8 +161,59 @@ int MS;
 				system("sleep 0.3s");
 		}
 
-#endif
+#else 
 
+	void matrix_printer(char **M, int *row, int *col, vector_t *tail){
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){
+				if(M[i][j] == '0')
+					M[i][j] = ' ';
+			}
+		}
+		for(int i = 0; i < tail->size; i++){
+			M[tail->row[i]][tail->col[i]] = '0';
+		}
+		system("cls");
+		for(int i = 0; i < *row; i++){                   
+			for(int j = 0; j < *col; j++){      
+				if(M[i][j] == '#'){
+					printf("%c", M[i][j]);
+				}else{
+					if(M[i][j] == 'o'){
+						printf(BLUE);
+						printf("o");
+						printf(WHITE);
+					}else{
+						if(M[i][j] == '0'){
+							printf(BLUE);
+							printf("0");
+							printf(WHITE);
+						}else{
+							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+								printf(PURPLE);
+							if(M[i][j] == '$')
+								printf(YELLOW);
+							if(M[i][j] == '!')
+								printf(RED);
+							if(M[i][j] == 'T')
+								printf(CYAN);
+							if(M[i][j] == 'a'){
+								printf(" ");
+							}else{
+								printf("%c", M[i][j]);
+							}
+							printf(WHITE);
+						}
+					}
+				}
+			}
+				printf("\n");
+		}   
+		
+			printf("\n");
+			system("ping /n 1 /w 20 localhost >nul");
+	}
+#endif
 
 
 
