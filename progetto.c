@@ -161,11 +161,6 @@ int MS;
 #elif __unix__
 
 
-	void delay_milliseconds(int milliseconds){
-    		double start_time = clock();
-    		while(clock() <= start_time + (milliseconds * MS)){}
-		}
-
 		void matrix_printer(char **M, int *row, int *col, vector_t *tail){
 			for(int i = 0; i < *row; i++){                   
 				for(int j = 0; j < *col; j++){
