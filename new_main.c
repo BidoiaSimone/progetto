@@ -6,15 +6,16 @@ così non faccio confusione con le challenge se riusciamo a consegnarle*/
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
-#define MS                  1227.133
+
+int milliseconds_calculator();
+
+#define MS                  milliseconds_calculator()
 
 void delay_milliseconds(int milliseconds);
 void delay_seconds(int seconds);
 
 void eraser_ds();
 void eraser_sd();
-
-int milliseconds_calculator();
 
 
 int milliseconds_calculator(){
@@ -73,25 +74,12 @@ int main(int argc, char * argv[]){
 
     char test[]="ho visto un nero con le scarpe di gomma, porcodio e porcamdonna, le scarpe di gomma le volevo anch'io, porcamadonna e porcodio";
 
-    
-
-
-    for(int i = 0; i < 127; i++){
-        delay_milliseconds(SPEED);
-        printf("%c", test[i]);
-        fflush(stdout);
-        
-    }
-
-    eraser_ds();
-
-    for(int i = 0; i < 127; i++){
-        delay_milliseconds(SPEED);
-        printf("%c", test[i]);
-        fflush(stdout);
-    }
-    eraser_sd();
-
+    printf("%d", MS);
+    printf("%d\n", milliseconds_calculator());
+    delay_milliseconds(100);
+    printf("%d\n", milliseconds_calculator());
+    delay_milliseconds(10);
+    printf("%d\n", milliseconds_calculator());
 
     printf("\n");
     return 0;

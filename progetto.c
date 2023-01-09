@@ -7,17 +7,28 @@
 #include <stdbool.h>
 #include "vectors.h"
 #include <time.h>
+#define MS                  1227.133
 #ifdef __WIN32__
 
 	#include <conio.h>
 
 #endif
 
-
 #ifdef __APPLE__
 
-#define MS                  1227.133
+
 #define DEFAULT 	"\033[0m"
+#define BLACK		"\033[0;30m"
+#define RED 		"\033[0;31m"		
+#define GREEN		"\033[0;32m"
+#define YELLOW		"\033[0;33m"
+#define BLUE		"\033[0;34m"
+#define PURPLE		"\033[0;35m"
+#define CYAN		"\033[0;36m"
+#define WHITE		"\033[0;37m"
+
+#elif __WIN32__
+
 #define BLACK		"\033[0;30m"
 #define RED 		"\033[0;31m"		
 #define GREEN		"\033[0;32m"
@@ -88,10 +99,10 @@
 				printf("\n");
 				delay_milliseconds(40);
 		}
-#else
+#elif __WIN32__
 
-		void matrix_printer(char **M, int *row, int *col ,vector_t *tail){      //implementare bella stampa a colori da usare
-		for(int i = 0; i < *row; i++){                   
+		void matrix_printer(char **M, int *row, int *col, vector_t *tail){
+			for(int i = 0; i < *row; i++){                   
 				for(int j = 0; j < *col; j++){
 					if(M[i][j] == '0')
 						M[i][j] = ' ';
@@ -100,18 +111,45 @@
 			for(int i = 0; i < tail->size; i++){
 				M[tail->row[i]][tail->col[i]] = '0';
 			}
-		printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); //funziona di merda per il merda di refresh rate del cmd
-			for(int i = 0; i < *row; i++){                   //stampa matrice iniziale
-				for(int j = 0; j < *col; j++){  
-					if(M[i][j] == 'a'){
-						printf(" ");
-					}else{
+			system("cls");
+			for(int i = 0; i < *row; i++){                   
+				for(int j = 0; j < *col; j++){      
+					if(M[i][j] == '#'){
 						printf("%c", M[i][j]);
-					}    
+					}else{
+						if(M[i][j] == 'o'){
+							printf(BLUE);
+							printf("o");
+							printf(WHITE);
+						}else{
+							if(M[i][j] == '0'){
+								printf(BLUE);
+								printf("0");
+								printf(WHITE);
+							}else{
+								if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
+									printf(PURPLE);
+								if(M[i][j] == '$')
+									printf(YELLOW);
+								if(M[i][j] == '!')
+									printf(RED);
+								if(M[i][j] == 'T')
+									printf(CYAN);
+								if(M[i][j] == 'a'){
+									printf(" ");
+								}else{
+									printf("%c", M[i][j]);
+								}
+								printf(WHITE);
+							}
+						}
+					}
 				}
 					printf("\n");
 			}   
+			
 				printf("\n");
+				system("ping /n 1 /w 20 localhost >nul");
 		}
 #endif
 
@@ -173,10 +211,13 @@ void matrix_player(char **M, int *row, int *col){
     while((c != 'q')){          //muove pedina
 
 		#ifdef __APPLE__
-		system("stty raw");
+			system("stty raw");
+			c = getchar();
+		#elif __WIN32__
+			c = getch();
+		#else
+        	c = getchar();
 		#endif
-
-        c = getchar();
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
             if(M[g_row-1][g_col] == '$'){
