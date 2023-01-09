@@ -8,7 +8,7 @@
 #include "vectors.h"
 #include <time.h>
 
-#ifdef __WIN32__
+#ifdef _WIN32
 #include <conio.h>
 #endif
 
@@ -106,7 +106,7 @@ int MS;
 			printf("\n");
 			delay_milliseconds(40);
 	}
-#elif __WIN32__
+#elif _WIN32
 
 	void matrix_printer(char **M, int *row, int *col, vector_t *tail){
 		for(int i = 0; i < *row; i++){                   
@@ -266,7 +266,7 @@ void matrix_player(char **M, int *row, int *col){
 		#ifdef __APPLE__
 			system("stty raw");
 			c = getchar();
-		#elif __WIN32__
+		#elif _WIN32
 			c = getch();
 		#elif __unix__
 			system("stty raw");
@@ -529,7 +529,7 @@ void matrix_player(char **M, int *row, int *col){
 		#ifdef __APPLE__
         system("stty cooked");
 		system("clear");
-		#elif __WIN32__
+		#elif _WIN32
 		system("cls");
 		#elif __unix__
 		system("stty cooked");
