@@ -1418,27 +1418,45 @@ down_move ecc.. unica mossa da mettere true sarà direzione opposta a globale co
 
 
 
-int main(int argc, char * argv[]){
-
-	int row = 0;
-	int col = 0;
-	#ifdef __APPLE__
-		MS = milliseconds_calculator();
-	#endif
-	scanf("%d\n%d\n", &col, &row);
+int main(){
+	int selection=0;
+	puts("press 1 for Single Player or 2 for IA mode, than copy paste the matrix to play with!"):
+	scanf("%d", &selection);
 	
+	if(selection == 1){
+		int row = 0;
+		int col = 0;
+		#ifdef __APPLE__
+			MS = milliseconds_calculator();
+		#endif
+		scanf("%d\n%d\n", &col, &row);
+		
 
     
-    char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
-    for(int i = 0; i < row; i++){
-        M[i] = (char*)malloc(col * sizeof(char));
-    }
+		char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
+		for(int i = 0; i < row; i++){
+			M[i] = (char*)malloc(col * sizeof(char));
+		}
 	
-	matrix_reader(M, &row, &col);
+		matrix_reader(M, &row, &col);
+	}
 
+    if(selection == 2){           //--challenge branch (IA)
+		int row = 0;
+		int col = 0;
+		#ifdef __APPLE__
+			MS = milliseconds_calculator();
+		#endif
+		scanf("%d\n%d\n", &col, &row);
+		
 
-    if(argc == 2 && strcmp(argv[1], "--challenge") == 0){           //--challenge branch (IA)
-
+    
+		char ** M = (char**)malloc(row * sizeof(char*));     //alloca la matrice
+		for(int i = 0; i < row; i++){
+			M[i] = (char*)malloc(col * sizeof(char));
+		}
+	
+		matrix_reader(M, &row, &col);
 		string_t *pattern_history = s_create();
         string_t *moves = s_create();  
 		vector_global *check_global= v_global_create();
