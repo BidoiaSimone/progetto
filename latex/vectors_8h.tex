@@ -1,0 +1,233 @@
+\hypertarget{vectors_8h}{}\doxysection{vectors.\+h File Reference}
+\label{vectors_8h}\index{vectors.h@{vectors.h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structstring}{string}}
+\item 
+struct \mbox{\hyperlink{structvector}{vector}}
+\item 
+struct \mbox{\hyperlink{structvector__global}{vector\+\_\+global}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvector}{vector}} \mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structstring}{string}} \mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvector__global}{vector\+\_\+global}} \mbox{\hyperlink{vectors_8h_a2439a8efbfdd0fdeef7d9559b84fda6a}{vector\+\_\+global}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$ \mbox{\hyperlink{vectors_8h_a343066c4f82387d6bf58b626c20c453c}{s\+\_\+create}} ()
+\item 
+struct \mbox{\hyperlink{structvector}{vector}} $\ast$ \mbox{\hyperlink{vectors_8h_a96fe84f4f185640d614765f5aac2bcc8}{v\+\_\+create}} ()
+\item 
+struct \mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$ \mbox{\hyperlink{vectors_8h_a83334729eaeb22a0204301513737d5d2}{v\+\_\+global\+\_\+create}} ()
+\item 
+void \mbox{\hyperlink{vectors_8h_a8111f5a9fecdcfc91cde36b879201ce5}{v\+\_\+push\+\_\+back}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v, int x, int y)
+\item 
+void \mbox{\hyperlink{vectors_8h_ad53ebd162c9d5465ed0dd43db18c5466}{s\+\_\+push\+\_\+back}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s, char c, int v, int o)
+\item 
+void \mbox{\hyperlink{vectors_8h_a722c2d69c6f59f449e036a1f3cc73391}{v\+\_\+global\+\_\+push\+\_\+back}} (\mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$v, int x, int y)
+\item 
+void \mbox{\hyperlink{vectors_8h_a91cdbbe0027df9f60549c6d2b036b544}{v\+\_\+push\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v, int x, int y)
+\item 
+void \mbox{\hyperlink{vectors_8h_ab40f46626d5bb4d283f4df5427faa0fb}{s\+\_\+push\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s, char c, int v, int o)
+\item 
+void \mbox{\hyperlink{vectors_8h_aa5637b2280d1642d4a29da870ff10d59}{v\+\_\+free}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v)
+\item 
+void \mbox{\hyperlink{vectors_8h_a0ddecfa0e7b9ab0116caf9da900f8b74}{v\+\_\+global\+\_\+free}} (\mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$v)
+\item 
+void \mbox{\hyperlink{vectors_8h_a98ff72dba3c0c6cc787aef5dcd8de895}{s\+\_\+free}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s)
+\item 
+void \mbox{\hyperlink{vectors_8h_a4fb546d5fdda442288384c67ca919637}{v\+\_\+pop\+\_\+back}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v)
+\item 
+void \mbox{\hyperlink{vectors_8h_a192cb1f14a47e4e2615a8ad8dc4c35de}{s\+\_\+pop\+\_\+back}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s)
+\item 
+void \mbox{\hyperlink{vectors_8h_a97f8cbf3aa5bb190a5b656640cc2c690}{v\+\_\+pop\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v)
+\item 
+void \mbox{\hyperlink{vectors_8h_a072e2886b5945dc9bf7991646ae21eaf}{s\+\_\+pop\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s)
+\item 
+void \mbox{\hyperlink{vectors_8h_a60f4802f09f2fe90d83142ea0eba99a3}{v\+\_\+pop\+\_\+elem}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_a0641abf723a6c8241a92c16f83d0fd2b}{s\+\_\+pop\+\_\+elem}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_aef569937decc2d7cff42609a977d41c6}{v\+\_\+cut}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_ac0657dbbcdf9a98bfde616025f633f78}{s\+\_\+cut}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_a5f9b2a35000091b1e5a38e8206b19a16}{v\+\_\+cut\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_ae74b9a4e3d51dc930260c7288bb7b6c8}{s\+\_\+cut\+\_\+front}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s, size\+\_\+t index)
+\item 
+void \mbox{\hyperlink{vectors_8h_afb25778ae2c2d6c0dfe9827019e3727d}{v\+\_\+print}} (\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$v)
+\item 
+void \mbox{\hyperlink{vectors_8h_a73fdb70b828fe1f19508a887cfcc79ec}{s\+\_\+print}} (\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$s)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}\label{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}} 
+\index{vectors.h@{vectors.h}!string\_t@{string\_t}}
+\index{string\_t@{string\_t}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{string\_t}{string\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structstring}{string}} \mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}}}
+
+\mbox{\Hypertarget{vectors_8h_a2439a8efbfdd0fdeef7d9559b84fda6a}\label{vectors_8h_a2439a8efbfdd0fdeef7d9559b84fda6a}} 
+\index{vectors.h@{vectors.h}!vector\_global@{vector\_global}}
+\index{vector\_global@{vector\_global}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{vector\_global}{vector\_global}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvector__global}{vector\+\_\+global}} \mbox{\hyperlink{structvector__global}{vector\+\_\+global}}}
+
+\mbox{\Hypertarget{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}\label{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}} 
+\index{vectors.h@{vectors.h}!vector\_t@{vector\_t}}
+\index{vector\_t@{vector\_t}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{vector\_t}{vector\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvector}{vector}} \mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vectors_8h_a343066c4f82387d6bf58b626c20c453c}\label{vectors_8h_a343066c4f82387d6bf58b626c20c453c}} 
+\index{vectors.h@{vectors.h}!s\_create@{s\_create}}
+\index{s\_create@{s\_create}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_create()}{s\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$ s\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_ac0657dbbcdf9a98bfde616025f633f78}\label{vectors_8h_ac0657dbbcdf9a98bfde616025f633f78}} 
+\index{vectors.h@{vectors.h}!s\_cut@{s\_cut}}
+\index{s\_cut@{s\_cut}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_cut()}{s\_cut()}}
+{\footnotesize\ttfamily void s\+\_\+cut (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_ae74b9a4e3d51dc930260c7288bb7b6c8}\label{vectors_8h_ae74b9a4e3d51dc930260c7288bb7b6c8}} 
+\index{vectors.h@{vectors.h}!s\_cut\_front@{s\_cut\_front}}
+\index{s\_cut\_front@{s\_cut\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_cut\_front()}{s\_cut\_front()}}
+{\footnotesize\ttfamily void s\+\_\+cut\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a98ff72dba3c0c6cc787aef5dcd8de895}\label{vectors_8h_a98ff72dba3c0c6cc787aef5dcd8de895}} 
+\index{vectors.h@{vectors.h}!s\_free@{s\_free}}
+\index{s\_free@{s\_free}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_free()}{s\_free()}}
+{\footnotesize\ttfamily void s\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a192cb1f14a47e4e2615a8ad8dc4c35de}\label{vectors_8h_a192cb1f14a47e4e2615a8ad8dc4c35de}} 
+\index{vectors.h@{vectors.h}!s\_pop\_back@{s\_pop\_back}}
+\index{s\_pop\_back@{s\_pop\_back}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_pop\_back()}{s\_pop\_back()}}
+{\footnotesize\ttfamily void s\+\_\+pop\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a0641abf723a6c8241a92c16f83d0fd2b}\label{vectors_8h_a0641abf723a6c8241a92c16f83d0fd2b}} 
+\index{vectors.h@{vectors.h}!s\_pop\_elem@{s\_pop\_elem}}
+\index{s\_pop\_elem@{s\_pop\_elem}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_pop\_elem()}{s\_pop\_elem()}}
+{\footnotesize\ttfamily void s\+\_\+pop\+\_\+elem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a072e2886b5945dc9bf7991646ae21eaf}\label{vectors_8h_a072e2886b5945dc9bf7991646ae21eaf}} 
+\index{vectors.h@{vectors.h}!s\_pop\_front@{s\_pop\_front}}
+\index{s\_pop\_front@{s\_pop\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_pop\_front()}{s\_pop\_front()}}
+{\footnotesize\ttfamily void s\+\_\+pop\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a73fdb70b828fe1f19508a887cfcc79ec}\label{vectors_8h_a73fdb70b828fe1f19508a887cfcc79ec}} 
+\index{vectors.h@{vectors.h}!s\_print@{s\_print}}
+\index{s\_print@{s\_print}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_print()}{s\_print()}}
+{\footnotesize\ttfamily void s\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_ad53ebd162c9d5465ed0dd43db18c5466}\label{vectors_8h_ad53ebd162c9d5465ed0dd43db18c5466}} 
+\index{vectors.h@{vectors.h}!s\_push\_back@{s\_push\_back}}
+\index{s\_push\_back@{s\_push\_back}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_push\_back()}{s\_push\_back()}}
+{\footnotesize\ttfamily void s\+\_\+push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s,  }\item[{char}]{c,  }\item[{int}]{v,  }\item[{int}]{o }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_ab40f46626d5bb4d283f4df5427faa0fb}\label{vectors_8h_ab40f46626d5bb4d283f4df5427faa0fb}} 
+\index{vectors.h@{vectors.h}!s\_push\_front@{s\_push\_front}}
+\index{s\_push\_front@{s\_push\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{s\_push\_front()}{s\_push\_front()}}
+{\footnotesize\ttfamily void s\+\_\+push\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a2673f10c65153ad5b955574a5a36ccb2}{string\+\_\+t}} $\ast$}]{s,  }\item[{char}]{c,  }\item[{int}]{v,  }\item[{int}]{o }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a96fe84f4f185640d614765f5aac2bcc8}\label{vectors_8h_a96fe84f4f185640d614765f5aac2bcc8}} 
+\index{vectors.h@{vectors.h}!v\_create@{v\_create}}
+\index{v\_create@{v\_create}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_create()}{v\_create()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structvector}{vector}} $\ast$ v\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_aef569937decc2d7cff42609a977d41c6}\label{vectors_8h_aef569937decc2d7cff42609a977d41c6}} 
+\index{vectors.h@{vectors.h}!v\_cut@{v\_cut}}
+\index{v\_cut@{v\_cut}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_cut()}{v\_cut()}}
+{\footnotesize\ttfamily void v\+\_\+cut (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a5f9b2a35000091b1e5a38e8206b19a16}\label{vectors_8h_a5f9b2a35000091b1e5a38e8206b19a16}} 
+\index{vectors.h@{vectors.h}!v\_cut\_front@{v\_cut\_front}}
+\index{v\_cut\_front@{v\_cut\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_cut\_front()}{v\_cut\_front()}}
+{\footnotesize\ttfamily void v\+\_\+cut\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_aa5637b2280d1642d4a29da870ff10d59}\label{vectors_8h_aa5637b2280d1642d4a29da870ff10d59}} 
+\index{vectors.h@{vectors.h}!v\_free@{v\_free}}
+\index{v\_free@{v\_free}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_free()}{v\_free()}}
+{\footnotesize\ttfamily void v\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a83334729eaeb22a0204301513737d5d2}\label{vectors_8h_a83334729eaeb22a0204301513737d5d2}} 
+\index{vectors.h@{vectors.h}!v\_global\_create@{v\_global\_create}}
+\index{v\_global\_create@{v\_global\_create}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_global\_create()}{v\_global\_create()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$ v\+\_\+global\+\_\+create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a0ddecfa0e7b9ab0116caf9da900f8b74}\label{vectors_8h_a0ddecfa0e7b9ab0116caf9da900f8b74}} 
+\index{vectors.h@{vectors.h}!v\_global\_free@{v\_global\_free}}
+\index{v\_global\_free@{v\_global\_free}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_global\_free()}{v\_global\_free()}}
+{\footnotesize\ttfamily void v\+\_\+global\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a722c2d69c6f59f449e036a1f3cc73391}\label{vectors_8h_a722c2d69c6f59f449e036a1f3cc73391}} 
+\index{vectors.h@{vectors.h}!v\_global\_push\_back@{v\_global\_push\_back}}
+\index{v\_global\_push\_back@{v\_global\_push\_back}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_global\_push\_back()}{v\_global\_push\_back()}}
+{\footnotesize\ttfamily void v\+\_\+global\+\_\+push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvector__global}{vector\+\_\+global}} $\ast$}]{v,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a4fb546d5fdda442288384c67ca919637}\label{vectors_8h_a4fb546d5fdda442288384c67ca919637}} 
+\index{vectors.h@{vectors.h}!v\_pop\_back@{v\_pop\_back}}
+\index{v\_pop\_back@{v\_pop\_back}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_pop\_back()}{v\_pop\_back()}}
+{\footnotesize\ttfamily void v\+\_\+pop\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a60f4802f09f2fe90d83142ea0eba99a3}\label{vectors_8h_a60f4802f09f2fe90d83142ea0eba99a3}} 
+\index{vectors.h@{vectors.h}!v\_pop\_elem@{v\_pop\_elem}}
+\index{v\_pop\_elem@{v\_pop\_elem}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_pop\_elem()}{v\_pop\_elem()}}
+{\footnotesize\ttfamily void v\+\_\+pop\+\_\+elem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v,  }\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a97f8cbf3aa5bb190a5b656640cc2c690}\label{vectors_8h_a97f8cbf3aa5bb190a5b656640cc2c690}} 
+\index{vectors.h@{vectors.h}!v\_pop\_front@{v\_pop\_front}}
+\index{v\_pop\_front@{v\_pop\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_pop\_front()}{v\_pop\_front()}}
+{\footnotesize\ttfamily void v\+\_\+pop\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_afb25778ae2c2d6c0dfe9827019e3727d}\label{vectors_8h_afb25778ae2c2d6c0dfe9827019e3727d}} 
+\index{vectors.h@{vectors.h}!v\_print@{v\_print}}
+\index{v\_print@{v\_print}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_print()}{v\_print()}}
+{\footnotesize\ttfamily void v\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a8111f5a9fecdcfc91cde36b879201ce5}\label{vectors_8h_a8111f5a9fecdcfc91cde36b879201ce5}} 
+\index{vectors.h@{vectors.h}!v\_push\_back@{v\_push\_back}}
+\index{v\_push\_back@{v\_push\_back}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_push\_back()}{v\_push\_back()}}
+{\footnotesize\ttfamily void v\+\_\+push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vectors_8h_a91cdbbe0027df9f60549c6d2b036b544}\label{vectors_8h_a91cdbbe0027df9f60549c6d2b036b544}} 
+\index{vectors.h@{vectors.h}!v\_push\_front@{v\_push\_front}}
+\index{v\_push\_front@{v\_push\_front}!vectors.h@{vectors.h}}
+\doxysubsubsection{\texorpdfstring{v\_push\_front()}{v\_push\_front()}}
+{\footnotesize\ttfamily void v\+\_\+push\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vectors_8h_a44f8285ddb5bd8e55dd64651e13de7e3}{vector\+\_\+t}} $\ast$}]{v,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
