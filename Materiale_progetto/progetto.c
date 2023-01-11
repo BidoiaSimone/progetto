@@ -791,7 +791,7 @@ void labyrint_analysis( char **M, int *row, int *col, string_t *moves, vector_gl
 		}else{
 			up_move = 1;
 		}
-		// lo sburooooooooooooooooooooooooo controlla se nelle vicinanze c'è l'arrivo
+		// controlla se nelle vicinanze c'è l'arrivo
 		if( M[g_row][g_col+1] == '_'){ //controllo se nelle coordinate col+-1 e row+-1 c'è '_'
 		printf("_%c\n", 'E');
 		s_push_back(moves, 'E', vertical_global, orizzontal_global);
@@ -1304,16 +1304,10 @@ bool vertical_pattern(string_t *moves, vector_global *check_global, char **M, in
 						}
 					}
 				}
-			}
-				
-				
+			}	
 		}
 		s_cut(moves, moves->size-2);
 	}
-	
-	printf("\n%d, %d", check_global->vertical_direction[0], check_global->vertical_direction[1]);
-	printf("\nv_g %d   %d \n",vertical_global, ptt);
-	//s_print(moves);
 	return 0;
 }
 
@@ -1380,9 +1374,6 @@ bool orizzontal_pattern(string_t *moves, vector_global *check_global, char **M, 
 		}
 		s_cut(moves, moves->size - 2);
 	}
-	printf("\n%d, %d", check_global->orizzontal_direction[0], check_global->orizzontal_direction[1]);
-	printf("\no_g %d   %d \n",orizzontal_global, ptt);
-	//s_print(moves);
 	return 0;
 }
 
