@@ -104,7 +104,7 @@ int MS;
 		}   
 		
 			printf("\n");
-			delay_milliseconds(40);
+			delay_milliseconds(20);
 	}
 #elif _WIN32
 
