@@ -14,7 +14,7 @@
 
 #define DEFAULT 	"\033[0m"
 #define BLACK		"\033[0;30m"
-#define RED 		"\033[0;31m"		
+#define RED 		"\033[0;31m"
 #define GREEN		"\033[0;32m"
 #define YELLOW		"\033[0;33m"
 #define BLUE		"\033[0;34m"
@@ -83,7 +83,7 @@ int MS;
 						}else{
 							if(M[i][j] == '<' || M[i][j] == '>' || M[i][j] == 'v' || M[i][j] == '^')
 								printf(PURPLE);
-							if(M[i][j] == '$')
+							if(M[i][j] == '$');
 								printf(YELLOW);
 							if(M[i][j] == '!')
 								printf(RED);
@@ -93,6 +93,7 @@ int MS;
 								printf(" ");
 							}else{
 								printf("%c", M[i][j]);
+								
 							}
 							
 							printf(DEFAULT);
@@ -104,7 +105,7 @@ int MS;
 		}   
 		
 			printf("\n");
-			delay_milliseconds(20);
+			delay_milliseconds(40);
 	}
 #elif _WIN32
 
@@ -272,6 +273,9 @@ void matrix_player(char **M, int *row, int *col){
 			system("stty raw");
         	c = getchar();
 		#endif
+		} 
+
+
         if(c == 'w' && g_row-1 >= 0){//muove pedina in su
             
             if(M[g_row-1][g_col] == '$'){
