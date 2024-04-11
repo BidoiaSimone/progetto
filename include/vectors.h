@@ -1,5 +1,6 @@
  /* libreria per vector_t */
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct vector vector_t;
 typedef struct string string_t;
